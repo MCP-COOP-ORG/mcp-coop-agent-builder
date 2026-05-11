@@ -16,10 +16,11 @@
     "module": "preserve",
     "baseUrl": "./",
     "paths": {
-      "@shared/*": ["src/app/shared/*"],
-      "@components/*": ["src/app/components/*"],
-      "@pages/*": ["src/app/pages/*"],
-      "@services/*": ["src/app/services/*"]
+      "@shared/components": ["src/app/shared/components/index.ts"],
+      "@shared/constants": ["src/app/shared/constants/index.ts"],
+      "@components": ["src/app/components/index.ts"],
+      "@pages": ["src/app/pages/index.ts"],
+      "@services": ["src/app/services/index.ts"]
     }
   },
   "angularCompilerOptions": {

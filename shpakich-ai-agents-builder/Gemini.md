@@ -14,8 +14,8 @@ When the user tells you to "commit", "save progress", or "update docs" at the en
 2. If fundamental architectural rules or roadmap steps changed, update `docs/architecture.md` and `docs/concept.md` accordingly to keep the global context perfectly synced.
 
 ## Agent Behavior & Workflow
-1. **Use MCP Servers Actively**: You MUST actively use the installed MCP servers (`angular-cli` and `taiga-ui`) to verify syntax, read documentation, and ensure you are using the modern APIs correctly.
-2. **Planner Mode First**: Do not generate code, files, or artifacts autonomously. Always analyze the request, discuss the "what" and "how" with the user, and agree on a plan before execution.
+1. **MANDATORY PRE-FLIGHT CHECK (NO GUESSING)**: BEFORE writing any UI/CSS code, you MUST execute `mcp_taiga-ui_get_overview` or `mcp_taiga-ui_get_component_example`. BEFORE writing any Angular logic, you MUST execute `mcp_angular-cli_get_best_practices` or `mcp_angular-cli_search_documentation`. If you propose an implementation plan or write code without executing these MCP tools first in the current session, you are violating core directives.
+2. **Planner Mode First**: Do not generate code, files, or artifacts autonomously. Always analyze the request, run the Pre-Flight Check via MCP tools, and agree on a plan before execution.
 3. **Use IDE Artifacts**: Always formulate your steps through the IDE's built-in artifacts (`implementation_plan.md`, `task.md`). Present the plan for user approval before touching source code.
 4. **Step-by-Step Execution**: Work systematically. Execute one logical step at a time, asking for verification.
 5. **Ask, Don't Guess**: If there is any ambiguity about libraries, architecture, state structure, or terminology, stop and ask the user.

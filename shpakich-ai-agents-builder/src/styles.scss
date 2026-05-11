@@ -34,6 +34,11 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+:root {
+  --tui-typography-family-text: 'JetBrains Mono', monospace;
+  --tui-typography-family-display: 'JetBrains Mono', monospace;
+}
+
 body {
   line-height: 1.5;
   background-color: var(--tui-background-base);

@@ -1,1 +1,59 @@
-<router-outlet></router-outlet>
+<div class="builder-container">
+  <!-- Main area for steps. Scrolls if there is heavy content. -->
+  <main class="builder-content">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Footer is fixed to the bottom. Contains stepper and navigation. -->
+  <footer class="builder-footer">
+    <div class="footer-left">
+      <!-- "Back" button is hidden on the first step to preserve symmetry and avoid confusion -->
+      @if (activeStepIndex() > 0) {
+        <button 
+          tuiButton 
+          appearance="secondary" 
+          size="m"
+          (click)="prevStep()"
+        >
+          {{ view.buttons.back }}
+        </button>
+      }
+    </div>
+    
+    <div class="footer-center">
+      <!-- Stepper is synced with the router and calls onStepClick when clicked manually -->
+      <tui-stepper 
+        [activeItemIndex]="activeStepIndex()"
+        (activeItemIndexChange)="onStepClick($event)"
+      >
+        @for (step of view.steps; track step.id) {
+          <button tuiStep>{{ step.label }}</button>
+        }
+      </tui-stepper>
+    </div>
+    
+    <div class="footer-right">
+      <!-- "Next" button is shown up to the 3rd step (Stack). -->
+      @if (activeStepIndex() < 3) {
+        <button 
+          tuiButton 
+          appearance="primary" 
+          size="m"
+          (click)="nextStep()"
+        >
+          {{ activeStepIndex() === 2 ? view.buttons.generate : view.buttons.next }}
+        </button>
+      } @else {
+        <!-- On the Export step, we show the final download button -->
+        <button 
+          tuiButton 
+          appearance="primary" 
+          size="m"
+          (click)="download()"
+        >
+          {{ view.buttons.download }}
+        </button>
+      }
+    </div>
+  </footer>
+</div>

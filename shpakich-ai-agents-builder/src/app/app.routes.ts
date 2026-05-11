@@ -9,7 +9,7 @@ export const routes: Routes = [
     path: 'builder',
     loadComponent: () => import('./pages/builder/builder').then(m => m.Builder),
     children: [
-      { path: '', redirectTo: 'ide', pathMatch: 'full' },
+      { path: '', redirectTo: 'project', pathMatch: 'full' },
       { path: 'ide', loadComponent: () => import('./components/ide-step/ide-step').then(m => m.IdeStep) },
       { path: 'project', loadComponent: () => import('./components/project-step/project-step').then(m => m.ProjectStep) },
       { path: 'stack', loadComponent: () => import('./components/stack-step/stack-step').then(m => m.StackStep) },

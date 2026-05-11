@@ -1,0 +1,38 @@
+.builder-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--tui-background-base);
+}
+
+.builder-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem;
+}
+
+.builder-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: var(--tui-background-elevation-01);
+  border-top: 1px solid var(--tui-border-normal);
+
+  .footer-left,
+  .footer-right {
+    flex: 1;
+    display: flex;
+  }
+
+  .footer-right {
+    justify-content: flex-end;
+  }
+
+  .footer-center {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+  }
+}

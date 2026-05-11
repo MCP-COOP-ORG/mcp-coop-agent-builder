@@ -24,4 +24,9 @@ The architecture explicitly avoids Feature-Sliced Design (FSD) to prevent over-e
 - **Granular Reactivity**: State is not kept in a massive monolithic object. Instead, each Builder step updates its own specific Signal in the `builder-state` service.
 - **Thin Components**: UI Components do not contain complex validation or business logic. They exclusively bind to state Signals and trigger methods on the injected services.
 - **Modern Dependency Injection**: We rely exclusively on the modern `inject()` function for DI, avoiding traditional constructor injection to keep components clean and highly readable.
+- **Zero Literals Policy (SSOT)**: No hardcoded UI strings, dictionary keys, or router paths in components or HTML. All static texts and configurations MUST be exported as constants from `src/app/shared/constants/`.
+- **Barrels & Path Aliases**: All imports from core directories MUST go through barrel files (`index.ts`). Always use TypeScript path aliases (e.g., `@shared/constants`) instead of deep relative paths.
+- **View Model Pattern**: Do not pollute the component class with scattered variables for the template. Group all UI-bound static data into a single `readonly view = { ... }` object to maximize cohesion.
+- **Test-Driven**: Write unit tests (Vitest) immediately after major component refactoring to ensure regression safety.
+- **English Comments**: Write all code comments strictly in English to adhere to international Enterprise standards.
 - **Client-Side Processing (CSR)**: The application relies heavily on browser APIs (Blob, JSZip, LocalStorage) and does not utilize Server-Side Rendering (SSR).

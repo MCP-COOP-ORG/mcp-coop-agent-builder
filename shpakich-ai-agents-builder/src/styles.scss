@@ -1,0 +1,41 @@
+/* Современный CSS Reset (сброс стилей) */
+
+/* 1. Устанавливаем box-sizing для всех элементов */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* 2. Убираем дефолтные отступы у всех блочных элементов, которые любят ломать верстку */
+body, h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol {
+  margin: 0;
+  padding: 0;
+}
+
+/* 3. Убираем маркеры списков по умолчанию */
+ul, ol {
+  list-style: none;
+}
+
+/* 4. Наследуем шрифты для инпутов и кнопок (Taiga сама всё разрулит, но на всякий) */
+input, button, textarea, select {
+  font: inherit;
+}
+
+/* 5. Картинки и медиа не должны вылезать за контейнеры и ломать baseline */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* 6. Глобальные настройки body с учетом Taiga UI (Тайги) */
+html, body {
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  line-height: 1.5;
+  background-color: var(--tui-background-base);
+  color: var(--tui-text-01);
+}

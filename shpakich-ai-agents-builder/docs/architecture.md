@@ -1,0 +1,27 @@
+# Project Architecture
+
+## Technology Stack
+- **Framework:** Angular 21+
+- **Component Architecture:** Standalone Components (Strictly no NgModules).
+- **State Management:** Angular Signals (Strictly no NgRx or RxJS-based state).
+- **UI Component Library:** Taiga UI 5.x.
+- **Micro-Frontend Architecture:** `@angular-architects/native-federation`.
+- **Styling:** SCSS (with a strict global CSS reset and Taiga UI design tokens).
+
+## Directory Structure (Technical Role Grouping)
+The architecture explicitly avoids Feature-Sliced Design (FSD) to prevent over-engineering. We use a flat, role-based directory structure within `src/app/`:
+
+- `src/app/pages/`: Routable container components (`welcome`, `builder`). These act as the Smart components that tie routing to the layout.
+- `src/app/components/`: UI feature blocks representing the specific steps of the Builder (`ide-step`, `project-step`, `stack-step`, `export-step`). These are Dumb components that focus purely on rendering and user interaction.
+- `src/app/services/`: The core business logic layer.
+  - `builder-state.service.ts`: Manages the state of the form. It uses highly granular Signals (individual signals for each step) to ensure that Angular only re-renders the specific UI components that change, avoiding expensive global re-renders.
+  - `rules-engine.service.ts`: The dependency validation engine. It evaluates user selections against external configurations to filter out incompatible technologies.
+- `src/app/models/`: TypeScript interfaces and type definitions (e.g., config types).
+- `src/app/shared/`: Reusable UI elements, such as the bottom Stepper navigation and Forward/Back buttons.
+
+## Design Patterns & Principles
+- **Configuration-Driven Rules**: The dependencies and logic mappings for the tech stack (e.g., which databases are compatible with Node.js) are strictly decoupled from the `rules-engine` service code. They are stored in static configuration files (like `stack-rules.data.ts`), allowing rules to be easily updated or extended without refactoring the service logic.
+- **Granular Reactivity**: State is not kept in a massive monolithic object. Instead, each Builder step updates its own specific Signal in the `builder-state` service.
+- **Thin Components**: UI Components do not contain complex validation or business logic. They exclusively bind to state Signals and trigger methods on the injected services.
+- **Modern Dependency Injection**: We rely exclusively on the modern `inject()` function for DI, avoiding traditional constructor injection to keep components clean and highly readable.
+- **Client-Side Processing (CSR)**: The application relies heavily on browser APIs (Blob, JSZip, LocalStorage) and does not utilize Server-Side Rendering (SSR).

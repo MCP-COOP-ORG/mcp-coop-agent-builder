@@ -1,3 +1,158 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  gap: var(--tui-spacing-4);
+}
+
+.review-step {
+  &__ide {
+    display: grid;
+    grid-template-columns: 18rem 1fr; // Slightly wider sidebar for readability
+    flex: 1;
+    min-height: 0;
+    border: 1px solid var(--tui-border-normal);
+    border-radius: 0; // Sharp edges as requested
+    overflow: hidden;
+  }
+
+  // ── Sidebar ──────────────────────────────────────────────────────────────
+  &__sidebar {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--tui-border-normal);
+    background: var(--tui-background-base-alt);
+    overflow-y: auto;
+    min-height: 0;
+  }
+
+  &__sidebar-title {
+    display: flex;
+    align-items: center;
+    gap: var(--tui-spacing-2);
+    height: 2.75rem !important;
+    padding: 0 var(--tui-spacing-3) !important; // Forced alignment
+    font: var(--tui-font-text-s);
+    font-weight: 600;
+    text-transform: uppercase; // More "Explorer" look
+    letter-spacing: 0.05em;
+    color: var(--tui-text-secondary);
+    border-bottom: 1px solid var(--tui-border-normal);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  &__sidebar-icon {
+    color: var(--tui-text-tertiary) !important;
+    margin: 0 !important;
+    flex-shrink: 0;
+  }
+
+  &__loading {
+    display: flex;
+    justify-content: center;
+    padding: var(--tui-spacing-8);
+  }
+
+  // ── Tree node button ──────────────────────────────────────────────────────
+  &__tree-node {
+    display: flex;
+    align-items: center;
+    gap: var(--tui-spacing-2);
+    width: 100%;
+    padding: var(--tui-spacing-1) var(--tui-spacing-3); // Consistent with headers
+    background: transparent;
+    border: none;
+    cursor: default;
+    text-align: left;
+    border-radius: 0;
+    font: var(--tui-font-text-s);
+    color: var(--tui-text-primary);
+    transition: background 0.1s ease;
+
+    &--file {
+      cursor: pointer;
+
+      &:hover {
+        background: var(--tui-background-neutral-1-hover);
+      }
+    }
+
+    &--active {
+      background: var(--tui-background-accent-1-pressed);
+      color: var(--tui-text-action);
+      font-weight: 500;
+    }
+  }
+
+  &__node-icon {
+    font-size: 0.875rem;
+    flex-shrink: 0;
+    color: var(--tui-text-secondary);
+  }
+
+  &__node-label {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__dirty {
+    color: var(--tui-status-warning);
+    font-size: 0.875rem;
+  }
+
+  // ── Editor panel ──────────────────────────────────────────────────────────
+  &__editor {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  &__editor-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 2.75rem !important;
+    padding: 0 var(--tui-spacing-3) !important; // Forced alignment
+    border-bottom: 1px solid var(--tui-border-normal);
+    background: var(--tui-background-base-alt);
+    gap: var(--tui-spacing-2);
+    flex-shrink: 0;
+  }
+
+  &__editor-tools {
+    display: flex;
+    align-items: center;
+    gap: var(--tui-spacing-1);
+    margin-left: -0.5rem; // Compensate for tuiIconButton internal padding
+  }
+
+  &__editor-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--tui-spacing-2);
+    margin-left: auto;
+  }
+
+  &__editor-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  &__empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    color: var(--tui-text-tertiary);
+    font: var(--tui-font-text-m);
+  }
 }

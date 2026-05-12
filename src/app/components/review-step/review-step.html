@@ -1,1 +1,100 @@
 <app-step-header [title]="view.step.title" [description]="view.step.description"></app-step-header>
+
+<div class="review-step__ide">
+  <!-- ── LEFT: Sidebar / File Explorer ── -->
+  <aside class="review-step__sidebar">
+    <div class="review-step__sidebar-title">
+      <tui-icon [icon]="view.dictionary.icons.explorerIcon" class="review-step__sidebar-icon"></tui-icon>
+      {{ view.dictionary.review.sidebarTitle }}
+    </div>
+
+    @if (isLoading()) {
+      <div class="review-step__loading">
+        <tui-loader></tui-loader>
+      </div>
+    } @else {
+      <tui-tree
+        [value]="treeRoot()"
+        [childrenHandler]="childrenHandler"
+        [content]="nodeTemplate"
+        [tuiTreeController]="true"
+      />
+      <ng-template #nodeTemplate let-node>
+        <button
+          class="review-step__tree-node"
+          [class.review-step__tree-node--active]="activeFile()?.path === node.path && node.type === 'file'"
+          [class.review-step__tree-node--file]="node.type === 'file'"
+          [class.review-step__tree-node--folder]="node.type === 'folder'"
+          (click)="selectNode(node)"
+        >
+          <tui-icon
+            class="review-step__node-icon"
+            [icon]="node.type === 'folder' ? view.dictionary.icons.folderIcon : view.dictionary.icons.fileIcon"
+          ></tui-icon>
+          <span class="review-step__node-label">{{ node.label }}</span>
+          @if (isDirty() && activeFile()?.path === node.path) {
+            <span class="review-step__dirty">{{ view.dictionary.review.dirtyIndicator }}</span>
+          }
+        </button>
+      </ng-template>
+    }
+  </aside>
+
+  <!-- ── RIGHT: Editor Panel ── -->
+  <section class="review-step__editor">
+    @if (activeFile()) {
+      <!-- Toolbar -->
+      <div class="review-step__editor-toolbar">
+        <div class="review-step__editor-tools">
+          <button
+            tuiIconButton
+            size="xs"
+            appearance="ghost"
+            [title]="view.dictionary.review.undoButton"
+            [iconStart]="view.dictionary.icons.undoButton"
+            [disabled]="!editMode()"
+            (click)="undoEdit()"
+          ></button>
+          <button
+            tuiIconButton
+            size="xs"
+            appearance="ghost"
+            [title]="view.dictionary.review.redoButton"
+            [iconStart]="view.dictionary.icons.redoButton"
+            [disabled]="!editMode()"
+            (click)="redoEdit()"
+          ></button>
+        </div>
+        <div class="review-step__editor-actions">
+          @if (!editMode()) {
+            <button tuiButton size="xs" appearance="secondary" (click)="enableEdit()">
+              {{ view.dictionary.review.editButton }}
+            </button>
+          } @else {
+            <button tuiButton size="xs" appearance="secondary" (click)="cancelEdit()">
+              {{ view.dictionary.review.cancelButton }}
+            </button>
+            <button tuiButton size="xs" (click)="saveEdit()">
+              {{ view.dictionary.review.saveButton }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- CodeMirror Editor Body -->
+      <div class="review-step__editor-body">
+        <app-code-editor
+          #codeEditor
+          [value]="editMode() ? editContent() : activeFile()!.content"
+          [readonly]="!editMode()"
+          [language]="activeLanguage()"
+          (valueChange)="onEditorChange($event)"
+        />
+      </div>
+    } @else if (!isLoading()) {
+      <div class="review-step__empty">
+        {{ view.dictionary.review.emptyState }}
+      </div>
+    }
+  </section>
+</div>

@@ -5,6 +5,20 @@ The Shpakich AI Agents Builder is in the early active development phase. The fou
 
 ## Development History
 
+### Commit `XXXXXXX`: feat: implement IDE Review Step, CodeMirror 6 integration, and 85%+ coverage
+**Status:** Pending
+**Key Features Implemented:**
+- **Advanced IDE Review Interface**: Implemented a professional, VS Code-inspired IDE layout for the Review step. Integrated **CodeMirror 6** for syntax-highlighted editing and a **Taiga UI nested tree** for file browsing.
+- **Robust State & Change Tracking**: Implemented a reactive `isDirty` flag and localized state management using Angular Signals. Edits are synchronized with the `ArchiveGenerator.previewFiles` signal, ensuring the final exported ZIP reflects user modifications.
+- **Pixel-Perfect UI Standardization**: Enforced strict IDE-style aesthetics across the builder: fixed header heights (`2.75rem`), sharp corners (zero `border-radius`), and precise icon alignment. Implemented fallback CSS variables in `:root` to maintain layout stability during theme loading.
+- **Comprehensive Test Coverage (>85%)**: Achieved over 85% coverage for both the `ReviewStep` and `CodeEditor` components. Resolved async initialization issues by mocking `matchMedia` and `afterNextRender`, and bypassed private property restrictions in tests through strictly-typed interface casting (eliminating all `any` usage).
+- **Honest Linting & Type Safety**: Eliminated all `any` casts in the test suite and ensured zero lint violations without using `eslint-disable`. All UI strings and icons remain strictly managed via `BUILDER_DICTIONARY` (Zero Literals compliant).
+
+### Commit `d0aaf3c`: feat: replace review static text with TuiNotificationService toast
+**Status:** Completed
+**Key Features Implemented:**
+- Replaced hardcoded static text on the Review step with a `TuiNotificationService` toast that auto-appears via `afterNextRender()` and auto-closes after 3 seconds. All strings and the `autoCloseMs` timeout are stored in `BUILDER_DICTIONARY.notifications` (Zero Literals compliant). Updated `review-step.spec.ts` with `provideTaiga()` and a new test for notification strings.
+
 ### Commit `1a01164`: fix: perfect scroll-spy sidebar, strictly typed linters, and full session reset
 **Status:** Completed
 **Key Features Implemented:**

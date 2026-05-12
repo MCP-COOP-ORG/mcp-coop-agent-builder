@@ -31,7 +31,7 @@ To build this visual Builder correctly, we follow a strict sequential plan. Each
 
 ### 4. Form Steps (`Step Implementations`) - ✅ Completed
 - **Why:** Each step in the "Solution" workflow needs a dedicated, highly focused UI component.
-- **Plan:** Sequentially build out the UI for `setup-step`, `stack-step`, and `review-step`. The Stepper uses Lucide icons via Taiga UI's `[icon]` input on `tuiStep`.
+- **Plan:** Build out the UI for `setup-step`, `stack-step`, and `review-step`. The `review-step` includes a CodeMirror 6 editor and a nested file tree.
 - **Constraint:** Keep these components *extremely thin*. They should only bind to the granular Signals in `builder-state.ts`, trigger service methods, and strictly follow the View Model Pattern and Zero Literals Policy (see `architecture.md`).
 
 ### 5. Advanced Template Interpolation - 🔄 Current Focus

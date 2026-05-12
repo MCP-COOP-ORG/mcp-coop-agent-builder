@@ -37,6 +37,12 @@ html, body {
 :root {
   --tui-typography-family-text: 'JetBrains Mono', monospace;
   --tui-typography-family-display: 'JetBrains Mono', monospace;
+
+  /* Fallback spacing variables if Taiga UI theme is missing */
+  --tui-spacing-1: 0.25rem;
+  --tui-spacing-2: 0.5rem;
+  --tui-spacing-3: 0.75rem;
+  --tui-spacing-4: 1rem;
 }
 
 body {

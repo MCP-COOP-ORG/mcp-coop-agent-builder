@@ -1,8 +1,9 @@
-import { Injectable, inject } from '@angular/core';
-import { zipSync, strToU8 } from 'fflate';
+import { inject, Injectable, signal } from '@angular/core';
+import { strToU8, zipSync } from 'fflate';
+import { GeneratedFile } from '@shared/constants';
+import { ARCHIVE_SCHEMA } from '@shared/schemas';
 import { BuilderState } from './builder-state';
 import { TemplateInterpolator } from './template-interpolator';
-import { ARCHIVE_SCHEMA } from '@shared/schemas';
 
 @Injectable({
   providedIn: 'root'
@@ -11,65 +12,71 @@ export class ArchiveGenerator {
   private readonly builderState = inject(BuilderState);
   private readonly interpolator = inject(TemplateInterpolator);
 
+  /** In-memory cache of generated files — populated by generatePreview(), consumed by downloadArchive() */
+  readonly previewFiles = signal<GeneratedFile[]>([]);
+
   /**
-   * Orchestrates the generation of the ZIP archive based on the user's state
-   * and the declarative ARCHIVE_SCHEMA.
+   * Generates all files in memory without downloading.
+   * Caches results in previewFiles signal for the Review step UI and later download.
    */
-  async downloadArchive(): Promise<void> {
-    const setupData = this.builderState.setupData();
-    const stackData = this.builderState.stackData();
-    const context = { ...setupData, ...stackData };
+  async generatePreview(): Promise<GeneratedFile[]> {
+    const context = this.buildContext();
+    const files: GeneratedFile[] = [];
 
-    console.log('=== Archive Generation Started ===');
-    console.log('1. Extracted Context from State:', context);
-
-    // The object structure required by fflate
-    const zipData: Record<string, Uint8Array | [Uint8Array, { mtime?: number }]> = {};
-
-    console.log('2. Iterating ARCHIVE_SCHEMA:');
     for (const node of ARCHIVE_SCHEMA) {
-      const isMet = this.isConditionMet(node.condition, context);
-      console.log(`   - Node path: ${node.path}, Condition:`, node.condition, `=> Met: ${isMet}`);
-      
-      if (isMet) {
-        if (node.type === 'folder') {
-          console.log(`     -> Adding empty folder: ${node.path}`);
-          zipData[`${node.path}/.keep`] = strToU8(''); 
-        } else if (node.type === 'file' && node.templateUrl) {
-          console.log(`     -> Fetching template for file: ${node.path} from ${node.templateUrl}`);
-          const content = await this.interpolator.fetchAndInterpolate(node.templateUrl, context);
-          console.log(`     -> Interpolated content length: ${content.length} characters`);
-          zipData[node.path] = strToU8(content);
-        }
+      if (!this.isConditionMet(node.condition, context)) continue;
+
+      if (node.type === 'folder') {
+        files.push({ path: node.path, type: 'folder', content: '' });
+      } else if (node.type === 'file' && node.templateUrl) {
+        const content = await this.interpolator.fetchAndInterpolate(node.templateUrl, context);
+        files.push({ path: node.path, type: 'file', content });
       }
     }
 
-    console.log('3. Final zipData Object keys:', Object.keys(zipData));
+    this.previewFiles.set(files);
+    return files;
+  }
 
-    // Generate the ZIP blob synchronously using fflate
+  /**
+   * Packs the given files into a ZIP and triggers browser download.
+   * Uses cached previewFiles as a fallback if no argument is provided.
+   */
+  async downloadArchive(files?: GeneratedFile[]): Promise<void> {
+    let sourceFiles = files ?? this.previewFiles();
+
+    // If still no files, generate them now (fallback for direct calls)
+    if (sourceFiles.length === 0) {
+      sourceFiles = await this.generatePreview();
+    }
+
+    const zipData: Record<string, Uint8Array | [Uint8Array, { mtime?: number }]> = {};
+
+    for (const file of sourceFiles) {
+      if (file.type === 'folder') {
+        zipData[`${file.path}/.keep`] = strToU8('');
+      } else {
+        zipData[file.path] = strToU8(file.content);
+      }
+    }
+
     const zipped = zipSync(zipData);
-    console.log(`4. Zip blob created. Size: ${zipped.length} bytes`);
-    
     const blob = new Blob([zipped.buffer as ArrayBuffer], { type: 'application/zip' });
-    
-    console.log('5. Triggering download...');
     this.triggerDownload(blob, 'ai-context.zip');
-    console.log('=== Archive Generation Finished ===');
   }
 
-  /**
-   * Validates if the node should be included based on the current state.
-   */
+  private buildContext(): Record<string, unknown> {
+    return {
+      ...this.builderState.setupData(),
+      ...this.builderState.stackData(),
+    };
+  }
+
   private isConditionMet(condition: Record<string, unknown> | undefined, context: Record<string, unknown>): boolean {
-    if (!condition) return true; // No conditions = always include
-    
-    // Check if every key in the condition matches the corresponding key in the context
-    return Object.keys(condition).every(key => context[key] === condition[key]);
+    if (!condition) return true;
+    return Object.keys(condition).every((key) => context[key] === condition[key]);
   }
 
-  /**
-   * Native browser download trigger
-   */
   private triggerDownload(blob: Blob, filename: string): void {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -77,8 +84,6 @@ export class ArchiveGenerator {
     a.download = filename;
     document.body.appendChild(a);
     a.click();
-    
-    // Cleanup
     setTimeout(() => {
       document.body.removeChild(a);
       URL.revokeObjectURL(url);

@@ -6,3 +6,4 @@ export * from './textarea-field/textarea-field';
 export * from './radio-group/radio-group';
 export * from './input-field/input-field';
 export * from './multi-select-field/multi-select-field';
+export * from './code-editor/code-editor';

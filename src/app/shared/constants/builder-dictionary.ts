@@ -20,10 +20,26 @@ export const BUILDER_DICTIONARY = {
   icons: {
     downloadButton: '@tui.download',
     resetButton: '@tui.trash',
+    undoButton: '@tui.undo-2',
+    redoButton: '@tui.redo-2',
+    copyButton: '@tui.copy',
+    fileIcon: '@tui.file-text',
+    folderIcon: '@tui.folder',
+    explorerIcon: '@tui.files',
   },
   notifications: {
     reviewReadyLabel: 'Archive ready',
     reviewReadyMessage: 'Your AI context is configured. Click "Download" to save ai-context.zip.',
     autoCloseMs: 3000,
-  }
+  },
+  review: {
+    sidebarTitle: 'ai-context.zip',
+    emptyState: 'Select a file to preview',
+    editButton: 'Edit',
+    saveButton: 'Save',
+    cancelButton: 'Cancel',
+    dirtyIndicator: '●',
+    undoButton: 'Undo',
+    redoButton: 'Redo',
+  },
 } as const;

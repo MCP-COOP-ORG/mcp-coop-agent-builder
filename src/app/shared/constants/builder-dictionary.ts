@@ -5,6 +5,9 @@ export const BUILDER_DICTIONARY = {
     generate: 'Generate',
     download: 'Download',
   },
+  labels: {
+    contents: 'Contents',
+  },
   icons: {
     downloadButton: '@tui.download',
   },

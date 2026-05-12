@@ -1,0 +1,31 @@
+<app-step-header [title]="step().title" [description]="step().description"></app-step-header>
+
+<div class="step-layout">
+  <!-- Main content column -->
+  <div class="step-main">
+    @for (block of blocks(); track block.id) {
+      <div #blockElement [id]="block.id">
+        <app-builder-block [title]="block.title" [icon]="block.icon">
+          <!-- Dynamic Form Injection point -->
+          <ng-container *ngTemplateOutlet="contentTemplate() || null; context: { $implicit: block }"></ng-container>
+        </app-builder-block>
+      </div>
+    }
+  </div>
+
+  <!-- Right Sidebar Table of Contents -->
+  <aside class="step-sidebar">
+    <div class="sticky-nav">
+      <h3 class="tui-text_body-s-2 nav-title">{{ view.labels.contents }}</h3>
+      <tui-tabs
+        vertical="start"
+        [activeItemIndex]="activeTabIndex()"
+        (activeItemIndexChange)="scrollToBlock($event)"
+      >
+        @for (tab of tabs(); track tab.id) {
+          <button tuiTab type="button">{{ tab.label }}</button>
+        }
+      </tui-tabs>
+    </div>
+  </aside>
+</div>

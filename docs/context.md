@@ -5,7 +5,15 @@ The Shpakich AI Agents Builder is in the early active development phase. The fou
 
 ## Development History
 
-### refactor: restructure builder from 4 steps to 3, add Lucide icons on stepper
+### Commit pending: refactor: enforce strict CSS layout encapsulation, BEM architecture, and Native Federation cache safety
+**Status:** Completed
+**Key Features Implemented:**
+- **Component Encapsulation & Layout**: Refactored `builder-block` and `step-layout` to strictly use the `:host` selector for width/centering constraints (1200px max-width), eliminating redundant HTML wrapper `div`s. Replaced inappropriate semantic `<header>` tags in sub-components with generic `div`s.
+- **BEM & SCSS Architecture**: Refactored component SCSS to adhere to BEM conventions (`__header`, `__icon`, `__title`) with SCSS nesting, replacing scattered and generic class names. Fixed visual hierarchy by scaling down sub-heading font sizes (`1.125rem`) and aligning icons with flexbox.
+- **Zero Literals Policy (Templates)**: Extracted missed hardcoded labels (e.g., "Contents" in the Table of Contents) into the central `BUILDER_DICTIONARY.labels` and mapped them via the View Model.
+- **Agent Workflow Directives**: Updated `docs/architecture.md` and `GEMINI.md` to introduce a mandatory CSS Integrity Check (validating `:host` encapsulation and BEM) and established a Cache Recovery protocol to handle Native Federation cache poisoning by auto-clearing `.angular/cache` via `npm run prestart`.
+
+### Commit `9155358`: refactor: restructure builder from 4 steps to 3, add Lucide icons on stepper
 **Status:** Completed
 **Key Features Implemented:**
 - **3-Step Workflow**: Consolidated 4 builder steps (Project, IDE, Stack, Export) into 3 logical steps: Setup (project + IDE), Stack (unchanged), Review (review + export). Deleted `project-step`, `ide-step`, `export-step` components; created `setup-step` and `review-step`.

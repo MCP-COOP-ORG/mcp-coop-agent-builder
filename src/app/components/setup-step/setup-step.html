@@ -1,0 +1,15 @@
+<app-step-layout [step]="view.step" [blocks]="view.blocksArray">
+  <ng-template #blockContent let-block>
+    @switch (block.id) {
+      @case ('ai-agent') {
+        <!-- AI Agent inputs will go here -->
+      }
+      @case ('project-meta') {
+        <!-- Project Meta inputs will go here -->
+      }
+      @case ('conventions') {
+        <!-- Conventions inputs will go here -->
+      }
+    }
+  </ng-template>
+</app-step-layout>

@@ -6,8 +6,8 @@
 - **State Management:** Angular Signals (Strictly no NgRx or RxJS-based state).
 - **UI Component Library:** Taiga UI 5.x.
 - **Micro-Frontend Architecture:** `@angular-architects/native-federation`.
-- **Styling:** SCSS (with a strict global CSS reset and Taiga UI design tokens).
-
+- **Styling Architecture:** Strictly enforce BEM (Block, Element, Modifier) methodology combined with SCSS nesting (`&__element`). Loose, generic class names are strictly forbidden.
+- **Component Encapsulation:** Utilize the `:host` selector for all component-level layout boundaries (margins, max-width, display logic) to eliminate redundant HTML wrapper elements.
 ## Directory Structure (Technical Role Grouping)
 The architecture explicitly avoids Feature-Sliced Design (FSD) to prevent over-engineering. We use a flat, role-based directory structure within `src/app/`:
 
@@ -24,7 +24,8 @@ The architecture explicitly avoids Feature-Sliced Design (FSD) to prevent over-e
 - **Granular Reactivity**: State is not kept in a massive monolithic object. Instead, each Builder step updates its own specific Signal in the `builder-state` service.
 - **Thin Components**: UI Components do not contain complex validation or business logic. They exclusively bind to state Signals and trigger methods on the injected services.
 - **Modern Dependency Injection**: We rely exclusively on the modern `inject()` function for DI, avoiding traditional constructor injection to keep components clean and highly readable.
-- **Zero Literals Policy (SSOT)**: No hardcoded UI strings, dictionary keys, or router paths in components or HTML. All static texts and configurations MUST be exported as constants from `src/app/shared/constants/`.
+- **Zero Literals Policy (SSOT)**: No hardcoded UI strings, dictionary keys, or router paths in components or HTML templates. All static texts, including micro-labels, MUST be exported as constants from `src/app/shared/constants/` and bound via the component's View Model.
+- **Semantic Minimalism**: Prefer clean, generic structural tags (`<div>`) with BEM classes for isolated component blocks over forced semantic tags (`<header>`, `<main>`) that disrupt global document outlines.
 - **Barrels & Path Aliases**: All imports from core directories MUST go through barrel files (`index.ts`). Always use TypeScript path aliases (e.g., `@shared/constants`) instead of deep relative paths.
 - **View Model Pattern**: Do not pollute the component class with scattered variables for the template. Group all UI-bound static data into a single `readonly view = { ... }` object to maximize cohesion.
 - **Test-Driven**: Write unit tests (Vitest) immediately after major component refactoring to ensure regression safety.

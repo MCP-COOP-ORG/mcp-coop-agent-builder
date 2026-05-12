@@ -19,3 +19,5 @@ When the user tells you to "commit", "save progress", or "update docs" at the en
 3. **Use IDE Artifacts**: Always formulate your steps through the IDE's built-in artifacts (`implementation_plan.md`, `task.md`). Present the plan for user approval before touching source code.
 4. **Step-by-Step Execution**: Work systematically. Execute one logical step at a time, asking for verification.
 5. **Ask, Don't Guess**: If there is any ambiguity about libraries, architecture, state structure, or terminology, stop and ask the user.
+6. **CSS & Markup Integrity Check**: Before finalizing UI changes, autonomously verify strict adherence to BEM, `:host` encapsulation, and the Zero Literals Policy across both HTML and SCSS files.
+7. **Federation Cache Recovery**: If Angular build or Native Federation throws inexplicable syntax/404 errors during local development, assume cache poisoning. Immediately clear `.angular/cache` and restart the server before attempting to debug phantom code errors.

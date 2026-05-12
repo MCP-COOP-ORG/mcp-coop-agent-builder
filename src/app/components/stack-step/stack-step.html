@@ -1,0 +1,18 @@
+<app-step-layout [step]="view.step" [blocks]="view.blocksArray">
+  <ng-template #blockContent let-block>
+    @switch (block.id) {
+      @case ('frontend') {
+        <!-- Frontend inputs will go here -->
+      }
+      @case ('backend') {
+        <!-- Backend inputs will go here -->
+      }
+      @case ('database') {
+        <!-- Database inputs will go here -->
+      }
+      @case ('tooling') {
+        <!-- Tooling inputs will go here -->
+      }
+    }
+  </ng-template>
+</app-step-layout>

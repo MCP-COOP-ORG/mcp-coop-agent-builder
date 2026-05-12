@@ -25,14 +25,14 @@ describe('StackStep', () => {
   it('should bind the correct step metadata to the view model', () => {
     const expectedData = BUILDER_STEPS.find(step => step.id === STEP_IDS.STACK);
     expect(component.view).toBeDefined();
-    expect(component.view).toEqual(expectedData!);
+    expect(component.view.step).toEqual(expectedData!);
   });
 
   it('should render the step title and description in the DOM', () => {
     const headingEl = fixture.debugElement.query(By.css('h2.tui-text_h3')).nativeElement;
     const descEl = fixture.debugElement.query(By.css('p.tui-text_body-m')).nativeElement;
 
-    expect(headingEl.textContent.trim()).toBe(component.view.title);
-    expect(descEl.textContent.trim()).toBe(component.view.description);
+    expect(headingEl.textContent.trim()).toBe(component.view.step.title);
+    expect(descEl.textContent.trim()).toBe(component.view.step.description);
   });
 });

@@ -20,8 +20,8 @@ describe('SetupStep', () => {
   });
 
   it('should have the correct step data bound to the view', () => {
-    expect(component.view.id).toBe('setup');
-    expect(component.view.title).toBe('Project Setup');
-    expect(component.view.icon).toBe('@tui.settings');
+    expect(component.view.step.id).toBe('setup');
+    expect(component.view.step.title).toBe('Project Setup');
+    expect(component.view.step.icon).toBe('@tui.settings');
   });
 });

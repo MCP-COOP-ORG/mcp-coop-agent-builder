@@ -12,8 +12,7 @@ import {
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { TuiTabs } from '@taiga-ui/kit';
-import { BuilderStep, BUILDER_DICTIONARY } from '@shared/constants';
-import { BuilderBlockConfig } from '../../../models/builder-config.model';
+import { BuilderStep, BUILDER_DICTIONARY, BuilderBlockConfig } from '@shared/constants';
 import { StepHeader } from '../step-header/step-header';
 import { BuilderBlock } from '../builder-block/builder-block';
 

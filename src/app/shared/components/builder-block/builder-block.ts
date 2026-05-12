@@ -1,10 +1,10 @@
 import { Component, input } from '@angular/core';
-import { TuiIcon, TuiTitle } from '@taiga-ui/core';
-import { TuiCardLarge, TuiHeader } from '@taiga-ui/layout';
+import { TuiIcon } from '@taiga-ui/core';
+import { TuiCardLarge } from '@taiga-ui/layout';
 
 @Component({
   selector: 'app-builder-block',
-  imports: [TuiIcon, TuiTitle, TuiCardLarge, TuiHeader],
+  imports: [TuiIcon, TuiCardLarge],
   templateUrl: './builder-block.html',
   styleUrl: './builder-block.scss',
 })

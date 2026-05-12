@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { BUILDER_STEPS, STEP_IDS, STACK_BLOCKS } from '@shared/constants';
-import { StepLayout } from '@shared/components';
-import { BuilderBlockConfig } from '../../models';
+import { StepLayout, RadioGroup, CheckboxGroup, TextareaField } from '@shared/components';
 
 /**
  * Dumb component that represents the "Stack" step in the Builder.
@@ -9,7 +9,7 @@ import { BuilderBlockConfig } from '../../models';
  */
 @Component({
   selector: 'app-stack-step',
-  imports: [StepLayout],
+  imports: [StepLayout, RadioGroup, CheckboxGroup, TextareaField, ReactiveFormsModule],
   templateUrl: './stack-step.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -20,6 +20,18 @@ export class StackStep {
    */
   readonly view = {
     step: BUILDER_STEPS.find(step => step.id === STEP_IDS.STACK)!,
-    blocksArray: Object.values(STACK_BLOCKS) as BuilderBlockConfig[]
+    blocksArray: STACK_BLOCKS
   };
+
+  /**
+   * Temporary local form for UI visual testing purposes only.
+   * Dynamically generated from the configuration array to guarantee 100% universality.
+   */
+  form = new FormGroup(
+    STACK_BLOCKS.reduce((acc, block) => {
+      const defaultValue = block.type === 'checkbox' ? [] : (block.defaultOptionId || (block.type === 'textarea' ? '' : null));
+      acc[block.id] = new FormControl(defaultValue);
+      return acc;
+    }, {} as Record<string, FormControl>)
+  );
 }

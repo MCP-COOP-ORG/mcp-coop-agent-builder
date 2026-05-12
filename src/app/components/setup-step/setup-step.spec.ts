@@ -24,4 +24,10 @@ describe('SetupStep', () => {
     expect(component.view.step.title).toBe('Project Setup');
     expect(component.view.step.icon).toBe('@tui.settings');
   });
+
+  it('should generate FormGroup dynamically based on SETUP_BLOCKS', () => {
+    const blockIds = component.view.blocksArray.map(b => b.id);
+    const formKeys = Object.keys(component.form.controls);
+    expect(formKeys.sort()).toEqual(blockIds.sort());
+  });
 });

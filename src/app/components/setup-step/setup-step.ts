@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { BUILDER_STEPS, STEP_IDS, SETUP_BLOCKS } from '@shared/constants';
-import { StepLayout } from '@shared/components';
-import { BuilderBlockConfig } from '../../models';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { BUILDER_STEPS, STEP_IDS, SETUP_BLOCKS, BUILDER_DICTIONARY } from '@shared/constants';
+import { StepLayout, RadioGroup, CheckboxGroup, TextareaField } from '@shared/components';
 
 /**
  * Dumb component that represents the "Setup" step in the Builder.
@@ -9,7 +9,7 @@ import { BuilderBlockConfig } from '../../models';
  */
 @Component({
   selector: 'app-setup-step',
-  imports: [StepLayout],
+  imports: [StepLayout, RadioGroup, CheckboxGroup, TextareaField, ReactiveFormsModule],
   templateUrl: './setup-step.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -20,6 +20,19 @@ export class SetupStep {
    */
   readonly view = {
     step: BUILDER_STEPS.find(step => step.id === STEP_IDS.SETUP)!,
-    blocksArray: Object.values(SETUP_BLOCKS) as BuilderBlockConfig[]
+    blocksArray: SETUP_BLOCKS,
+    dictionary: BUILDER_DICTIONARY
   };
+
+  /**
+   * Temporary local form for UI visual testing purposes only.
+   * Dynamically generated from the configuration array to guarantee 100% universality.
+   */
+  form = new FormGroup(
+    SETUP_BLOCKS.reduce((acc, block) => {
+      const defaultValue = block.type === 'checkbox' ? [] : (block.defaultOptionId || (block.type === 'textarea' ? '' : null));
+      acc[block.id] = new FormControl(defaultValue);
+      return acc;
+    }, {} as Record<string, FormControl>)
+  );
 }

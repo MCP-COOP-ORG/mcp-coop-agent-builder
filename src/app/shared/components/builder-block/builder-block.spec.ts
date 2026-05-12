@@ -31,7 +31,7 @@ describe('BuilderBlock', () => {
     
     const compiled = fixture.nativeElement as HTMLElement;
     
-    const titleEl = compiled.querySelector('h2');
+    const titleEl = compiled.querySelector('h3');
     expect(titleEl?.textContent).toContain('Test Title');
     
     const iconEl = compiled.querySelector('tui-icon');

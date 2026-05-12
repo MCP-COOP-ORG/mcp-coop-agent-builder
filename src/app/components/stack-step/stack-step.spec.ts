@@ -35,4 +35,10 @@ describe('StackStep', () => {
     expect(headingEl.textContent.trim()).toBe(component.view.step.title);
     expect(descEl.textContent.trim()).toBe(component.view.step.description);
   });
+
+  it('should generate FormGroup dynamically based on STACK_BLOCKS', () => {
+    const blockIds = component.view.blocksArray.map(b => b.id);
+    const formKeys = Object.keys(component.form.controls);
+    expect(formKeys.sort()).toEqual(blockIds.sort());
+  });
 });

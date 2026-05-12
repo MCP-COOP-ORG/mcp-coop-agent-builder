@@ -7,6 +7,10 @@ export const BUILDER_DICTIONARY = {
   },
   labels: {
     contents: 'Contents',
+    projectIdentity: 'Project Identity',
+  },
+  placeholders: {
+    projectIdentity: 'Describe your project goal, key features, and core identity...',
   },
   icons: {
     downloadButton: '@tui.download',

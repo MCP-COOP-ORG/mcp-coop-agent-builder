@@ -3,7 +3,8 @@
   "version": 1,
   "cli": {
     "packageManager": "npm",
-    "analytics": "81ff0a21-6fc0-48a6-99e0-b1f1efbd7415"
+    "analytics": "81ff0a21-6fc0-48a6-99e0-b1f1efbd7415",
+    "schematicCollections": ["angular-eslint"]
   },
   "newProjectRoot": "projects",
   "projects": {
@@ -106,6 +107,12 @@
           "defaultConfiguration": "development",
           "options": {
             "port": 4200
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }

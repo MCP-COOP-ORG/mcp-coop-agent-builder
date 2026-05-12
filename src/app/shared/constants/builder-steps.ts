@@ -4,6 +4,19 @@ export const STEP_IDS = {
   REVIEW: 'review'
 } as const;
 
+export type FieldType = 'radio' | 'checkbox' | 'textarea';
+
+export interface BuilderBlockConfig {
+  id: string;
+  title: string;
+  icon: string;
+  type: FieldType;
+  options?: { id: string; label: string }[];
+  defaultOptionId?: string;
+  label?: string;
+  placeholder?: string;
+}
+
 export interface BuilderStep {
   id: string;
   label: string;

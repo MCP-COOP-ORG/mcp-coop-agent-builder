@@ -30,15 +30,15 @@ describe('TextareaField', () => {
   });
 
   it('should register on change', () => {
-    const fn = () => {};
+    const fn = () => undefined;
     component.registerOnChange(fn);
-    expect((component as any).onChange).toBe(fn);
+    expect(component['onChange']).toBe(fn);
   });
 
   it('should register on touched', () => {
-    const fn = () => {};
+    const fn = () => undefined;
     component.registerOnTouched(fn);
-    expect((component as any).onTouched).toBe(fn);
+    expect(component['onTouched']).toBe(fn);
   });
 
   it('should set disabled state', () => {

@@ -49,7 +49,7 @@ export class StackStep {
     }
 
     // Sync form changes to the global state
-    this.form.valueChanges.pipe(takeUntilDestroyed()).subscribe(val => {
+    this.form.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => {
       this.builderState.stackData.set(this.form.getRawValue() as Record<string, unknown>);
     });
   }

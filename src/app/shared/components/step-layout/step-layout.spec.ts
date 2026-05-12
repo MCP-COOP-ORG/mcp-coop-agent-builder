@@ -28,11 +28,11 @@ describe('StepLayout', () => {
   beforeEach(async () => {
     // Mock IntersectionObserver
     class MockIntersectionObserver {
-      constructor(public callback: any) {}
-      observe() {}
-      disconnect() {}
+      constructor(public callback: IntersectionObserverCallback) {}
+      observe() { return undefined; }
+      disconnect() { return undefined; }
     }
-    window.IntersectionObserver = MockIntersectionObserver as any;
+    window.IntersectionObserver = MockIntersectionObserver as unknown as typeof IntersectionObserver;
 
     await TestBed.configureTestingModule({
       imports: [TestHostComponent],
@@ -54,60 +54,57 @@ describe('StepLayout', () => {
   });
 
   it('should scroll to block', () => {
-    window.scrollTo = vi.fn();
-    
     // Mock the blockElements signal to return a dummy element
-    const mockElement = { nativeElement: { getBoundingClientRect: () => ({ top: 100 }) } };
-    vi.spyOn(component as any, 'blockElements').mockReturnValue([mockElement, mockElement]);
+    const mockElement = { nativeElement: { scrollIntoView: vi.fn() } };
+    vi.spyOn(component, 'blockElements').mockReturnValue([mockElement, mockElement] as unknown as never);
 
     component.scrollToBlock(1);
     
     expect(component.activeTabIndex()).toBe(1);
-    expect(window.scrollTo).toHaveBeenCalled();
+    expect(mockElement.nativeElement.scrollIntoView).toHaveBeenCalled();
   });
 
   it('should handle intersection observer callback', () => {
     // We can simulate the callback if we spy on it, but the simplest way is to call it directly
     // since we mocked IntersectionObserver. However, the logic is encapsulated.
     // Let's just trigger the private method logic
-    const setupScrollSpy = (component as any).setupScrollSpy.bind(component);
+    const setupScrollSpy = component['setupScrollSpy'].bind(component);
     
-    let observerCallback: any;
+    let observerCallback: IntersectionObserverCallback | undefined;
     class FakeIntersectionObserver {
-      constructor(cb: any) {
+      constructor(cb: IntersectionObserverCallback) {
         observerCallback = cb;
       }
-      observe() {}
-      disconnect() {}
+      observe() { return undefined; }
+      disconnect() { return undefined; }
     }
-    window.IntersectionObserver = FakeIntersectionObserver as any;
+    window.IntersectionObserver = FakeIntersectionObserver as unknown as typeof IntersectionObserver;
     
     setupScrollSpy();
     
     if (observerCallback) {
-      observerCallback([{ isIntersecting: true, target: { id: 'block2' } }]);
+      observerCallback([{ isIntersecting: true, target: { id: 'block2' } } as IntersectionObserverEntry], {} as IntersectionObserver);
       expect(component.activeTabIndex()).toBe(1);
       
       // Test when isIntersecting is false (no tab change)
       component.activeTabIndex.set(0);
-      observerCallback([{ isIntersecting: false, target: { id: 'block2' } }]);
+      observerCallback([{ isIntersecting: false, target: { id: 'block2' } } as IntersectionObserverEntry], {} as IntersectionObserver);
       expect(component.activeTabIndex()).toBe(0);
 
       // Test when id is not found
-      observerCallback([{ isIntersecting: true, target: { id: 'unknown-block' } }]);
+      observerCallback([{ isIntersecting: true, target: { id: 'unknown-block' } } as IntersectionObserverEntry], {} as IntersectionObserver);
       expect(component.activeTabIndex()).toBe(0);
     }
   });
 
   it('should not throw when scrollToBlock is called with an invalid index', () => {
     // blockElements returns array of 2 elements, calling with index 5 should do nothing safely
-    const mockElement = { nativeElement: { getBoundingClientRect: () => ({ top: 100 }) } };
-    vi.spyOn(component as any, 'blockElements').mockReturnValue([mockElement, mockElement]);
-    window.scrollTo = vi.fn();
+    const mockElement = { nativeElement: { scrollIntoView: vi.fn() } };
+    vi.spyOn(component, 'blockElements').mockReturnValue([mockElement, mockElement] as unknown as never);
     
     component.scrollToBlock(5);
     
     expect(component.activeTabIndex()).toBe(5); // It sets index but shouldn't throw or scroll
-    expect(window.scrollTo).not.toHaveBeenCalled();
+    expect(mockElement.nativeElement.scrollIntoView).not.toHaveBeenCalled();
   });
 });

@@ -2,12 +2,14 @@ import {
   Component, 
   input, 
   signal, 
+  viewChild,
   viewChildren, 
   ElementRef, 
   contentChild, 
   TemplateRef, 
   computed, 
   afterNextRender,
+  effect,
   ChangeDetectionStrategy
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
@@ -46,6 +48,12 @@ export class StepLayout {
   /** Query for all rendered block wrapper elements to track scroll position */
   blockElements = viewChildren<ElementRef>('blockElement');
 
+  /** Query for all rendered tab elements in the sidebar */
+  tabElements = viewChildren<ElementRef>('tabElement');
+
+  /** Reference to the scrollable sticky nav container */
+  navContainer = viewChild<ElementRef>('navContainer');
+
   /** Tracks the currently active tab index for the right-hand sidebar */
   activeTabIndex = signal(0);
   
@@ -58,6 +66,28 @@ export class StepLayout {
   });
 
   constructor() {
+    // Synchronize sidebar scrolling whenever the active tab index changes
+    effect(() => {
+      const index = this.activeTabIndex();
+      // We must use setTimeout to ensure the DOM is fully rendered after the signal updates
+      setTimeout(() => {
+        const tabEl = this.tabElements()[index]?.nativeElement;
+        const navEl = this.navContainer()?.nativeElement;
+        
+        if (tabEl && navEl) {
+          const tabRect = tabEl.getBoundingClientRect();
+          const navRect = navEl.getBoundingClientRect();
+          
+          // Scroll the sidebar internally if the tab is outside its visible bounds
+          if (tabRect.bottom > navRect.bottom) {
+            navEl.scrollBy({ top: tabRect.bottom - navRect.bottom + 16, behavior: 'smooth' });
+          } else if (tabRect.top < navRect.top) {
+            navEl.scrollBy({ top: tabRect.top - navRect.top - 16, behavior: 'smooth' });
+          }
+        }
+      });
+    });
+
     // We use afterNextRender to safely access the DOM for IntersectionObserver
     // This is the Angular Best Practice for DOM APIs, avoiding SSR/SSG issues.
     afterNextRender({
@@ -65,18 +95,27 @@ export class StepLayout {
     });
   }
 
+  private isProgrammaticScroll = false;
+  private scrollTimeout: ReturnType<typeof setTimeout> | undefined;
+
   /**
    * Programmatically scrolls the window to a specific block when a sidebar tab is clicked.
    * @param index The index of the block in the blocks array
    */
   scrollToBlock(index: number) {
+    this.isProgrammaticScroll = true;
+    clearTimeout(this.scrollTimeout);
+    
     this.activeTabIndex.set(index);
     const element = this.blockElements()[index]?.nativeElement;
     if (element) {
-      const offset = 80;
-      const top = element.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top, behavior: 'smooth' });
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+
+    // Smooth scroll usually takes ~500-800ms. We lock the observer for 1s.
+    this.scrollTimeout = setTimeout(() => {
+      this.isProgrammaticScroll = false;
+    }, 1000);
   }
 
   /**
@@ -87,6 +126,8 @@ export class StepLayout {
     if (typeof IntersectionObserver === 'undefined') return;
     
     const observer = new IntersectionObserver((entries) => {
+      if (this.isProgrammaticScroll) return;
+
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const id = entry.target.id;

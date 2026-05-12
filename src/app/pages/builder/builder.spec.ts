@@ -97,4 +97,12 @@ describe('Builder', () => {
       expect(consoleSpy).toHaveBeenCalledWith('Downloading context archive...');
     });
   });
+
+  describe('reset', () => {
+    it('should call builderState.reset()', () => {
+      const stateSpy = vi.spyOn(component['builderState'], 'reset');
+      component.reset();
+      expect(stateSpy).toHaveBeenCalled();
+    });
+  });
 });

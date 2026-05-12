@@ -1,8 +1,8 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BUILDER_STEPS, STEP_IDS, SETUP_BLOCKS, BUILDER_DICTIONARY } from '@shared/constants';
-import { StepLayout, RadioGroup, CheckboxGroup, TextareaField } from '@shared/components';
+import { StepLayout, RadioGroup, CheckboxGroup, TextareaField, InputField, MultiSelectField } from '@shared/components';
 import { BuilderState } from '@services';
 
 /**
@@ -11,8 +11,9 @@ import { BuilderState } from '@services';
  */
 @Component({
   selector: 'app-setup-step',
-  imports: [StepLayout, RadioGroup, CheckboxGroup, TextareaField, ReactiveFormsModule],
+  imports: [StepLayout, RadioGroup, CheckboxGroup, TextareaField, InputField, MultiSelectField, ReactiveFormsModule],
   templateUrl: './setup-step.html',
+  styleUrl: './setup-step.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SetupStep {
@@ -34,10 +35,21 @@ export class SetupStep {
    */
   form = new FormGroup(
     SETUP_BLOCKS.reduce((acc, block) => {
-      const defaultValue = block.type === 'checkbox' ? [] : (block.defaultOptionId || (block.type === 'textarea' ? '' : null));
-      acc[block.id] = new FormControl(defaultValue);
+      if (block.type === 'composite' && block.fields) {
+        const nestedGroup: Record<string, FormControl> = {};
+        block.fields.forEach(field => {
+          const isArray = field.type === 'checkbox' || field.type === 'multi-select';
+          const defaultValue = isArray ? [] : (field.options?.[0]?.id || '');
+          const validators = field.validators?.includes('required') ? [Validators.required] : [];
+          nestedGroup[field.id] = new FormControl(defaultValue, validators);
+        });
+        acc[block.id] = new FormGroup(nestedGroup);
+      } else {
+        const defaultValue = block.type === 'checkbox' ? [] : (block.defaultOptionId || (block.type === 'textarea' ? '' : null));
+        acc[block.id] = new FormControl(defaultValue);
+      }
       return acc;
-    }, {} as Record<string, FormControl>)
+    }, {} as Record<string, FormControl | FormGroup>)
   );
 
   constructor() {
@@ -50,7 +62,7 @@ export class SetupStep {
     }
 
     // Sync form changes to the global state
-    this.form.valueChanges.pipe(takeUntilDestroyed()).subscribe(val => {
+    this.form.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => {
       this.builderState.setupData.set(this.form.getRawValue() as Record<string, unknown>);
     });
   }

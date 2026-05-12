@@ -46,7 +46,7 @@ describe('StackStep', () => {
     // Modify form value
     component.form.patchValue({ frontend: ['react'] });
     // Verify signal state has been updated
-    const state = (component as any).builderState.stackData();
-    expect(state.frontend).toEqual(['react']);
+    const state = component['builderState'].stackData();
+    expect(state['frontend']).toEqual(['react']);
   });
 });

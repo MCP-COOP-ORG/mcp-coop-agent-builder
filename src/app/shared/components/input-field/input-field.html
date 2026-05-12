@@ -1,0 +1,14 @@
+<tui-textfield
+  tuiTextfieldSize="l"
+  [iconStart]="iconStart()"
+>
+  <label tuiLabel [for]="fieldId">{{ label() }}</label>
+  <input
+    [id]="fieldId"
+    tuiInput
+    [placeholder]="placeholder()"
+    [ngModel]="value"
+    (ngModelChange)="onModelChange($event)"
+    [disabled]="disabled"
+  />
+</tui-textfield>

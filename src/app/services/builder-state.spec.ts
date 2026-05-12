@@ -42,4 +42,21 @@ describe('BuilderState', () => {
     const parsed = JSON.parse(stored as string);
     expect(parsed.setup).toEqual({ aiAgent: 'antigravity' });
   });
+
+  it('should reset state and clear sessionStorage', () => {
+    service = TestBed.inject(BuilderState);
+    sessionStorage.setItem('builderState', '{"setup":{"test":true}}');
+    
+    // Create a mock location object
+    const mockLocation = { href: '' };
+    Object.defineProperty(window, 'location', {
+      value: mockLocation,
+      writable: true
+    });
+
+    service.reset();
+
+    expect(sessionStorage.getItem('builderState')).toBeNull();
+    expect(window.location.href).toBe('/builder/setup');
+  });
 });

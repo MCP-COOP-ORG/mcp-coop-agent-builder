@@ -9,18 +9,26 @@
   display: grid;
   grid-template-columns: 1fr 200px;
   gap: 2rem;
-  align-items: start;
+  /* Remove align-items: start so columns stretch to full height */
+
+  .step-block-wrapper {
+    scroll-margin-top: 6rem;
+  }
 }
 
 .step-sidebar {
+  /* Make the sidebar stretch and its inner nav sticky */
   position: relative;
+  height: 100%;
   
   .sticky-nav {
     position: sticky;
-    top: 2rem;
+    top: 6rem; /* Match header offset */
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
     
     .nav-title {
       margin: 0;

@@ -18,6 +18,18 @@
           {{ view.buttons.back }}
         </button>
       }
+
+      <!-- Reset button clears all state and goes to first step -->
+      <button 
+        tuiButton 
+        appearance="flat" 
+        size="m"
+        style="color: var(--tui-text-negative);"
+        [iconStart]="view.icons.resetButton"
+        (click)="reset()"
+      >
+        {{ view.buttons.reset }}
+      </button>
     </div>
     
     <div class="footer-center">

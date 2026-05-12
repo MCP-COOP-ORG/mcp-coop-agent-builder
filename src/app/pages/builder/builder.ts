@@ -5,7 +5,7 @@ import { TuiButton } from '@taiga-ui/core';
 import { TuiStep, TuiStepper } from '@taiga-ui/kit';
 import { filter, map, startWith } from 'rxjs';
 import { APP_ROUTES, BUILDER_DICTIONARY, BUILDER_STEPS } from '@shared/constants';
-import { ArchiveGenerator } from '@services';
+import { ArchiveGenerator, BuilderState } from '@services';
 
 @Component({
   selector: 'app-builder',
@@ -17,6 +17,7 @@ export class Builder {
   // Injecting router via modern inject() function, abandoning constructors
   private readonly router = inject(Router);
   private readonly archiveGenerator = inject(ArchiveGenerator);
+  private readonly builderState = inject(BuilderState);
 
   // All constants and UI texts gathered into a single object
   readonly view = {
@@ -69,5 +70,10 @@ export class Builder {
   async download() {
     console.log('Downloading context archive...');
     await this.archiveGenerator.downloadArchive();
+  }
+
+  // Resets the entire builder session and returns to start
+  reset() {
+    this.builderState.reset();
   }
 }

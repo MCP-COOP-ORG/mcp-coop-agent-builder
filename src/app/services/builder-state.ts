@@ -43,4 +43,15 @@ export class BuilderState {
       }
     }
   }
+
+  /**
+   * Hard reset of all builder state by clearing storage and reloading
+   */
+  reset(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      sessionStorage.removeItem(this.STORAGE_KEY);
+      // Hard reload to completely wipe form states and memory
+      window.location.href = '/builder/setup';
+    }
+  }
 }

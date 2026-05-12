@@ -22,6 +22,39 @@
             [formControlName]="block.id"
           ></app-textarea-field>
         }
+        @case ('composite') {
+          <div class="composite-layout" [formGroupName]="block.id">
+            @for (field of block.fields; track field.id) {
+              <div class="composite-field" [class]="'layout-' + (field.layout || 'full')">
+                @switch (field.type) {
+                  @case ('input') {
+                    <app-input-field
+                      [label]="field.label || ''"
+                      [placeholder]="field.placeholder || ''"
+                      [formControlName]="field.id"
+                    ></app-input-field>
+                  }
+                  @case ('textarea') {
+                    <app-textarea-field
+                      [label]="field.label || ''"
+                      [placeholder]="field.placeholder || ''"
+                      [limit]="1000"
+                      [formControlName]="field.id"
+                    ></app-textarea-field>
+                  }
+                  @case ('multi-select') {
+                    <app-multi-select-field
+                      [label]="field.label || ''"
+                      [placeholder]="field.placeholder || ''"
+                      [options]="field.options || []"
+                      [formControlName]="field.id"
+                    ></app-multi-select-field>
+                  }
+                }
+              </div>
+            }
+          </div>
+        }
       }
     </ng-template>
   </app-step-layout>

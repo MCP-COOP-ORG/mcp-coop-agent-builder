@@ -15,7 +15,7 @@
 
   <!-- Right Sidebar Table of Contents -->
   <aside class="step-sidebar">
-    <div class="sticky-nav">
+    <div class="sticky-nav" #navContainer>
       <h3 class="tui-text_body-s-2 nav-title">{{ view.labels.contents }}</h3>
       <tui-tabs
         vertical="start"
@@ -23,7 +23,7 @@
         (activeItemIndexChange)="scrollToBlock($event)"
       >
         @for (tab of tabs(); track tab.id) {
-          <button tuiTab type="button">{{ tab.label }}</button>
+          <button tuiTab type="button" #tabElement>{{ tab.label }}</button>
         }
       </tui-tabs>
     </div>

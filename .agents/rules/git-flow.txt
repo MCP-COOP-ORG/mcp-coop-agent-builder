@@ -1,0 +1,6 @@
+---
+trigger: model_decision
+description: When yser ask thomthig anout git
+---
+
+Always whait approve of git command

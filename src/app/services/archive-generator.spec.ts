@@ -26,9 +26,11 @@ describe('ArchiveGenerator', () => {
   it('should generate archive and trigger download for Antigravity', async () => {
     // Arrange state
     builderState.setupData.set({ aiAgent: 'antigravity' });
+    builderState.stackData.set({});
     
     // Mock interpolator
-    vi.spyOn(interpolator, 'fetchAndInterpolate').mockResolvedValue('Mock Antigravity Content');
+    vi.spyOn(interpolator, 'fetchJson').mockResolvedValue({ content: 'Mock Antigravity Content' });
+    vi.spyOn(interpolator, 'interpolate').mockReturnValue('Mock Antigravity Content');
     
     // Mock document.createElement to intercept the download trigger
     const mockAnchor = { href: '', download: '', click: vi.fn() } as unknown as HTMLAnchorElement;
@@ -40,8 +42,7 @@ describe('ArchiveGenerator', () => {
     await service.downloadArchive();
 
     // Assert
-    expect(interpolator.fetchAndInterpolate).toHaveBeenCalledWith('assets/templates/ai/antigravity.md', { aiAgent: 'antigravity' });
-    
+    expect(interpolator.fetchJson).toHaveBeenCalledWith('assets/main/antigravity.json');
     expect(window.URL.createObjectURL).toHaveBeenCalled();
     expect(document.createElement).toHaveBeenCalledWith('a');
     expect(mockAnchor.download).toBe('ai-context.zip');
@@ -51,9 +52,11 @@ describe('ArchiveGenerator', () => {
   it('should generate archive and trigger download for Cursor', async () => {
     // Arrange state
     builderState.setupData.set({ aiAgent: 'cursor' });
+    builderState.stackData.set({});
     
     // Mock interpolator
-    vi.spyOn(interpolator, 'fetchAndInterpolate').mockResolvedValue('Mock Cursor Content');
+    vi.spyOn(interpolator, 'fetchJson').mockResolvedValue({ content: 'Mock Cursor Content' });
+    vi.spyOn(interpolator, 'interpolate').mockReturnValue('Mock Cursor Content');
     
     // Mock document.createElement
     const mockAnchor = { href: '', download: '', click: vi.fn() } as unknown as HTMLAnchorElement;
@@ -64,7 +67,7 @@ describe('ArchiveGenerator', () => {
     await service.downloadArchive();
 
     // Assert
-    expect(interpolator.fetchAndInterpolate).toHaveBeenCalledWith('assets/templates/ai/cursor.md', { aiAgent: 'cursor' });
+    expect(interpolator.fetchJson).toHaveBeenCalledWith('assets/main/cursor.json');
     expect(mockAnchor.click).toHaveBeenCalled();
   });
 });

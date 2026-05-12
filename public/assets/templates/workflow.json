@@ -1,0 +1,5 @@
+{
+  "claude": "---\ndescription: {{ description }}\n---\n\n{{ content }}",
+  "cursor": "---\ndescription: {{ description }}\nglobs: *\n---\n\n{{ content }}",
+  "antigravity": "---\ndescription: {{ description }}\n---\n\n{{ content }}"
+}

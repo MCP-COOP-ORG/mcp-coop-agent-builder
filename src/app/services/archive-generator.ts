@@ -1,7 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { strToU8, zipSync } from 'fflate';
 import { GeneratedFile } from '@shared/constants';
-import { ARCHIVE_SCHEMA } from '@shared/schemas';
+import { ANTIGRAVITY, CLAUDE, CURSOR, TEMPLATES, SKILLS, RULES, WORKFLOWS } from '@shared/schemas';
+import { ArchivePattern } from '@shared/models';
 import { BuilderState } from './builder-state';
 import { TemplateInterpolator } from './template-interpolator';
 
@@ -20,22 +21,116 @@ export class ArchiveGenerator {
    * Caches results in previewFiles signal for the Review step UI and later download.
    */
   async generatePreview(): Promise<GeneratedFile[]> {
-    const context = this.buildContext();
+    const setup = this.builderState.setupData();
+    const stack = this.builderState.stackData();
+    
+    const agent = (setup['aiAgent'] as string) || 'antigravity';
+    const schema = this.getSchema(agent);
+    
+    // Flatten projectIdentity so top-level variables (name, description, domains) are accessible
+    const context = {
+      ...setup,
+      ...(setup['projectIdentity'] as Record<string, unknown> || {}),
+      ...stack
+    };
+    
     const files: GeneratedFile[] = [];
 
-    for (const node of ARCHIVE_SCHEMA) {
-      if (!this.isConditionMet(node.condition, context)) continue;
+    for (const pattern of schema) {
+      if (pattern.type === 'static') {
+        const json = await this.interpolator.fetchJson<{content: string}>(pattern.url);
+        if (json?.content) {
+           const content = this.interpolator.interpolate(json.content, context);
+           files.push({ path: pattern.path, type: 'file', content });
+        }
+      } else if (pattern.type === 'dynamic-category') {
+        for (const cat of pattern.categories) {
+           const selectedItems = stack[cat] as string[];
+           if (!selectedItems || selectedItems.length === 0) continue;
+           
+           let combinedContent = '';
+           for (const item of selectedItems) {
+             const url = SKILLS[item] || RULES[item] || WORKFLOWS[item];
+             if (!url) continue;
+             
+             const snippet = await this.interpolator.fetchJson<{content: string}>(url);
+             if (snippet?.content) {
+                combinedContent += snippet.content + '\n\n';
+             }
+           }
 
-      if (node.type === 'folder') {
-        files.push({ path: node.path, type: 'folder', content: '' });
-      } else if (node.type === 'file' && node.templateUrl) {
-        const content = await this.interpolator.fetchAndInterpolate(node.templateUrl, context);
-        files.push({ path: node.path, type: 'file', content });
+           if (combinedContent) {
+              const wrapperType = this.getWrapperType(cat);
+              const wrapperUrl = TEMPLATES[wrapperType];
+              if (wrapperUrl) {
+                 const wrapperJson = await this.interpolator.fetchJson<Record<string, string>>(wrapperUrl);
+                 if (wrapperJson && wrapperJson[agent]) {
+                    const wrapperString = wrapperJson[agent];
+                    const catName = cat.charAt(0).toUpperCase() + cat.slice(1) + ' Engineering Standard';
+                    
+                    const finalContent = this.interpolator.interpolate(wrapperString, {
+                      name: catName,
+                      description: `Standard rules and conventions for ${cat}.`,
+                      globs: '*',
+                      content: combinedContent.trim()
+                    });
+
+                    const path = pattern.path.replace('[category]', cat);
+                    files.push({ path, type: 'file', content: finalContent });
+                 }
+              }
+           }
+        }
+      } else if (pattern.type === 'dynamic-item') {
+        for (const cat of pattern.categories) {
+           const selectedItems = stack[cat] as string[];
+           if (!selectedItems || selectedItems.length === 0) continue;
+           
+           for (const item of selectedItems) {
+             const url = SKILLS[item] || RULES[item] || WORKFLOWS[item];
+             if (!url) continue;
+             
+             const snippet = await this.interpolator.fetchJson<{content: string}>(url);
+             if (snippet?.content) {
+                const wrapperType = this.getWrapperType(cat);
+                const wrapperUrl = TEMPLATES[wrapperType];
+                if (wrapperUrl) {
+                   const wrapperJson = await this.interpolator.fetchJson<Record<string, string>>(wrapperUrl);
+                   if (wrapperJson && wrapperJson[agent]) {
+                      const wrapperString = wrapperJson[agent];
+                      const itemName = item.charAt(0).toUpperCase() + item.slice(1);
+                      
+                      const finalContent = this.interpolator.interpolate(wrapperString, {
+                        name: itemName,
+                        description: `Standard operational workflow for ${item}.`,
+                        globs: '*',
+                        content: snippet.content.trim()
+                      });
+
+                      const path = pattern.path.replace('[item]', item);
+                      files.push({ path, type: 'file', content: finalContent });
+                   }
+                }
+             }
+           }
+        }
       }
     }
 
     this.previewFiles.set(files);
     return files;
+  }
+
+  private getSchema(agent: string): ArchivePattern[] {
+    if (agent === 'claude') return CLAUDE;
+    if (agent === 'cursor') return CURSOR;
+    return ANTIGRAVITY;
+  }
+
+  private getWrapperType(category: string): 'skill' | 'rule' | 'workflow' {
+    if (['frontend', 'backend', 'database'].includes(category)) return 'skill';
+    if (['conventions', 'tooling'].includes(category)) return 'rule';
+    return 'workflow';
   }
 
   /**
@@ -65,17 +160,7 @@ export class ArchiveGenerator {
     this.triggerDownload(blob, 'ai-context.zip');
   }
 
-  private buildContext(): Record<string, unknown> {
-    return {
-      ...this.builderState.setupData(),
-      ...this.builderState.stackData(),
-    };
-  }
 
-  private isConditionMet(condition: Record<string, unknown> | undefined, context: Record<string, unknown>): boolean {
-    if (!condition) return true;
-    return Object.keys(condition).every((key) => context[key] === condition[key]);
-  }
 
   private triggerDownload(blob: Blob, filename: string): void {
     const url = URL.createObjectURL(blob);

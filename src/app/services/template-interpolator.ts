@@ -13,26 +13,27 @@ export class TemplateInterpolator {
   private readonly http = inject(HttpClient);
 
   /**
-   * Fetches a template by URL and interpolates the provided context into it.
-   * TODO: Implement advanced Handlebars-like parsing or fragment composition later.
-   * For now, it just fetches the static string and returns it.
-   * 
-   * @param url The relative path to the asset (e.g. 'assets/templates/ai/cursor.md')
-   * @param context The state object from BuilderState to interpolate variables
+   * Fetches a raw string or JSON from a URL.
+   * If it's a JSON file, it will return the parsed object.
    */
-  async fetchAndInterpolate(url: string, context: Record<string, unknown>): Promise<string> {
+  async fetchJson<T = unknown>(url: string): Promise<T | null> {
     try {
-      // Fetch the raw text content from the URL
-      const content = await firstValueFrom(this.http.get(url, { responseType: 'text' }));
-      
-      // Basic interpolation (e.g., replacing {{ projectName }} with context.projectName)
-      // We will expand this logic in future tasks.
-      return content.replace(/\{\{\s*(\w+)\s*\}\}/g, (match, key) => {
-        return context[key] !== undefined ? String(context[key]) : match;
-      });
+      return await firstValueFrom(this.http.get<T>(url, { responseType: 'json' }));
     } catch (error) {
-      console.error(`Failed to fetch template at ${url}`, error);
-      return `Error: Failed to load template from ${url}`;
+      console.error(`Failed to fetch JSON template at ${url}`, error);
+      return null;
     }
+  }
+
+  /**
+   * Simple string interpolation for templates.
+   */
+  interpolate(template: string, context: Record<string, unknown>): string {
+    if (!template) return '';
+    return template.replace(/\{\{\s*(\w+)\s*\}\}/g, (match, key) => {
+      const val = context[key];
+      if (Array.isArray(val)) return val.join(', ');
+      return val !== undefined ? String(val) : match;
+    });
   }
 }

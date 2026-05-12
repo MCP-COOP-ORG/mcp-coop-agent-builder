@@ -23,13 +23,12 @@ describe('TemplateInterpolator', () => {
     httpMock.verify();
   });
 
-  it('should fetch template and interpolate variables correctly', async () => {
-    const url = 'assets/test.md';
-    const mockContext = { projectName: 'MCP COOP DAO', aiAgent: 'antigravity' };
-    const mockResponse = '# {{ projectName }} using {{ aiAgent }}';
+  it('should fetch JSON template correctly', async () => {
+    const url = 'assets/test.json';
+    const mockResponse = { content: '# {{ projectName }} using {{ aiAgent }}' };
 
     // Call the service
-    const promise = service.fetchAndInterpolate(url, mockContext);
+    const promise = service.fetchJson(url);
 
     // Expect an HTTP GET request to the correct URL
     const req = httpMock.expectOne(url);
@@ -41,33 +40,45 @@ describe('TemplateInterpolator', () => {
     // Wait for the promise to resolve
     const result = await promise;
 
-    // Verify interpolation
+    // Verify
+    expect(result).toEqual(mockResponse);
+  });
+
+  it('should interpolate variables correctly', () => {
+    const template = '# {{ projectName }} using {{ aiAgent }}';
+    const mockContext = { projectName: 'MCP COOP DAO', aiAgent: 'antigravity' };
+
+    const result = service.interpolate(template, mockContext);
     expect(result).toBe('# MCP COOP DAO using antigravity');
   });
 
-  it('should leave unmatched variables intact', async () => {
-    const url = 'assets/test2.md';
+  it('should leave unmatched variables intact', () => {
+    const template = 'Project: {{ projectName }}, Agent: {{ missingAgent }}';
     const mockContext = { projectName: 'Test' };
-    const mockResponse = 'Project: {{ projectName }}, Agent: {{ missingAgent }}';
 
-    const promise = service.fetchAndInterpolate(url, mockContext);
-    httpMock.expectOne(url).flush(mockResponse);
-
-    const result = await promise;
+    const result = service.interpolate(template, mockContext);
     expect(result).toBe('Project: Test, Agent: {{ missingAgent }}');
   });
 
+  it('should interpolate arrays correctly', () => {
+    const template = 'Domains: {{ domains }}';
+    const mockContext = { domains: ['frontend', 'backend'] };
+
+    const result = service.interpolate(template, mockContext);
+    expect(result).toBe('Domains: frontend, backend');
+  });
+
   it('should handle HTTP errors gracefully', async () => {
-    const url = 'assets/missing.md';
+    const url = 'assets/missing.json';
     
-    const promise = service.fetchAndInterpolate(url, {});
+    const promise = service.fetchJson(url);
     
     const req = httpMock.expectOne(url);
     // Simulate a 404 error
     req.flush('Not Found', { status: 404, statusText: 'Not Found' });
 
     const result = await promise;
-    expect(result).toBe(`Error: Failed to load template from ${url}`);
+    expect(result).toBeNull();
   });
 });
 

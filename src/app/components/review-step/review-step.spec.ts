@@ -133,7 +133,7 @@ describe('ReviewStep', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const editor = (component as any).codeEditor();
+    const editor = (component as unknown as ReviewStepPrivate).codeEditor();
     if (!editor) throw new Error('Editor not found');
 
     const undoSpy = vi.spyOn(editor, 'undoEdit');

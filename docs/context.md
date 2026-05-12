@@ -5,6 +5,15 @@ The MCP COOP Agent Builder is in the early active development phase. The foundat
 
 ## Development History
 
+### Commit TBD: refactor: implement schema-driven archive generator and dynamic tree vivification
+**Status:** Completed
+**Key Features Implemented:**
+- **Schema-Driven Archive Generation**: Rewrote `ArchiveGenerator` into a dynamic constructor pattern. It now selects the platform schema (Antigravity, Claude, Cursor) based on the user's setup state and dynamically processes `static`, `dynamic-category`, and `dynamic-item` patterns instead of hardcoded paths.
+- **JSON Template Assembly**: Transitioned templates from static Markdown files to structured JSON wrappers (`skill.json`, `antigravity.json`, etc.). Upgraded `TemplateInterpolator` to fetch these JSON structures and inject aggregated content directly into platform-specific Markdown shells.
+- **Dynamic Context Flattening**: Enhanced `TemplateInterpolator` context mapping by flattening deeply nested reactive form states (e.g., merging `projectIdentity` fields into the root context), ensuring all template variables resolve correctly during archive generation.
+- **Auto-Vivifying File Tree**: Fixed a UI bug where nested file paths rendered flat at the root level. Rewrote the `buildTree` logic in `ReviewStep` to dynamically parse file paths and auto-vivify (auto-create) nested folder nodes without relying on explicit `folder` entries from the schema.
+- **Test Suite Modernization**: Updated the testing suite (`archive-generator.spec.ts` and `template-interpolator.spec.ts`) to align with the new JSON fetching logic, achieving a 100% test pass rate across the updated architecture.
+
 ### Commit TBD: refactor: rebrand project to MCP COOP Agent Builder and enforce Zero Literals
 **Status:** Completed
 **Key Features Implemented:**

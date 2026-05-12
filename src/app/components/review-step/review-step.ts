@@ -149,40 +149,44 @@ export class ReviewStep {
 
   /**
    * Converts a flat GeneratedFile[] into a TuiTree-compatible nested FileTreeNode hierarchy.
-   * Folders become parent nodes; files are placed under their parent folder if one exists.
+   * Auto-vivifies folder nodes based on file paths since explicit folder nodes are no longer required.
    */
   private buildTree(files: GeneratedFile[]): FileTreeNode {
-    const folderMap = new Map<string, FileTreeNode>();
     const rootChildren: FileTreeNode[] = [];
 
-    for (const entry of files) {
-      if (entry.type === 'folder') {
-        const node: FileTreeNode = {
-          label: entry.path,
-          path: entry.path,
-          type: 'folder',
-          children: [],
-        };
-        folderMap.set(entry.path, node);
-        rootChildren.push(node);
+    const getOrCreateFolder = (pathSegments: string[]): FileTreeNode[] => {
+      let currentLevel = rootChildren;
+      let currentPath = '';
+
+      for (let i = 0; i < pathSegments.length; i++) {
+        const segment = pathSegments[i];
+        currentPath = currentPath ? `${currentPath}/${segment}` : segment;
+        
+        let node = currentLevel.find(n => n.label === segment && n.type === 'folder');
+        if (!node) {
+          node = { label: segment, path: currentPath, type: 'folder', children: [] };
+          currentLevel.push(node);
+        }
+        currentLevel = node.children!;
       }
-    }
+      return currentLevel;
+    };
 
     for (const entry of files) {
       if (entry.type !== 'file') continue;
+
+      const segments = entry.path.split('/');
+      const fileName = segments.pop()!;
+      
       const fileNode: FileTreeNode = {
-        label: entry.path.slice(entry.path.lastIndexOf('/') + 1),
+        label: fileName,
         path: entry.path,
         type: 'file',
       };
 
-      const parentPath = entry.path.includes('/')
-        ? entry.path.slice(0, entry.path.lastIndexOf('/'))
-        : null;
-      const parentNode = parentPath ? folderMap.get(parentPath) : null;
-
-      if (parentNode?.children) {
-        (parentNode.children as FileTreeNode[]).push(fileNode);
+      if (segments.length > 0) {
+        const parentChildren = getOrCreateFolder(segments);
+        parentChildren.push(fileNode);
       } else {
         rootChildren.push(fileNode);
       }

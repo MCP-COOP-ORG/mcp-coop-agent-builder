@@ -4,3 +4,4 @@ export * from './routes';
 export * from './setup-data';
 export * from './stack-data';
 export * from './review-editor';
+export * from './schema-categories';

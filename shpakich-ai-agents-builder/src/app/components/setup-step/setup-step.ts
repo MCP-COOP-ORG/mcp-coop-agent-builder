@@ -3,12 +3,12 @@ import { BUILDER_STEPS, STEP_IDS } from '@shared/constants';
 import { StepHeader } from '@shared/components';
 
 @Component({
-  selector: 'app-export-step',
+  selector: 'app-setup-step',
   imports: [StepHeader],
-  templateUrl: './export-step.html',
-  styleUrl: './export-step.scss',
+  templateUrl: './setup-step.html',
+  styleUrl: './setup-step.scss',
 })
-export class ExportStep {
+export class SetupStep {
   // Bind step-specific static data to the template
-  readonly view = BUILDER_STEPS.find(step => step.id === STEP_IDS.EXPORT)!;
+  readonly view = BUILDER_STEPS.find(step => step.id === STEP_IDS.SETUP)!;
 }

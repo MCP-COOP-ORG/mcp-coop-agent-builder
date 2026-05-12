@@ -5,4 +5,7 @@ export const BUILDER_DICTIONARY = {
     generate: 'Generate',
     download: 'Download',
   },
+  icons: {
+    downloadButton: '@tui.download',
+  },
 } as const;

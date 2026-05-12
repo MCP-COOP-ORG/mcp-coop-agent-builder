@@ -1,39 +1,36 @@
 export const STEP_IDS = {
-  PROJECT: 'project',
-  IDE: 'ide',
+  SETUP: 'setup',
   STACK: 'stack',
-  EXPORT: 'export'
+  REVIEW: 'review'
 } as const;
 
 export interface BuilderStep {
   id: string;
   label: string;
+  icon: string;
   title: string;
   description: string;
 }
 
 export const BUILDER_STEPS: BuilderStep[] = [
-  { 
-    id: STEP_IDS.PROJECT, 
-    label: 'Project',
-    title: 'Project Details',
-    description: 'Define the core parameters and business domain for your AI assistant.'
+  {
+    id: STEP_IDS.SETUP,
+    label: 'Setup',
+    icon: '@tui.settings',
+    title: 'Project Setup',
+    description: 'Select your target AI agent and define the core project parameters.'
   },
-  { 
-    id: STEP_IDS.IDE, 
-    label: 'IDE',
-    title: 'Target Environment',
-    description: 'Select the primary AI agent or IDE where this context will be utilized.'
-  },
-  { 
-    id: STEP_IDS.STACK, 
+  {
+    id: STEP_IDS.STACK,
     label: 'Stack',
+    icon: '@tui.layers',
     title: 'Technology Stack',
     description: 'Choose the frontend, backend, and database technologies used in your project.'
   },
-  { 
-    id: STEP_IDS.EXPORT, 
-    label: 'Export',
+  {
+    id: STEP_IDS.REVIEW,
+    label: 'Review',
+    icon: '@tui.file-check',
     title: 'Review & Export',
     description: 'Review your configuration and generate the final context archive.'
   }

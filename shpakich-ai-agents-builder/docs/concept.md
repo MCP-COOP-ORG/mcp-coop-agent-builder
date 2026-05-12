@@ -5,11 +5,9 @@ Default AI assistant rules (such as a standard `.cursorrules` file or a generic 
 
 ## The Solution
 A visual web-based **Builder** that allows developers to seamlessly generate a perfect, project-specific AI context file in a few clicks:
-1. **Target Selection**: Choose the specific AI assistant or IDE being used (Cursor, Windsurf, Copilot, Gemini).
-2. **Domain Definition**: Briefly describe the business logic and context of the project.
-3. **Tech Stack Configuration**: Select the precise technologies used (Frontend, Backend, Database).
-4. **Architecture & Standards**: Define the architectural patterns and clean code rules the AI must follow.
-5. **Generation**: Instantly generate and download a perfectly formatted, logically consistent context archive or prompt file.
+1. **Setup**: Choose the target AI assistant or IDE, and define the business domain and core parameters of the project.
+2. **Tech Stack**: Select the precise technologies used (Frontend, Backend, Database) with smart dependency validation.
+3. **Review & Export**: Review the full configuration and generate the final context archive for download.
 
 ## Key Features
 - **Smart Rules Engine**: A dependency-aware configuration graph. The engine ensures logical consistency—for example, if a developer selects Angular, it will restrict the selection of React-specific libraries; if NestJS is selected alongside Hexagonal Architecture, it automatically includes specific port/adapter rules for the AI.
@@ -21,7 +19,7 @@ To build this visual Builder correctly, we follow a strict sequential plan. Each
 
 ### 1. State Management (`Builder State`)
 - **Why:** The builder is a complex multi-step form. Instead of a monolithic object, we need isolated reactivity to avoid performance bottlenecks.
-- **Plan:** Implement the state using individual, granular Signals for each step (IDE, Project, Stack, Export) in `builder-state.ts`. This ensures only modified components re-render. No `localStorage` persistence is required initially.
+- **Plan:** Implement the state using individual, granular Signals for each step (Setup, Stack, Review) in `builder-state.ts`. This ensures only modified components re-render. No `localStorage` persistence is required initially.
 
 ### 2. Validation & Rules (`Rules Engine`)
 - **Why:** To enforce the "Smart Rules Engine" concept without hardcoding logic into components.
@@ -33,5 +31,5 @@ To build this visual Builder correctly, we follow a strict sequential plan. Each
 
 ### 4. Form Steps (`Step Implementations`) - 🔄 Current Focus
 - **Why:** Each step in the "Solution" workflow needs a dedicated, highly focused UI component.
-- **Plan:** Sequentially build out the UI for `project-step`, `ide-step`, `stack-step`, and `export-step`.
+- **Plan:** Sequentially build out the UI for `setup-step`, `stack-step`, and `review-step`. The Stepper uses Lucide icons via Taiga UI's `[icon]` input on `tuiStep`.
 - **Constraint:** Keep these components *extremely thin*. They should only bind to the granular Signals in `builder-state.ts`, trigger service methods, and strictly follow the View Model Pattern and Zero Literals Policy (see `architecture.md`).

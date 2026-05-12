@@ -10,11 +10,10 @@ export const routes: Routes = [
     path: APP_ROUTES.BUILDER_PATH,
     loadComponent: () => import('./pages/builder/builder').then(m => m.Builder),
     children: [
-      { path: '', redirectTo: STEP_IDS.PROJECT, pathMatch: 'full' },
-      { path: STEP_IDS.IDE, loadComponent: () => import('./components/ide-step/ide-step').then(m => m.IdeStep) },
-      { path: STEP_IDS.PROJECT, loadComponent: () => import('./components/project-step/project-step').then(m => m.ProjectStep) },
+      { path: '', redirectTo: STEP_IDS.SETUP, pathMatch: 'full' },
+      { path: STEP_IDS.SETUP, loadComponent: () => import('./components/setup-step/setup-step').then(m => m.SetupStep) },
       { path: STEP_IDS.STACK, loadComponent: () => import('./components/stack-step/stack-step').then(m => m.StackStep) },
-      { path: STEP_IDS.EXPORT, loadComponent: () => import('./components/export-step/export-step').then(m => m.ExportStep) }
+      { path: STEP_IDS.REVIEW, loadComponent: () => import('./components/review-step/review-step').then(m => m.ReviewStep) }
     ]
   },
   { path: '**', redirectTo: APP_ROUTES.WELCOME_PATH }

@@ -12,7 +12,7 @@
 The architecture explicitly avoids Feature-Sliced Design (FSD) to prevent over-engineering. We use a flat, role-based directory structure within `src/app/`:
 
 - `src/app/pages/`: Routable container components (`welcome`, `builder`). These act as the Smart components that tie routing to the layout.
-- `src/app/components/`: UI feature blocks representing the specific steps of the Builder (`ide-step`, `project-step`, `stack-step`, `export-step`). These are Dumb components that focus purely on rendering and user interaction.
+- `src/app/components/`: UI feature blocks representing the specific steps of the Builder (`setup-step`, `stack-step`, `review-step`). These are Dumb components that focus purely on rendering and user interaction.
 - `src/app/services/`: The core business logic layer.
   - `builder-state.service.ts`: Manages the state of the form. It uses highly granular Signals (individual signals for each step) to ensure that Angular only re-renders the specific UI components that change, avoiding expensive global re-renders.
   - `rules-engine.service.ts`: The dependency validation engine. It evaluates user selections against external configurations to filter out incompatible technologies.

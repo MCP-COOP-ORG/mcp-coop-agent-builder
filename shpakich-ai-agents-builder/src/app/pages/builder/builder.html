@@ -27,31 +27,32 @@
         (activeItemIndexChange)="onStepClick($event)"
       >
         @for (step of view.steps; track step.id) {
-          <button tuiStep>{{ step.label }}</button>
+          <button tuiStep [icon]="step.icon">{{ step.label }}</button>
         }
       </tui-stepper>
     </div>
     
     <div class="footer-right">
-      <!-- "Next" button is shown up to the 3rd step (Stack). -->
-      @if (activeStepIndex() < 3) {
+      <!-- On the last step (Review), show the Download button with an icon -->
+      @if (activeStepIndex() === view.steps.length - 1) {
+        <button 
+          tuiButton 
+          appearance="primary" 
+          size="m"
+          [iconEnd]="view.icons.downloadButton"
+          (click)="download()"
+        >
+          {{ view.buttons.download }}
+        </button>
+      } @else {
+        <!-- On the second-to-last step (Stack), show "Generate" instead of "Next" -->
         <button 
           tuiButton 
           appearance="primary" 
           size="m"
           (click)="nextStep()"
         >
-          {{ activeStepIndex() === 2 ? view.buttons.generate : view.buttons.next }}
-        </button>
-      } @else {
-        <!-- On the Export step, we show the final download button -->
-        <button 
-          tuiButton 
-          appearance="primary" 
-          size="m"
-          (click)="download()"
-        >
-          {{ view.buttons.download }}
+          {{ activeStepIndex() === view.steps.length - 2 ? view.buttons.generate : view.buttons.next }}
         </button>
       }
     </div>

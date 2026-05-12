@@ -29,7 +29,15 @@ To build this visual Builder correctly, we follow a strict sequential plan. Each
 - **Why:** The user needs a persistent, intuitive way to navigate the workflow without losing context.
 - **Plan:** Implement a globally pinned Stepper (using Taiga UI) at the bottom of the page, with dynamic "Forward" and "Back" routing. This shell serves as the container for the steps.
 
-### 4. Form Steps (`Step Implementations`) - 🔄 Current Focus
+### 4. Form Steps (`Step Implementations`) - ✅ Completed
 - **Why:** Each step in the "Solution" workflow needs a dedicated, highly focused UI component.
 - **Plan:** Sequentially build out the UI for `setup-step`, `stack-step`, and `review-step`. The Stepper uses Lucide icons via Taiga UI's `[icon]` input on `tuiStep`.
 - **Constraint:** Keep these components *extremely thin*. They should only bind to the granular Signals in `builder-state.ts`, trigger service methods, and strictly follow the View Model Pattern and Zero Literals Policy (see `architecture.md`).
+
+### 5. Advanced Template Interpolation - 🔄 Current Focus
+- **Why:** The basic string replacement in the generated context templates (e.g., `{{ projectName }}`) is too simple to support dynamic arrays, conditional tech-stack blocks, and nested architectural rules.
+- **Plan:** Upgrade the `TemplateInterpolator` to support advanced parsing (e.g., lightweight Handlebars implementation or AST parsing) so the AI templates can intelligently loop through `backend` and `frontend` arrays, outputting rich, context-aware `.agent` and `.cursorrules` files.
+
+### 6. CI/CD & Platform Integration
+- **Why:** To ensure the Builder remains stable and can be seamlessly consumed by the overarching Shpakich Platform.
+- **Plan:** Enforce the 85% Vitest threshold natively in GitHub Actions and integrate the Native Federation remote entry points with the host shell platform.

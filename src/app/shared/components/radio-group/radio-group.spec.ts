@@ -18,8 +18,10 @@ describe('RadioGroup', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create and execute default callbacks', () => {
     expect(component).toBeTruthy();
+    expect(() => component['onChange'](null)).not.toThrow();
+    expect(() => component['onTouched']()).not.toThrow();
   });
 
   it('should correctly set internal value via writeValue', () => {
@@ -29,9 +31,14 @@ describe('RadioGroup', () => {
 
   it('should emit the selected value on radio change', () => {
     let emittedValue: string | null = null;
+    let touched = false;
     component.registerOnChange((val) => { emittedValue = val; });
+    component.registerOnTouched(() => { touched = true; });
+    
     component.onRadioChange('option3');
+    
     expect(component.value).toBe('option3');
     expect(emittedValue).toBe('option3');
+    expect(touched).toBe(true);
   });
 });

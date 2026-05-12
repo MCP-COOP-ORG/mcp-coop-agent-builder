@@ -28,6 +28,7 @@ The architecture explicitly avoids Feature-Sliced Design (FSD) to prevent over-e
 - **Semantic Minimalism**: Prefer clean, generic structural tags (`<div>`) with BEM classes for isolated component blocks over forced semantic tags (`<header>`, `<main>`) that disrupt global document outlines.
 - **Barrels & Path Aliases**: All imports from core directories MUST go through barrel files (`index.ts`). Always use TypeScript path aliases (e.g., `@shared/constants`) instead of deep relative paths.
 - **View Model Pattern**: Do not pollute the component class with scattered variables for the template. Group all UI-bound static data into a single `readonly view = { ... }` object to maximize cohesion.
-- **Test-Driven**: Write unit tests (Vitest) immediately after major component refactoring to ensure regression safety.
+- **Test-Driven & Coverage Safety**: Write unit tests (Vitest) immediately after major component refactoring to ensure regression safety. A strict `85%` minimum coverage threshold (Lines, Branches, Functions, Statements) is enforced in the CI/CD and local build pipeline via `vitest.config.ts`. Commits dropping below this threshold will fail the build.
 - **English Comments**: Write all code comments strictly in English to adhere to international Enterprise standards.
 - **Client-Side Processing (CSR)**: The application relies heavily on browser APIs (Blob, JSZip, LocalStorage) and does not utilize Server-Side Rendering (SSR).
+- **Static Asset Management**: In modern Angular 18+ utilizing `@angular/build:application`, NEVER use the legacy `src/assets` folder. All static assets (templates, icons, dictionaries, mock data) MUST be placed inside the root `public/` directory to ensure proper serving and copying during federation builds.

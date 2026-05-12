@@ -5,6 +5,7 @@ import { TuiButton } from '@taiga-ui/core';
 import { TuiStep, TuiStepper } from '@taiga-ui/kit';
 import { filter, map, startWith } from 'rxjs';
 import { APP_ROUTES, BUILDER_DICTIONARY, BUILDER_STEPS } from '@shared/constants';
+import { ArchiveGenerator } from '@services';
 
 @Component({
   selector: 'app-builder',
@@ -15,6 +16,7 @@ import { APP_ROUTES, BUILDER_DICTIONARY, BUILDER_STEPS } from '@shared/constants
 export class Builder {
   // Injecting router via modern inject() function, abandoning constructors
   private readonly router = inject(Router);
+  private readonly archiveGenerator = inject(ArchiveGenerator);
 
   // All constants and UI texts gathered into a single object
   readonly view = {
@@ -64,8 +66,8 @@ export class Builder {
   }
 
   // Placeholder for downloading the context archive on the final Export step
-  download() {
+  async download() {
     console.log('Downloading context archive...');
-    // TODO: Implement client-side ZIP generation (e.g., via JSZip)
+    await this.archiveGenerator.downloadArchive();
   }
 }

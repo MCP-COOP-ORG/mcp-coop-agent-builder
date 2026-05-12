@@ -15,4 +15,7 @@ export const BUILDER_DICTIONARY = {
   icons: {
     downloadButton: '@tui.download',
   },
+  messages: {
+    reviewReady: 'The system is ready to bundle your AI configuration archive. Click "Download" to generate and save your ai-context.zip file.',
+  }
 } as const;

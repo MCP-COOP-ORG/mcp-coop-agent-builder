@@ -20,8 +20,8 @@ describe('ReviewStep', () => {
   });
 
   it('should have the correct step data bound to the view', () => {
-    expect(component.view.id).toBe('review');
-    expect(component.view.title).toBe('Review & Export');
-    expect(component.view.icon).toBe('@tui.file-check');
+    expect(component.view.step.id).toBe('review');
+    expect(component.view.step.title).toBe('Review & Export');
+    expect(component.view.step.icon).toBe('@tui.file-check');
   });
 });

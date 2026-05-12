@@ -18,6 +18,7 @@
     "paths": {
       "@shared/components": ["src/app/shared/components/index.ts"],
       "@shared/constants": ["src/app/shared/constants/index.ts"],
+      "@shared/schemas": ["src/app/shared/schemas/index.ts"],
       "@components": ["src/app/components/index.ts"],
       "@pages": ["src/app/pages/index.ts"],
       "@services": ["src/app/services/index.ts"]

@@ -41,4 +41,12 @@ describe('StackStep', () => {
     const formKeys = Object.keys(component.form.controls);
     expect(formKeys.sort()).toEqual(blockIds.sort());
   });
+
+  it('should sync form changes to BuilderState', () => {
+    // Modify form value
+    component.form.patchValue({ frontend: ['react'] });
+    // Verify signal state has been updated
+    const state = (component as any).builderState.stackData();
+    expect(state.frontend).toEqual(['react']);
+  });
 });

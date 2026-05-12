@@ -9,7 +9,7 @@ export const SETUP_BLOCKS: BuilderBlockConfig[] = [
     type: 'radio',
     options: [
       { id: 'antigravity', label: 'Antigravity' },
-      { id: 'clode-code', label: 'Clode Code' },
+      { id: 'claude', label: 'Claude' },
       { id: 'cursor', label: 'Cursor' },
     ],
     defaultOptionId: 'antigravity'

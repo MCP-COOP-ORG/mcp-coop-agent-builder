@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BUILDER_STEPS, STEP_IDS } from '@shared/constants';
+import { BUILDER_STEPS, STEP_IDS, BUILDER_DICTIONARY } from '@shared/constants';
 import { StepHeader } from '@shared/components';
 
 @Component({
@@ -10,5 +10,8 @@ import { StepHeader } from '@shared/components';
 })
 export class ReviewStep {
   // Bind step-specific static data to the template
-  readonly view = BUILDER_STEPS.find(step => step.id === STEP_IDS.REVIEW)!;
+  readonly view = {
+    step: BUILDER_STEPS.find(step => step.id === STEP_IDS.REVIEW)!,
+    dictionary: BUILDER_DICTIONARY
+  };
 }

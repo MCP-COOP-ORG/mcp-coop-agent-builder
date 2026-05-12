@@ -5,7 +5,15 @@ The Shpakich AI Agents Builder is in the early active development phase. The fou
 
 ## Development History
 
-### Commit `[pending]`: refactor: strictly configuration-driven UI, zero eslint disables, and comprehensive form tests
+### Commit `[PENDING]`: feat: enforce 85% vitest coverage, harden CVA tests, and fix asset routing for ZIP generator
+**Status:** Completed
+**Key Features Implemented:**
+- **Strict Vitest Coverage Enforcement**: Configured `vitest.config.ts` to strictly require >85% global coverage across Lines, Branches, Statements, and Functions. This rule physically blocks builds if untested UI logic is introduced.
+- **ControlValueAccessor (CVA) Hardening**: Wrote comprehensive unit tests for all custom form components (`textarea-field`, `checkbox-group`, `radio-group`). Covered blind spots related to the default callbacks in `registerOnChange` and `registerOnTouched`, achieving an overall coverage of ~94% Lines.
+- **Modern Angular Static Assets Routing**: Resolved a critical 404 bug affecting the `fflate` ZIP downloader. Moved the legacy `src/assets` folder to `public/assets` to comply with the modern Angular 18+ `@angular/build:application` structure, which only serves static files from the `public/` directory by default.
+- **Archive Generation Finalization**: Stabilized the Builder's final step. The `fflate` engine now successfully intercepts the Builder State, iterates over the `ARCHIVE_SCHEMA`, handles hidden directories (e.g., `.agent`, `.cursor`), injects template strings, and triggers the browser's native download API for the final context zip.
+
+### Commit `fe19c43`: refactor: strictly configuration-driven UI, zero eslint disables, and comprehensive form tests
 **Status:** Completed
 **Key Features Implemented:**
 - **Dynamic Configuration-Driven Forms**: Refactored `SetupStep` and `StackStep` to iterate over arrays (`SETUP_BLOCKS`, `STACK_BLOCKS`) and dynamically build `FormGroup` structures via `Array.reduce`. This ensures 100% UI layout universality, permitting arbitrary reshuffling of config arrays without modifying component TS logic.

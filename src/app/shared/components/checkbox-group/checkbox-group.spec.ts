@@ -18,8 +18,10 @@ describe('CheckboxGroup', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create and execute default callbacks', () => {
     expect(component).toBeTruthy();
+    expect(() => component['onChange']([])).not.toThrow();
+    expect(() => component['onTouched']()).not.toThrow();
   });
 
   it('should correctly map array of string values to object boolean map via writeValue', () => {
@@ -38,12 +40,15 @@ describe('CheckboxGroup', () => {
       { id: 'opt2', label: '2' }
     ]);
     let emittedValue: string[] = [];
+    let touched = false;
     component.registerOnChange((val) => { emittedValue = val; });
+    component.registerOnTouched(() => { touched = true; });
     
     // Simulate user checking opt1
     component.value = { opt1: true, opt2: false };
     component.onCheckboxChange();
     
     expect(emittedValue).toEqual(['opt1']);
+    expect(touched).toBe(true);
   });
 });

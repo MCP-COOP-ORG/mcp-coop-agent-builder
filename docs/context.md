@@ -5,7 +5,7 @@ The Shpakich AI Agents Builder is in the early active development phase. The fou
 
 ## Development History
 
-### Commit `TBD`: fix: perfect scroll-spy sidebar, strictly typed linters, and full session reset
+### Commit `1a01164`: fix: perfect scroll-spy sidebar, strictly typed linters, and full session reset
 **Status:** Completed
 **Key Features Implemented:**
 - **Scroll Sync & Anchor Navigation**: Rewrote the builder sidebar synchronization. Removed error-prone `window.scrollTo` in favor of native `element.scrollIntoView()` paired with CSS `scroll-margin-top`. Fixed a CSS Grid flaw (`align-items: start`) that previously collapsed the grid layout, restoring full `position: sticky` behavior to the Taiga UI sidebar.

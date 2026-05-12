@@ -21,7 +21,9 @@ export const BUILDER_DICTIONARY = {
     downloadButton: '@tui.download',
     resetButton: '@tui.trash',
   },
-  messages: {
-    reviewReady: 'The system is ready to bundle your AI configuration archive. Click "Download" to generate and save your ai-context.zip file.',
+  notifications: {
+    reviewReadyLabel: 'Archive ready',
+    reviewReadyMessage: 'Your AI context is configured. Click "Download" to save ai-context.zip.',
+    autoCloseMs: 3000,
   }
 } as const;

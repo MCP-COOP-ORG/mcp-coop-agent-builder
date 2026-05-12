@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideTaiga } from '@taiga-ui/core';
 import { ReviewStep } from './review-step';
 
 describe('ReviewStep', () => {
@@ -8,6 +9,7 @@ describe('ReviewStep', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ReviewStep],
+      providers: [provideTaiga()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ReviewStep);
@@ -23,5 +25,10 @@ describe('ReviewStep', () => {
     expect(component.view.step.id).toBe('review');
     expect(component.view.step.title).toBe('Review & Export');
     expect(component.view.step.icon).toBe('@tui.file-check');
+  });
+
+  it('should have notification strings defined in the view dictionary', () => {
+    expect(component.view.dictionary.notifications.reviewReadyLabel).toBeTruthy();
+    expect(component.view.dictionary.notifications.reviewReadyMessage).toBeTruthy();
   });
 });

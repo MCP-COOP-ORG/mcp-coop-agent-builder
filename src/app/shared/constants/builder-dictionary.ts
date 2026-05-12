@@ -5,12 +5,15 @@ export const BUILDER_DICTIONARY = {
     generate: 'Generate',
     download: 'Download',
     reset: 'Reset All',
+    getStarted: 'Get Started',
   },
   labels: {
     contents: 'Contents',
     projectIdentity: 'Project Identity',
     projectName: 'Project Name',
     businessDomains: 'Business Domains',
+    welcomeTitle: 'MCP COOP Agent Builder',
+    welcomeDescription: 'A visual wizard to configure and generate custom AI Agent rules and project contexts for your IDE.',
   },
   placeholders: {
     projectIdentity: 'Describe your project goal, key features, and core identity...',

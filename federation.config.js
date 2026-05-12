@@ -1,7 +1,7 @@
 const { withNativeFederation, shareAll } = require('@angular-architects/native-federation/config');
 
 module.exports = withNativeFederation({
-  name: 'shpakich-ai-agents-builder',
+  name: 'mcp-coop-agent-builder',
 
   exposes: {
     './Component': './src/app/app.ts',

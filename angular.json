@@ -8,7 +8,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "shpakich-ai-agents-builder": {
+    "mcp-coop-agent-builder": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -24,10 +24,10 @@
           "options": {},
           "configurations": {
             "production": {
-              "target": "shpakich-ai-agents-builder:esbuild:production"
+              "target": "mcp-coop-agent-builder:esbuild:production"
             },
             "development": {
-              "target": "shpakich-ai-agents-builder:esbuild:development",
+              "target": "mcp-coop-agent-builder:esbuild:development",
               "dev": true
             }
           },
@@ -36,7 +36,7 @@
         "serve": {
           "builder": "@angular-architects/native-federation:build",
           "options": {
-            "target": "shpakich-ai-agents-builder:serve-original:development",
+            "target": "mcp-coop-agent-builder:serve-original:development",
             "rebuildDelay": 500,
             "dev": true,
             "cacheExternalArtifacts": false,
@@ -101,10 +101,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "shpakich-ai-agents-builder:esbuild:production"
+              "buildTarget": "mcp-coop-agent-builder:esbuild:production"
             },
             "development": {
-              "buildTarget": "shpakich-ai-agents-builder:esbuild:development"
+              "buildTarget": "mcp-coop-agent-builder:esbuild:development"
             }
           },
           "defaultConfiguration": "development",

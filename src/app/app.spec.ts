@@ -41,6 +41,6 @@ describe('App', () => {
   it('should have the correct title signal', () => {
     const fixture = TestBed.createComponent(App);
     const app = fixture.componentInstance;
-    expect(app['title']()).toBe('shpakich-ai-agents-builder');
+    expect(app['title']()).toBe('mcp-coop-agent-builder');
   });
 });

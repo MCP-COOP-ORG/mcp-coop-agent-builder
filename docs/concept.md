@@ -1,4 +1,4 @@
-# Application Concept: Shpakich AI Agents Builder
+# Application Concept: MCP COOP Agent Builder
 
 ## The Problem
 Default AI assistant rules (such as a standard `.cursorrules` file or a generic system prompt for Gemini/Copilot) are too abstract. They lack specific context about the project's unique technology stack, architectural patterns (e.g., Hexagonal Architecture), and internal team coding conventions (e.g., a Zero Literals Policy). Because of this, developers waste significant time repeatedly correcting the AI and manually providing context in every chat session.
@@ -12,7 +12,7 @@ A visual web-based **Builder** that allows developers to seamlessly generate a p
 ## Key Features
 - **Smart Rules Engine**: A dependency-aware configuration graph. The engine ensures logical consistency—for example, if a developer selects Angular, it will restrict the selection of React-specific libraries; if NestJS is selected alongside Hexagonal Architecture, it automatically includes specific port/adapter rules for the AI.
 - **Client-Side Generation**: 100% frontend-driven. The application has no backend, ensuring maximum privacy and instant feedback. Archives and prompt files are generated entirely in the user's browser.
-- **Micro-Frontend Architecture**: Built from the ground up as a Native Federation Micro-Frontend (MFE), designed to be seamlessly embedded into the overarching Shpakich Platform ecosystem.
+- **Micro-Frontend Architecture**: Built from the ground up as a Native Federation Micro-Frontend (MFE), designed to be seamlessly embedded into the overarching MCP COOP Platform ecosystem.
 
 ## Development Roadmap & Strategy
 To build this visual Builder correctly, we follow a strict sequential plan. Each step is designed to enforce the architecture and clean code standards.
@@ -39,5 +39,5 @@ To build this visual Builder correctly, we follow a strict sequential plan. Each
 - **Plan:** Upgrade the `TemplateInterpolator` to support advanced parsing (e.g., lightweight Handlebars implementation or AST parsing) so the AI templates can intelligently loop through `backend` and `frontend` arrays, outputting rich, context-aware `.agent` and `.cursorrules` files.
 
 ### 6. CI/CD & Platform Integration
-- **Why:** To ensure the Builder remains stable and can be seamlessly consumed by the overarching Shpakich Platform.
+- **Why:** To ensure the Builder remains stable and can be seamlessly consumed by the overarching MCP COOP Platform.
 - **Plan:** Enforce the 85% Vitest threshold natively in GitHub Actions and integrate the Native Federation remote entry points with the host shell platform.

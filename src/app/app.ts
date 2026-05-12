@@ -9,5 +9,5 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.scss',
 })
 export class App {
-  protected readonly title = signal('shpakich-ai-agents-builder');
+  protected readonly title = signal('mcp-coop-agent-builder');
 }

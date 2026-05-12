@@ -25,7 +25,7 @@ describe('TemplateInterpolator', () => {
 
   it('should fetch template and interpolate variables correctly', async () => {
     const url = 'assets/test.md';
-    const mockContext = { projectName: 'Shpakich DAO', aiAgent: 'antigravity' };
+    const mockContext = { projectName: 'MCP COOP DAO', aiAgent: 'antigravity' };
     const mockResponse = '# {{ projectName }} using {{ aiAgent }}';
 
     // Call the service
@@ -42,7 +42,7 @@ describe('TemplateInterpolator', () => {
     const result = await promise;
 
     // Verify interpolation
-    expect(result).toBe('# Shpakich DAO using antigravity');
+    expect(result).toBe('# MCP COOP DAO using antigravity');
   });
 
   it('should leave unmatched variables intact', async () => {

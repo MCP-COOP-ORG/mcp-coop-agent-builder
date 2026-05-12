@@ -4,7 +4,7 @@ export default defineConfig({
   test: {
     coverage: {
       provider: 'v8',
-      reportsDirectory: 'coverage/shpakich-ai-agents-builder',
+      reportsDirectory: 'coverage/mcp-coop-agent-builder',
       reporter: ['text', 'html'],
       thresholds: {
         lines: 85,

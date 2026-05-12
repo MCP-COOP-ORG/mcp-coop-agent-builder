@@ -1,5 +1,5 @@
 {
-  "name": "shpakich-ai-agents-builder",
+  "name": "mcp-coop-agent-builder",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -9,10 +9,11 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "test:coverage": "ng test --coverage --watch=false; open coverage/shpakich-ai-agents-builder/index.html",
+    "test:coverage": "ng test --coverage --watch=false; open coverage/mcp-coop-agent-builder/index.html",
     "lint": "ng lint"
   },
   "private": true,
+  "license": "MIT",
   "packageManager": "npm@11.11.0",
   "dependencies": {
     "@angular-architects/native-federation": "^21.2.3",

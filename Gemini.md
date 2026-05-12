@@ -1,6 +1,6 @@
 # Gemini Agent System Rules & Context
 
-You are an expert AI assistant working on the **Shpakich AI Agents Builder** project.
+You are an expert AI assistant working on the **MCP COOP Agent Builder** project.
 
 ## Core Documentation Rules
 Do NOT guess architectural decisions or tech stack configurations. Instead, read the highly specific documentation in the `docs/` folder depending on your current task:

@@ -1,4 +1,4 @@
-# Shpakich AI Agents Builder 🤖🛠️
+# MCP COOP Agent Builder 🤖🛠️
 
 A modern, client-side web application designed to help developers visually construct, configure, and generate custom AI Agent rules and project contexts for various IDEs and AI Assistants (Cursor, Windsurf, GitHub Copilot, Antigravity, etc.).
 
@@ -18,26 +18,21 @@ This project is built using modern front-end standards (as of 2026):
 
 * **Framework:** [Angular 21+](https://angular.dev/) (Standalone Components, Signals, new Control Flow).
 * **UI Library:** [Taiga UI 5.x](https://taiga-ui.dev/) (Fast, modern, and highly modular).
-* **Micro-frontend (MFE):** Architected using **Native Federation**, allowing this wizard to be embedded as a widget into any host application or website.
-* **Testing:** Jest for unit tests.
+* **Micro-frontend (MFE):** Architected using **Native Federation**, allowing this wizard to be embedded as a widget into Любой хост-платформе.
+* **Testing:** [Vitest](https://vitest.dev/) (Ultra-fast unit testing with 85%+ coverage enforcement).
 * **Core Logic:** 
   * Completely serverless (Client-Side SPA).
-  * Uses `jszip` to construct the rule archives purely in the browser.
-  * **Rules Graph Engine:** Validates that selected technologies don't conflict (e.g., Vue + React) and composes rules based on a dependency graph.
+  * Uses `fflate` to construct the rule archives purely in the browser.
+  * **Rules Graph Engine:** Validates that selected technologies don't conflict and composes rules based on a dependency graph.
 
 ## 📂 Project Structure
 
 ```text
-src/
-├── app/
-│   ├── core/
-│   │   ├── rules-engine/      # Tech stack dependency graph, snippets, regex validators
-│   │   ├── archive-builder/   # Strategy pattern for generating IDE-specific folders
-│   │   └── state/             # Wizard Signals state & localStorage sync
-│   ├── features/
-│   │   └── wizard/            # Main wizard logic and routes (SOLID / SRP)
-│   │       ├── steps/         # Isolated step components
-│   ├── shared/                # Shared Taiga UI wrappers and models
+src/app/
+├── components/        # Step-specific UI blocks (setup, stack, review)
+├── pages/             # Routable container components
+├── services/          # Business logic, state management, and rules engine
+├── shared/            # Reusable constants, components, and models
 ```
 
 ## 🛠️ Getting Started
@@ -50,7 +45,7 @@ src/
 
 1. Clone the repository and navigate into the folder:
    ```bash
-   cd shpakich-ai-agents-builder
+   cd mcp-coop-agent-builder
    ```
 2. Install dependencies:
    ```bash
@@ -63,7 +58,7 @@ Run `npm start` (or `ng serve`) for a dev server. Navigate to `http://localhost:
 
 ### Testing
 
-Run `npm test` to execute the unit tests via Jest.
+Run `npm test` to execute the unit tests via Vitest.
 
 ## 🤝 Contribution
 *(TBD - Contribution guidelines for adding new AI agent templates and tech stack snippets).*

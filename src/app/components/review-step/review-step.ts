@@ -31,7 +31,7 @@ export interface FileTreeNode {
 export class ReviewStep {
   private readonly archiveGenerator = inject(ArchiveGenerator);
   private readonly notifications = inject(TuiNotificationService);
-  readonly codeEditor = viewChild('codeEditor', { read: CodeEditor });
+  private readonly codeEditor = viewChild('codeEditor', { read: CodeEditor });
 
   readonly view = {
     step: BUILDER_STEPS.find((step) => step.id === STEP_IDS.REVIEW)!,

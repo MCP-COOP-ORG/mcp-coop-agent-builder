@@ -1,12 +1,20 @@
 # Current Project Context & History
 
 ## General Context
-The Shpakich AI Agents Builder is in the early active development phase. The foundational architecture (Native Federation, Angular 21, Taiga UI) is set up. The core layout and routing for the Builder feature are complete. The builder uses a 3-step workflow (Setup, Stack, Review) with Lucide icons on the TuiStepper. We are currently focusing on implementing the individual form steps strictly adhering to the established Zero Literals and View Model patterns.
+The MCP COOP Agent Builder is in the early active development phase. The foundational architecture (Native Federation, Angular 21, Taiga UI) is set up. The core layout and routing for the Builder feature are complete. The builder uses a 3-step workflow (Setup, Stack, Review) with Lucide icons on the TuiStepper. We are currently focusing on implementing the individual form steps strictly adhering to the established Zero Literals and View Model patterns.
 
 ## Development History
 
-### Commit `XXXXXXX`: feat: implement IDE Review Step, CodeMirror 6 integration, and 85%+ coverage
-**Status:** Pending
+### Commit TBD: refactor: rebrand project to MCP COOP Agent Builder and enforce Zero Literals
+**Status:** Completed
+**Key Features Implemented:**
+- **Project Rebranding**: Renamed the application from 'shpakich-ai-agents-builder' to 'mcp-coop-agent-builder'. Updated technical identifiers in `package.json`, `angular.json`, `federation.config.js`, and `vitest.config.ts`.
+- **Documentation Sync**: Updated human-readable titles and project references across all documentation files (`README.md`, `Gemini.md`, `docs/concept.md`, `docs/context.md`) to reflect the new MCP COOP Agent Builder brand.
+- **Architectural Consistency**: Addressed a minor Zero Literals violation on the welcome page by ensuring text is strictly managed via `BUILDER_DICTIONARY`.
+- **Codebase Alignment**: Performed comprehensive search-and-replace across source code (`src/app/`, `src/index.html`) to ensure the new name is consistently applied throughout the build pipeline and component layers.
+
+### Commit `6f165d8`: feat: implement IDE Review Step, CodeMirror 6 integration, and 85%+ coverage
+**Status:** Completed
 **Key Features Implemented:**
 - **Advanced IDE Review Interface**: Implemented a professional, VS Code-inspired IDE layout for the Review step. Integrated **CodeMirror 6** for syntax-highlighted editing and a **Taiga UI nested tree** for file browsing.
 - **Robust State & Change Tracking**: Implemented a reactive `isDirty` flag and localized state management using Angular Signals. Edits are synchronized with the `ArchiveGenerator.previewFiles` signal, ensuring the final exported ZIP reflects user modifications.

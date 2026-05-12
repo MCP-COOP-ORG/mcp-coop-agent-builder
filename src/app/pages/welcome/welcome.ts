@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TuiButton } from '@taiga-ui/core';
+import { BUILDER_DICTIONARY } from '@shared/constants';
 
 @Component({
   selector: 'app-welcome',
@@ -8,4 +9,9 @@ import { TuiButton } from '@taiga-ui/core';
   templateUrl: './welcome.html',
   styleUrl: './welcome.scss',
 })
-export class Welcome {}
+export class Welcome {
+  readonly view = {
+    labels: BUILDER_DICTIONARY.labels,
+    buttons: BUILDER_DICTIONARY.buttons,
+  } as const;
+}

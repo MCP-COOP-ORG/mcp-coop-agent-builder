@@ -1,0 +1,7 @@
+{
+  "description": {
+    "claude": "Standard React Native prompt for Claude",
+    "cursor": "Standard React Native prompt for Cursor",
+    "antigravity": "Standard React Native prompt for Antigravity"
+  }
+}

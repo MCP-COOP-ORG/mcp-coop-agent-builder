@@ -2,6 +2,7 @@ const { withNativeFederation, shareAll } = require('@angular-architects/native-f
 
 module.exports = withNativeFederation({
   name: 'mcp-coop-agent-builder',
+  version: `0.0.0-build-${Date.now()}`,
 
   exposes: {
     './Component': './src/app/app.ts',

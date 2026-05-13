@@ -1,0 +1,7 @@
+{
+  "description": {
+    "claude": "Standard MongoDB prompt for Claude",
+    "cursor": "Standard MongoDB prompt for Cursor",
+    "antigravity": "Standard MongoDB prompt for Antigravity"
+  }
+}

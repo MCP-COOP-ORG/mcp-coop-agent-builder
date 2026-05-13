@@ -1,0 +1,7 @@
+{
+  "description": {
+    "claude": "Standard GitHub Actions prompt for Claude",
+    "cursor": "Standard GitHub Actions prompt for Cursor",
+    "antigravity": "Standard GitHub Actions prompt for Antigravity"
+  }
+}

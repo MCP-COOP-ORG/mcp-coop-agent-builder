@@ -1,0 +1,7 @@
+{
+  "description": {
+    "claude": "Standard Jest Testing prompt for Claude",
+    "cursor": "Standard Jest Testing prompt for Cursor",
+    "antigravity": "Standard Jest Testing prompt for Antigravity"
+  }
+}

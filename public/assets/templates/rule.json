@@ -1,5 +1,0 @@
-{
-  "claude": "---\ntrigger: {{ trigger }}\ndescription: {{ description }}\n---\n\n{{ content }}",
-  "cursor": "---\ndescription: {{ description }}\nglobs: {{ globs }}\n---\n\n{{ content }}",
-  "antigravity": "---\ntrigger: {{ trigger }}\ndescription: {{ description }}\n---\n\n{{ content }}"
-}

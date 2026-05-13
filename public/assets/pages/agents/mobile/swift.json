@@ -1,0 +1,7 @@
+{
+  "description": {
+    "claude": "Standard Swift / iOS prompt for Claude",
+    "cursor": "Standard Swift / iOS prompt for Cursor",
+    "antigravity": "Standard Swift / iOS prompt for Antigravity"
+  }
+}

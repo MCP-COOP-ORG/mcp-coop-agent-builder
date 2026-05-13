@@ -1,0 +1,7 @@
+{
+  "description": {
+    "claude": "Standard Flutter prompt for Claude",
+    "cursor": "Standard Flutter prompt for Cursor",
+    "antigravity": "Standard Flutter prompt for Antigravity"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "description": {
+    "claude": "Follow the standard Gitflow branching model. Maintain separate `main` and `develop` branches. Create feature branches from `develop`, prefixing them with `feature/`. Use release and hotfix branches as needed.",
+    "cursor": "Follow the standard Gitflow branching model. Maintain separate `main` and `develop` branches. Create feature branches from `develop`, prefixing them with `feature/`. Use release and hotfix branches as needed.",
+    "antigravity": "Follow the standard Gitflow branching model. Maintain separate `main` and `develop` branches. Create feature branches from `develop`, prefixing them with `feature/`. Use release and hotfix branches as needed."
+  }
+}

@@ -66,7 +66,7 @@ describe('BuilderState', () => {
 
   it('should handle JSON parse error gracefully', () => {
     sessionStorage.setItem('builderState', '{bad json}');
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
     
     service = TestBed.inject(BuilderState);
     

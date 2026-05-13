@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { BUILDER_STEPS, STEP_IDS, AGENTS_BLOCKS } from '@shared/constants';
+import { GENERATED_PAGES_CONFIG } from '@shared/configs';
+import { ConfigCategory } from '@shared/models';
 import { StepLayout, RadioGroup, CheckboxGroup, TextareaField, BaseFormStep } from '@shared/components';
 
 /**
@@ -15,15 +16,17 @@ import { StepLayout, RadioGroup, CheckboxGroup, TextareaField, BaseFormStep } fr
 })
 export class AgentsStep extends BaseFormStep {
   /**
-   * View Model containing all static template-bound data to avoid polluting the component class.
-   * Adheres to the Zero Literals Policy by sourcing data from constants.
+   * View Model containing all data from the generated file-system based configuration.
    */
   readonly view = {
-    step: BUILDER_STEPS.find(step => step.id === STEP_IDS.AGENTS)!,
-    blocksArray: AGENTS_BLOCKS
+    step: GENERATED_PAGES_CONFIG['agents'],
+    blocksArray: GENERATED_PAGES_CONFIG['agents'].categories.map((cat: ConfigCategory) => ({
+      ...cat,
+      options: cat.items
+    }))
   };
 
-  protected get stateSignal() {
+  protected override get stateSignal() {
     return this.builderState.agentsData;
   }
 }

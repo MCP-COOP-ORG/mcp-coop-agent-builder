@@ -2,8 +2,5 @@ export * from './builder-dictionary';
 export * from './builder-steps';
 export * from './routes';
 export * from './description-data';
-export * from './agents-data';
-export * from './rules-data';
-export * from './workflows-data';
 export * from './review-editor';
 export * from './schema-categories';

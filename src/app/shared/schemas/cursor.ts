@@ -1,6 +1,6 @@
 import { ArchivePattern } from '../models';
 import { SKILL_CATEGORIES, RULE_CATEGORIES, WORKFLOW_CATEGORIES } from '../constants';
-import { MAIN } from './templates';
+import { MAIN } from '@shared/configs';
 
 export const CURSOR: ArchivePattern[] = [
   {

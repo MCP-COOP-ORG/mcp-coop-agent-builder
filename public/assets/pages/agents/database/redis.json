@@ -1,0 +1,7 @@
+{
+  "description": {
+    "claude": "Standard Redis prompt for Claude",
+    "cursor": "Standard Redis prompt for Cursor",
+    "antigravity": "Standard Redis prompt for Antigravity"
+  }
+}

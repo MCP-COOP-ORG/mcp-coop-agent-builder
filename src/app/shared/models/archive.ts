@@ -1,7 +1,8 @@
 export interface StaticFilePattern {
   type: 'static';
   path: string; // e.g., 'GEMINI.md'
-  url: string;  // Asset path to download the file from
+  url?: string;  // Asset path to download the file from
+  platformMain?: boolean;
 }
 
 // Iterates over the specified state keys (e.g., ['frontend', 'backend'])

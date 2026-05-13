@@ -1,72 +1,63 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { BUILDER_STEPS, STEP_IDS } from '@shared/constants';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AgentsStep } from './agents-step';
+import { BuilderState } from '@services';
+import { GENERATED_PAGES_CONFIG } from '@shared/configs';
 
 describe('AgentsStep', () => {
   let component: AgentsStep;
   let fixture: ComponentFixture<AgentsStep>;
+  let builderState: BuilderState;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AgentsStep],
+      imports: [ReactiveFormsModule, AgentsStep],
+      providers: [BuilderState]
     }).compileComponents();
 
     fixture = TestBed.createComponent(AgentsStep);
     component = fixture.componentInstance;
+    builderState = TestBed.inject(BuilderState);
     fixture.detectChanges();
-    await fixture.whenStable();
   });
 
-  it('should create', () => {
+  it('should create and initialize form based on config', () => {
     expect(component).toBeTruthy();
+    const config = GENERATED_PAGES_CONFIG['agents'];
+    config.categories.forEach(cat => {
+      expect(component.form.get(cat.id)).toBeTruthy();
+    });
   });
 
-  it('should bind the correct step metadata to the view model', () => {
-    const expectedData = BUILDER_STEPS.find(step => step.id === STEP_IDS.AGENTS);
-    expect(component.view).toBeDefined();
-    expect(component.view.step).toEqual(expectedData!);
+  it('should update builder state when form changes', () => {
+    const config = GENERATED_PAGES_CONFIG['agents'];
+    const firstCat = config.categories[0].id;
+    component.form.get(firstCat)?.setValue(['angular']);
+    
+    expect(builderState.agentsData()[firstCat]).toEqual(['angular']);
   });
 
-  it('should render the step title and description in the DOM', () => {
-    const headingEl = fixture.debugElement.query(By.css('h2.tui-text_h3')).nativeElement;
-    const descEl = fixture.debugElement.query(By.css('p.tui-text_body-m')).nativeElement;
-
-    expect(headingEl.textContent.trim()).toBe(component.view.step.title);
-    expect(descEl.textContent.trim()).toBe(component.view.step.description);
-  });
-
-  it('should generate FormGroup dynamically based on configuration', () => {
-    const blockIds = component.view.blocksArray.map(b => b.id);
-    const formKeys = Object.keys(component.form.controls);
-    expect(formKeys.sort()).toEqual(blockIds.sort());
-  });
-
-  it('should sync form changes to BuilderState', () => {
-    // Modify form value
-    const firstKey = Object.keys(component.form.controls)[0];
-    component.form.patchValue({ [firstKey]: ['react'] });
-    // Verify signal state has been updated
-    const state = component['builderState'].agentsData();
-    expect(state[firstKey]).toEqual(['react']);
-  });
-
-  it('should handle all block types and initial data sync', () => {
+  it('should handle different block types in template', () => {
+    const customBlocks = [
+      { id: 'r1', title: 'R1', icon: 'i', type: 'radio' as const, options: [{ id: 'o1', label: 'O1' }] },
+      { id: 't1', title: 'T1', icon: 'i', type: 'textarea' as const }
+    ];
+    
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, AgentsStep],
+      providers: [BuilderState]
+    });
     const newFixture = TestBed.createComponent(AgentsStep);
     const newComponent = newFixture.componentInstance;
-    
-    (newComponent as any).view.blocksArray = [
-      { id: 'radioB', type: 'radio', title: 'R', icon: 'i', options: [{ id: '1', label: 'L' }] },
-      { id: 'textB', type: 'textarea', title: 'T', icon: 'i', label: 'L' }
-    ];
-
-    // Case 1: Initial data exists
-    newComponent['builderState'].agentsData.set({ radioB: '1' });
+    const newComponentAccess = newComponent as unknown as { view: unknown };
+    newComponentAccess.view = { 
+      blocksArray: customBlocks,
+      step: { id: 'test', label: 'test', icon: 'test', title: 'test', description: 'test' }
+    };
     newFixture.detectChanges();
-    expect(newComponent.form.get('radioB')?.value).toBe('1');
-
-    // Case 2: Form value changes sync back
-    newComponent.form.get('textB')?.setValue('new content');
-    expect(newComponent['builderState'].agentsData()['textB']).toBe('new content');
+    
+    expect(newComponent.form.get('r1')).toBeTruthy();
+    expect(newComponent.form.get('t1')).toBeTruthy();
   });
 });

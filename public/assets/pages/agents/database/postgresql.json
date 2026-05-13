@@ -1,0 +1,7 @@
+{
+  "description": {
+    "claude": "Standard PostgreSQL prompt for Claude",
+    "cursor": "Standard PostgreSQL prompt for Cursor",
+    "antigravity": "Standard PostgreSQL prompt for Antigravity"
+  }
+}

@@ -1,3 +1,5 @@
+import { GENERATED_PAGES_CONFIG } from '../configs/generated-pages-config';
+
 export const STEP_IDS = {
   DESCRIPTION: 'description',
   AGENTS: 'agents',
@@ -7,7 +9,6 @@ export const STEP_IDS = {
 } as const;
 
 export type FieldLayout = 'full' | 'half' | 'third';
-
 export type FieldType = 'radio' | 'checkbox' | 'textarea' | 'input' | 'multi-select' | 'composite';
 
 export interface BuilderFieldConfig {
@@ -48,27 +49,9 @@ export const BUILDER_STEPS: BuilderStep[] = [
     title: 'Project Description',
     description: 'Define the core project parameters and identity.'
   },
-  {
-    id: STEP_IDS.AGENTS,
-    label: 'Agents',
-    icon: '@tui.bot',
-    title: 'Agents Configuration',
-    description: 'Select skills, technologies, and tooling for your AI agents.'
-  },
-  {
-    id: STEP_IDS.RULES,
-    label: 'Rules',
-    icon: '@tui.shield-check',
-    title: 'Project Rules',
-    description: 'Configure standard engineering rules and constraints.'
-  },
-  {
-    id: STEP_IDS.WORKFLOWS,
-    label: 'Workflows',
-    icon: '@tui.git-merge',
-    title: 'Workflows',
-    description: 'Select standard operational workflows for your team.'
-  },
+  GENERATED_PAGES_CONFIG['agents'],
+  GENERATED_PAGES_CONFIG['rules'],
+  GENERATED_PAGES_CONFIG['workflows'],
   {
     id: STEP_IDS.REVIEW,
     label: 'Review',

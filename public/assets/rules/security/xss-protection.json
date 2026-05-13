@@ -1,3 +1,0 @@
-{
-  "content": "All user-generated content must be properly sanitized. Do not use `innerHTML` directly. Rely on Angular's built-in DomSanitizer and security context mechanisms to prevent Cross-Site Scripting (XSS)."
-}

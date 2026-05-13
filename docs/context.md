@@ -5,6 +5,26 @@ The MCP COOP Agent Builder is in the early active development phase. The foundat
 
 ## Development History
 
+### Commit TBD: refactor: implement unified file-system driven agent configuration system
+**Status:** Completed
+**Key Features Implemented:**
+- **Unified Platform Configuration**: Consolidated `MAIN` instructions and `TEMPLATES` into environment-aware JSON assets in `public/assets/platforms/`.
+- **Generator Automation**: Updated `generate-pages-config.ts` to perform a recursive crawl of both `public/assets/pages/` and `public/assets/platforms/`, building a type-safe `GENERATED_PAGES_CONFIG`.
+- **Legacy Schema Preservation**: Reverted all schema files (`antigravity.ts`, `claude.ts`, `cursor.ts`) to their original structure for backward compatibility, importing required configuration constants directly from `@shared/configs`.
+- **Architectural Cleanup**: Removed `templates.ts` and `schema-map.ts` in favor of direct imports and streamlined logic, successfully eliminating linting errors and improving type safety.
+- **Strict Quality Assurance**: Achieved 100% passing tests (113/113) and resolved all "any" and linting violations in the test suite.
+
+### Commit TBD: refactor: implement file-system based configuration generator for UI pages
+**Status:** Completed
+**Key Features Implemented:**
+- **Automated Config Generator**: Created `scripts/generate-pages-config.ts` that crawls `public/assets/pages/` to build a type-safe UI configuration tree.
+- **Directory-Driven UI**: Eliminated hardcoded constants in favor of a file-system structure where adding a JSON file automatically adds a UI option.
+- **Metadata Support**: Implemented `_meta.json` at page and category levels to define UI titles, icons, and input types (checkbox/radio).
+- **Multi-Agent Asset Support**: Migrated assets to a new structure supporting multi-agent prompts (`claude`, `cursor`, `antigravity`) within a single JSON file.
+- **Barrel Architecture**: Configured a dedicated `@shared/configs` barrel to allow for clean separation between generated and manual configuration files.
+- **Archive Generator Update**: Refactored `ArchiveGenerator` to fetch agent-specific prompts from the new JSON structure dynamically based on the selected AI environment.
+- **Zero Literals Compliance**: Integrated the generated config directly into `BUILDER_STEPS`, ensuring the entire builder remains strictly configuration-driven.
+
 ### Commit TBD: test: stabilize builder component tests and achieve 85%+ branch coverage
 **Status:** Completed
 **Key Features Implemented:**

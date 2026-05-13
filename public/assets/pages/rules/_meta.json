@@ -1,0 +1,6 @@
+{
+  "label": "Rules",
+  "icon": "@tui.shield-check",
+  "title": "Project Rules",
+  "description": "Configure standard engineering rules and constraints."
+}

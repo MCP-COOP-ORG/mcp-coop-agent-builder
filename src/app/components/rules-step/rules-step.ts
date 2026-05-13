@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { BUILDER_STEPS, STEP_IDS, RULES_BLOCKS } from '@shared/constants';
+import { GENERATED_PAGES_CONFIG } from '@shared/configs';
+import { ConfigCategory } from '@shared/models';
 import { StepLayout, RadioGroup, CheckboxGroup, TextareaField, BaseFormStep } from '@shared/components';
 
 @Component({
@@ -12,11 +13,14 @@ import { StepLayout, RadioGroup, CheckboxGroup, TextareaField, BaseFormStep } fr
 })
 export class RulesStep extends BaseFormStep {
   readonly view = {
-    step: BUILDER_STEPS.find(step => step.id === STEP_IDS.RULES)!,
-    blocksArray: RULES_BLOCKS
+    step: GENERATED_PAGES_CONFIG['rules'],
+    blocksArray: GENERATED_PAGES_CONFIG['rules'].categories.map((cat: ConfigCategory) => ({
+      ...cat,
+      options: cat.items
+    }))
   };
 
-  protected get stateSignal() {
+  protected override get stateSignal() {
     return this.builderState.rulesData;
   }
 }

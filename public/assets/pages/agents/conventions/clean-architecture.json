@@ -1,0 +1,7 @@
+{
+  "description": {
+    "claude": "Standard Clean Architecture prompt for Claude",
+    "cursor": "Standard Clean Architecture prompt for Cursor",
+    "antigravity": "Standard Clean Architecture prompt for Antigravity"
+  }
+}

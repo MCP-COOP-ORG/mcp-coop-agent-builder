@@ -1,13 +1,13 @@
-import { Directive, inject, OnDestroy, OnInit, WritableSignal } from '@angular/core';
+import { Directive, inject, OnInit, WritableSignal, DestroyRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BuilderState } from '@services';
 import { BuilderBlockConfig } from '@shared/constants';
-import { Subject, takeUntil } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Directive()
-export abstract class BaseFormStep implements OnInit, OnDestroy {
+export abstract class BaseFormStep implements OnInit {
   protected readonly builderState = inject(BuilderState);
-  protected readonly destroy$ = new Subject<void>();
+  protected readonly destroyRef = inject(DestroyRef);
 
   abstract readonly view: { blocksArray: BuilderBlockConfig[]; [key: string]: unknown };
   
@@ -43,13 +43,8 @@ export abstract class BaseFormStep implements OnInit, OnDestroy {
       this.stateSignal.set(this.form.getRawValue() as Record<string, unknown>);
     }
 
-    this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+    this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.stateSignal.set(this.form.getRawValue() as Record<string, unknown>);
     });
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

@@ -5,6 +5,21 @@ The MCP COOP Agent Builder is in the early active development phase. The foundat
 
 ## Development History
 
+### Commit TBD: refactor: modernize RxJS, enforce OnPush, decompose ArchiveGenerator, and extract shared utilities
+**Status:** Completed
+**Key Features Implemented:**
+- **Performance Optimization (Phase 1)**: Integrated `ChangeDetectionStrategy.OnPush` across core UI components (`Welcome`, `Builder`, `BuilderBlock`, `StepHeader`) to improve rendering performance and conform to modern Angular standards.
+- **RxJS and Dependency Cleanup (Phase 2)**: Replaced legacy `Subject` and `ngOnDestroy` logic with `takeUntilDestroyed(destroyRef)` in `BaseFormStep`. Removed the `HttpClient` dependency from `TemplateInterpolator` and migrated completely to the native `fetch()` API. Upgraded tests to use Vitest `globalThis.fetch` mocks natively.
+- **DOM Boilerplate Elimination (Phase 3)**: Eliminated redundant HTML wrapper `div`s (e.g. `.welcome`, `.step-content`) in `welcome` and `step-header` components, cleanly migrating layout constraints and structural styling to the `:host` selector for true encapsulation.
+- **SRP Architectural Breakdown (Phase 4)**: Decomposed the monolithic `ArchiveGenerator.generatePreview()` method into tightly-focused, strictly typed (`PlatformConfig`, `StaticFilePattern`, `DynamicCategoryPattern`, `DynamicItemPattern`) private helper methods (`generateStaticFile`, `generateDynamicCategory`, `generateDynamicItem`). Achieved 100% test passing while retaining strict types (`any` free) and zero `eslint-disable` directives.
+- **Utility Extraction & Cleanup**: Extracted repetitive logic (`buildFileTree`, `triggerDownload`) into the `@shared/utils` barrel to eliminate "God files" and strictly adhere to DRY. Deleted the unused `RulesEngine` service and updated the documentation context to match the modern architecture.
+
+### Commit TBD: feat: add PHP backend agent configuration
+**Status:** Completed
+**Key Features Implemented:**
+- **PHP Agent Asset**: Added `php.json` to `public/assets/pages/agents/backend/`.
+- **Config Synchronization**: Re-generated `GENERATED_PAGES_CONFIG` to include the new PHP option in the "Server-Side Ecosystem" category.
+
 ### Commit TBD: refactor: implement unified file-system driven agent configuration system
 **Status:** Completed
 **Key Features Implemented:**

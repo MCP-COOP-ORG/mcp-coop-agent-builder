@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { TuiButton } from '@taiga-ui/core';
@@ -12,6 +12,7 @@ import { ArchiveGenerator, BuilderState } from '@services';
   imports: [RouterOutlet, TuiStepper, TuiStep, TuiButton],
   templateUrl: './builder.html',
   styleUrl: './builder.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Builder {
   // Injecting router via modern inject() function, abandoning constructors

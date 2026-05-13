@@ -84,6 +84,11 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
             "filePath": "assets/pages/agents/backend/nestjs.json"
           },
           {
+            "id": "php",
+            "label": "Php",
+            "filePath": "assets/pages/agents/backend/php.json"
+          },
+          {
             "id": "spring-boot",
             "label": "Spring Boot",
             "filePath": "assets/pages/agents/backend/spring-boot.json"
@@ -342,6 +347,7 @@ export const GENERATED_PLATFORMS_CONFIG: Record<string, PlatformConfig> = {
 export const ASSET_FILE_PATHS: Record<string, string> = {
   "express": "assets/pages/agents/backend/express.json",
   "nestjs": "assets/pages/agents/backend/nestjs.json",
+  "php": "assets/pages/agents/backend/php.json",
   "spring-boot": "assets/pages/agents/backend/spring-boot.json",
   "clean-architecture": "assets/pages/agents/conventions/clean-architecture.json",
   "solid": "assets/pages/agents/conventions/solid.json",

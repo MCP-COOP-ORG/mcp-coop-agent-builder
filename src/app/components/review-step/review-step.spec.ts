@@ -6,12 +6,14 @@ import { GeneratedFile } from '@shared/constants';
 import { ArchiveGenerator } from '../../services/archive-generator';
 import { BuilderState } from '../../services/builder-state';
 import { ReviewStep } from './review-step';
+import { buildFileTree } from '@shared/utils';
+import { BUILDER_DICTIONARY } from '@shared/constants';
 
 interface ReviewStepPrivate {
-  loadPreview: () => Promise<void>;
+  loadPreview(): Promise<void>;
   archiveGenerator: ArchiveGenerator;
-  activeFilePath: { set: (v: string | null) => void };
-  codeEditor: () => { undoEdit: () => void; redoEdit: () => void } | undefined;
+  activeFilePath: { set(v: string | null): void };
+  codeEditor(): { undoEdit(): void; redoEdit(): void } | undefined;
 }
 
 describe('ReviewStep', () => {
@@ -122,7 +124,7 @@ describe('ReviewStep', () => {
       { path: 'src', content: '', type: 'folder' },
       { path: 'src/app.ts', content: '...', type: 'file' }
     ];
-    const tree = component['buildTree'](files);
+    const tree = buildFileTree(files, BUILDER_DICTIONARY.review.sidebarTitle);
     expect(tree.children?.length).toBe(1);
     expect(tree.children?.[0].label).toBe('src');
     expect(tree.children?.[0].children?.[0].label).toBe('app.ts');
@@ -169,7 +171,7 @@ describe('ReviewStep', () => {
   });
 
   it('should handle buildTree with no files', () => {
-    const tree = component['buildTree']([]);
+    const tree = buildFileTree([], BUILDER_DICTIONARY.review.sidebarTitle);
     expect(tree.children?.length).toBe(0);
   });
 
@@ -178,7 +180,7 @@ describe('ReviewStep', () => {
       { path: 'file1.ts', content: '...', type: 'file' },
       { path: 'file2.ts', content: '...', type: 'file' }
     ];
-    const tree = component['buildTree'](files);
+    const tree = buildFileTree(files, BUILDER_DICTIONARY.review.sidebarTitle);
     expect(tree.children?.length).toBe(2);
     expect(tree.children?.[0].label).toBe('file1.ts');
   });
@@ -188,7 +190,7 @@ describe('ReviewStep', () => {
       { path: 'src', content: '', type: 'folder' },
       { path: 'src/app.ts', content: '...', type: 'file' }
     ];
-    const tree = component['buildTree'](files);
+    const tree = buildFileTree(files, BUILDER_DICTIONARY.review.sidebarTitle);
     expect(tree.children?.length).toBe(1);
     expect(tree.children?.[0].label).toBe('src');
     expect(tree.children?.[0].children?.[0].label).toBe('app.ts');

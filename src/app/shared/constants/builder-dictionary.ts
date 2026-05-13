@@ -50,4 +50,7 @@ export const BUILDER_DICTIONARY = {
     undoButton: 'Undo',
     redoButton: 'Redo',
   },
+  assets: {
+    hero: 'ai-builder-hero-2.png',
+  },
 } as const;

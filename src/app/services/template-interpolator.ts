@@ -1,6 +1,4 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
+import { Injectable } from '@angular/core';
 
 /**
  * Service responsible for fetching templates and replacing variables.
@@ -10,15 +8,17 @@ import { firstValueFrom } from 'rxjs';
   providedIn: 'root'
 })
 export class TemplateInterpolator {
-  private readonly http = inject(HttpClient);
-
   /**
    * Fetches a raw string or JSON from a URL.
    * If it's a JSON file, it will return the parsed object.
    */
   async fetchJson<T = unknown>(url: string): Promise<T | null> {
     try {
-      return await firstValueFrom(this.http.get<T>(url, { responseType: 'json' }));
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return await response.json() as T;
     } catch (error) {
       console.error(`Failed to fetch JSON template at ${url}`, error);
       return null;

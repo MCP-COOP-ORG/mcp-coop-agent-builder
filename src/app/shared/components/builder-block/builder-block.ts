@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TuiIcon } from '@taiga-ui/core';
 import { TuiCardLarge } from '@taiga-ui/layout';
 
@@ -7,6 +7,7 @@ import { TuiCardLarge } from '@taiga-ui/layout';
   imports: [TuiIcon, TuiCardLarge],
   templateUrl: './builder-block.html',
   styleUrl: './builder-block.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BuilderBlock {
   title = input.required<string>();

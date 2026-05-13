@@ -1,46 +1,32 @@
 import { TestBed } from '@angular/core/testing';
-import { provideHttpClient } from '@angular/common/http';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TemplateInterpolator } from './template-interpolator';
+import { vi } from 'vitest';
 
 describe('TemplateInterpolator', () => {
   let service: TemplateInterpolator;
-  let httpMock: HttpTestingController;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting()
-      ]
-    });
+    TestBed.configureTestingModule({});
     service = TestBed.inject(TemplateInterpolator);
-    httpMock = TestBed.inject(HttpTestingController);
+    globalThis.fetch = vi.fn();
   });
 
   afterEach(() => {
-    // Verify that no unmatched requests are outstanding
-    httpMock.verify();
+    vi.restoreAllMocks();
   });
 
   it('should fetch JSON template correctly', async () => {
     const url = 'assets/test.json';
     const mockResponse = { content: '# {{ projectName }} using {{ aiAgent }}' };
 
-    // Call the service
-    const promise = service.fetchJson(url);
+    vi.mocked(globalThis.fetch).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockResponse
+    } as Response);
 
-    // Expect an HTTP GET request to the correct URL
-    const req = httpMock.expectOne(url);
-    expect(req.request.method).toBe('GET');
+    const result = await service.fetchJson(url);
 
-    // Flush the mock response
-    req.flush(mockResponse);
-
-    // Wait for the promise to resolve
-    const result = await promise;
-
-    // Verify
+    expect(globalThis.fetch).toHaveBeenCalledWith(url);
     expect(result).toEqual(mockResponse);
   });
 
@@ -71,15 +57,12 @@ describe('TemplateInterpolator', () => {
   it('should handle HTTP errors gracefully', async () => {
     const url = 'assets/missing.json';
     
-    const promise = service.fetchJson(url);
-    
-    const req = httpMock.expectOne(url);
-    // Simulate a 404 error
-    req.flush('Not Found', { status: 404, statusText: 'Not Found' });
+    vi.mocked(globalThis.fetch).mockResolvedValueOnce({
+      ok: false,
+      status: 404
+    } as Response);
 
-    const result = await promise;
+    const result = await service.fetchJson(url);
     expect(result).toBeNull();
   });
 });
-
-

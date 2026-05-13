@@ -27,7 +27,7 @@ describe('RecommendationEngine', () => {
 
   it('should return recommended status for items in recommendedWith of selected skill', () => {
     // NestJS recommends typescript, postgresql, docker
-    builderState.agentsData.set({ backend: ['nestjs'] });
+    builderState.dynamicData['agents'].set({ backend: ['nestjs'] });
     const map = engine.statusMap();
 
     expect(map.get('typescript')).toBe('recommended');
@@ -37,7 +37,7 @@ describe('RecommendationEngine', () => {
 
   it('should return discouraged status for items in discouragedWith of selected skill', () => {
     // NestJS discourages spring-boot, php, express
-    builderState.agentsData.set({ backend: ['nestjs'] });
+    builderState.dynamicData['agents'].set({ backend: ['nestjs'] });
     const map = engine.statusMap();
 
     expect(map.get('spring-boot')).toBe('discouraged');
@@ -48,7 +48,7 @@ describe('RecommendationEngine', () => {
   it('should give discouraged priority over recommended when conflicting', () => {
     // NestJS recommends typescript, docker; discourages express
     // Express recommends javascript, typescript, mongodb; discourages nestjs
-    builderState.agentsData.set({ backend: ['nestjs', 'express'] });
+    builderState.dynamicData['agents'].set({ backend: ['nestjs', 'express'] });
     const map = engine.statusMap();
 
     // Both recommend typescript → should still be recommended
@@ -60,7 +60,7 @@ describe('RecommendationEngine', () => {
   });
 
   it('should not include already-selected items in the status map', () => {
-    builderState.agentsData.set({ backend: ['nestjs'], frontend: ['typescript'] });
+    builderState.dynamicData['agents'].set({ backend: ['nestjs'], frontend: ['typescript'] });
     const map = engine.statusMap();
 
     // typescript is selected, should NOT appear in the map even though nestjs recommends it
@@ -71,9 +71,9 @@ describe('RecommendationEngine', () => {
 
   it('should work across multiple pages (agents + rules + workflows)', () => {
     // Select nestjs (agents) which recommends typescript and docker
-    builderState.agentsData.set({ backend: ['nestjs'] });
+    builderState.dynamicData['agents'].set({ backend: ['nestjs'] });
     // Select gitflow (workflows) which discourages trunk-based
-    builderState.workflowsData.set({ development: ['gitflow'] });
+    builderState.dynamicData['workflows'].set({ development: ['gitflow'] });
 
     const map = engine.statusMap();
     expect(map.get('typescript')).toBe('recommended');
@@ -81,15 +81,15 @@ describe('RecommendationEngine', () => {
   });
 
   it('should return undefined via getStatus for neutral items', () => {
-    builderState.agentsData.set({ backend: ['nestjs'] });
+    builderState.dynamicData['agents'].set({ backend: ['nestjs'] });
     // mongodb has no relationship with nestjs
     expect(engine.getStatus('mongodb')).toBeUndefined();
   });
 
   it('should handle empty arrays gracefully', () => {
-    builderState.agentsData.set({ frontend: [] });
-    builderState.rulesData.set({});
-    builderState.workflowsData.set({});
+    builderState.dynamicData['agents'].set({ frontend: [] });
+    builderState.dynamicData['rules'].set({});
+    builderState.dynamicData['workflows'].set({});
     const map = engine.statusMap();
     expect(map.size).toBe(0);
   });
@@ -99,11 +99,11 @@ describe('RecommendationEngine', () => {
     expect(engine.statusMap().size).toBe(0);
 
     // Select nestjs
-    builderState.agentsData.set({ backend: ['nestjs'] });
+    builderState.dynamicData['agents'].set({ backend: ['nestjs'] });
     expect(engine.statusMap().get('typescript')).toBe('recommended');
 
     // Deselect nestjs
-    builderState.agentsData.set({ backend: [] });
+    builderState.dynamicData['agents'].set({ backend: [] });
     expect(engine.statusMap().size).toBe(0);
   });
 });

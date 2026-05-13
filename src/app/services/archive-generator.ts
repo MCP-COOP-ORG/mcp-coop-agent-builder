@@ -22,21 +22,21 @@ export class ArchiveGenerator {
 
   async generatePreview(): Promise<GeneratedFile[]> {
     const desc = this.builderState.descriptionData();
-    const agents = this.builderState.agentsData();
-    const rules = this.builderState.rulesData();
-    const workflows = this.builderState.workflowsData();
     const review = this.builderState.reviewData();
     
     const agent = (review['aiAgent'] as string) || 'antigravity';
     const schema = this.getSchema(agent);
     const platformConfig = GENERATED_PLATFORMS_CONFIG[agent as keyof typeof GENERATED_PLATFORMS_CONFIG];
     
-    const context = {
+    let dynamicContext = {};
+    Object.keys(this.builderState.dynamicData).forEach(key => {
+      dynamicContext = { ...dynamicContext, ...this.builderState.dynamicData[key]() };
+    });
+
+    const context: Record<string, unknown> = {
       ...desc,
       ...(desc['projectIdentity'] as Record<string, unknown> || {}),
-      ...agents,
-      ...rules,
-      ...workflows
+      ...dynamicContext
     };
     
     const files: GeneratedFile[] = [];

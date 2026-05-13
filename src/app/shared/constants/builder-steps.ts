@@ -1,4 +1,5 @@
 import { GENERATED_PAGES_CONFIG } from '../configs/generated-pages-config';
+import { PageConfig } from '../models/pages-config';
 
 export const STEP_IDS = {
   DESCRIPTION: 'description',
@@ -49,9 +50,7 @@ export const BUILDER_STEPS: BuilderStep[] = [
     title: 'Project Description',
     description: 'Define the core project parameters and identity.'
   },
-  GENERATED_PAGES_CONFIG['agents'],
-  GENERATED_PAGES_CONFIG['rules'],
-  GENERATED_PAGES_CONFIG['workflows'],
+  ...Object.values(GENERATED_PAGES_CONFIG).sort((a: PageConfig, b: PageConfig) => (a.order ?? 999) - (b.order ?? 999)) as BuilderStep[],
   {
     id: STEP_IDS.REVIEW,
     label: 'Review',

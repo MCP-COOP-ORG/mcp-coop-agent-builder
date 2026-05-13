@@ -58,7 +58,7 @@ describe('ArchiveGenerator', () => {
         { path: '.rules/[category].md', type: 'dynamic-category', categories: ['frontend'] }
       ]);
       builderState.reviewData.set({ aiAgent: 'antigravity' });
-      builderState.agentsData.set({ frontend: ['angular'] });
+      builderState.dynamicData['agents'].set({ frontend: ['angular'] });
       
       vi.spyOn(serviceAccess, 'getWrapperType').mockReturnValue('rule');
       
@@ -78,7 +78,7 @@ describe('ArchiveGenerator', () => {
         { path: '.rules/[category].md', type: 'dynamic-category', categories: ['frontend'] }
       ]);
       builderState.reviewData.set({ aiAgent: 'antigravity' });
-      builderState.agentsData.set({ frontend: ['angular'] });
+      builderState.dynamicData['agents'].set({ frontend: ['angular'] });
       
       vi.spyOn(interpolator, 'fetchJson').mockResolvedValue(null);
 
@@ -92,7 +92,7 @@ describe('ArchiveGenerator', () => {
         { path: '.workflows/[item].md', type: 'dynamic-item', categories: ['git'] }
       ]);
       builderState.reviewData.set({ aiAgent: 'antigravity' });
-      builderState.workflowsData.set({ git: ['gitflow'] });
+      builderState.dynamicData['workflows'].set({ git: ['gitflow'] });
       
       vi.spyOn(interpolator, 'fetchJson').mockImplementation(async (url: string) => {
         if (url && url.includes('gitflow.json')) return { description: { antigravity: 'Workflow Content' } };

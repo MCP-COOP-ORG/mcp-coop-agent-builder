@@ -46,13 +46,10 @@ export class RecommendationEngine {
     return this.statusMap().get(itemId);
   }
 
-  /** Collects all selected checkbox IDs from agents, rules, and workflows. */
+  /** Collects all selected checkbox IDs from all dynamic pages. */
   private collectSelectedIds(): Set<string> {
-    return [
-      this.builderState.agentsData(),
-      this.builderState.rulesData(),
-      this.builderState.workflowsData()
-    ]
+    return Object.values(this.builderState.dynamicData)
+      .map(signal => signal())
       .flatMap(data => Object.values(data))
       .filter((val): val is string[] => Array.isArray(val))
       .reduce((set, ids) => { ids.forEach(id => set.add(id)); return set; }, new Set<string>());

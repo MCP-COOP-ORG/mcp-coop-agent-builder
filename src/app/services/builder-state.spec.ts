@@ -14,9 +14,9 @@ describe('BuilderState', () => {
   it('should initialize with empty state if sessionStorage is empty', () => {
     service = TestBed.inject(BuilderState);
     expect(service.descriptionData()).toEqual({});
-    expect(service.agentsData()).toEqual({});
-    expect(service.rulesData()).toEqual({});
-    expect(service.workflowsData()).toEqual({});
+    expect(service.dynamicData['agents']()).toEqual({});
+    expect(service.dynamicData['rules']()).toEqual({});
+    expect(service.dynamicData['workflows']()).toEqual({});
     expect(service.reviewData()).toEqual({});
   });
 
@@ -27,7 +27,7 @@ describe('BuilderState', () => {
     service = TestBed.inject(BuilderState);
     
     expect(service.descriptionData()).toEqual({ aiAgent: 'cursor' });
-    expect(service.agentsData()).toEqual({ framework: 'angular' });
+    expect(service.dynamicData['agents']()).toEqual({ framework: 'angular' });
   });
 
   it('should sync signal changes back to sessionStorage via effect', async () => {

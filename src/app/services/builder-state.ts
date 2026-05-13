@@ -1,5 +1,6 @@
-import { Injectable, signal, effect, PLATFORM_ID, inject } from '@angular/core';
+import { Injectable, signal, effect, PLATFORM_ID, inject, WritableSignal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { GENERATED_PAGES_CONFIG } from '@shared/configs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,26 +9,34 @@ export class BuilderState {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly STORAGE_KEY = 'builderState';
 
-  // Signals for each step's form data
+  // Signals for custom steps
   readonly descriptionData = signal<Record<string, unknown>>({});
-  readonly agentsData = signal<Record<string, unknown>>({});
-  readonly rulesData = signal<Record<string, unknown>>({});
-  readonly workflowsData = signal<Record<string, unknown>>({});
   readonly reviewData = signal<Record<string, unknown>>({});
 
+  // Dynamic signals for all generated pages
+  readonly dynamicData: Record<string, WritableSignal<Record<string, unknown>>> = {};
+
   constructor() {
+    // Initialize a signal for every generated page dynamically
+    Object.keys(GENERATED_PAGES_CONFIG).forEach(stepId => {
+      this.dynamicData[stepId] = signal<Record<string, unknown>>({});
+    });
+
     // Only access sessionStorage if we are in the browser
     if (isPlatformBrowser(this.platformId)) {
       this.loadFromStorage();
 
       // Effect to auto-save to sessionStorage whenever signals change
       effect(() => {
+        const dynamicStateToSave: Record<string, Record<string, unknown>> = {};
+        Object.keys(this.dynamicData).forEach(stepId => {
+          dynamicStateToSave[stepId] = this.dynamicData[stepId]();
+        });
+
         const stateToSave = {
           description: this.descriptionData(),
-          agents: this.agentsData(),
-          rules: this.rulesData(),
-          workflows: this.workflowsData(),
-          review: this.reviewData()
+          review: this.reviewData(),
+          ...dynamicStateToSave
         };
         sessionStorage.setItem(this.STORAGE_KEY, JSON.stringify(stateToSave));
       });
@@ -43,10 +52,13 @@ export class BuilderState {
       try {
         const parsed = JSON.parse(stored);
         if (parsed.description) this.descriptionData.set(parsed.description);
-        if (parsed.agents) this.agentsData.set(parsed.agents);
-        if (parsed.rules) this.rulesData.set(parsed.rules);
-        if (parsed.workflows) this.workflowsData.set(parsed.workflows);
         if (parsed.review) this.reviewData.set(parsed.review);
+        
+        Object.keys(this.dynamicData).forEach(stepId => {
+          if (parsed[stepId]) {
+            this.dynamicData[stepId].set(parsed[stepId]);
+          }
+        });
       } catch (e) {
         console.error('Failed to parse builder state from sessionStorage', e);
       }

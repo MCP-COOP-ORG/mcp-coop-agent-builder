@@ -21,5 +21,6 @@ export interface PageConfig {
   icon: string;
   title: string;
   description: string;
+  order?: number;
   categories: ConfigCategory[];
 }

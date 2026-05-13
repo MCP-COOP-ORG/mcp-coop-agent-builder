@@ -1,5 +1,6 @@
 export * from './app-header/app-header';
 export * from './step-header/step-header';
+export * from './base-form-step';
 export * from './builder-block/builder-block';
 export * from './step-layout/step-layout';
 export * from './checkbox-group/checkbox-group';

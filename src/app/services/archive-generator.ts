@@ -1,9 +1,10 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { strToU8, zipSync } from 'fflate';
 import { GeneratedFile } from '@shared/constants';
-import { ANTIGRAVITY, CLAUDE, CURSOR, TEMPLATES, SKILLS, RULES, WORKFLOWS } from '@shared/schemas';
+import { SCHEMA_MAP, TEMPLATES, SKILLS, RULES, WORKFLOWS } from '@shared/schemas';
 import { ArchivePattern } from '@shared/models';
 import { BuilderState } from './builder-state';
+import { SKILL_CATEGORIES, RULE_CATEGORIES, WRAPPER_TYPES, WrapperType, DEFAULT_TEMPLATE_PARAMS } from '@shared/constants';
 import { TemplateInterpolator } from './template-interpolator';
 
 @Injectable({
@@ -21,17 +22,22 @@ export class ArchiveGenerator {
    * Caches results in previewFiles signal for the Review step UI and later download.
    */
   async generatePreview(): Promise<GeneratedFile[]> {
-    const setup = this.builderState.setupData();
-    const stack = this.builderState.stackData();
+    const desc = this.builderState.descriptionData();
+    const agents = this.builderState.agentsData();
+    const rules = this.builderState.rulesData();
+    const workflows = this.builderState.workflowsData();
+    const review = this.builderState.reviewData();
     
-    const agent = (setup['aiAgent'] as string) || 'antigravity';
+    const agent = (review['aiAgent'] as string) || 'antigravity';
     const schema = this.getSchema(agent);
     
     // Flatten projectIdentity so top-level variables (name, description, domains) are accessible
     const context = {
-      ...setup,
-      ...(setup['projectIdentity'] as Record<string, unknown> || {}),
-      ...stack
+      ...desc,
+      ...(desc['projectIdentity'] as Record<string, unknown> || {}),
+      ...agents,
+      ...rules,
+      ...workflows
     };
     
     const files: GeneratedFile[] = [];
@@ -45,7 +51,7 @@ export class ArchiveGenerator {
         }
       } else if (pattern.type === 'dynamic-category') {
         for (const cat of pattern.categories) {
-           const selectedItems = stack[cat] as string[];
+           const selectedItems = context[cat] as string[];
            if (!selectedItems || selectedItems.length === 0) continue;
            
            let combinedContent = '';
@@ -70,8 +76,9 @@ export class ArchiveGenerator {
                     
                     const finalContent = this.interpolator.interpolate(wrapperString, {
                       name: catName,
-                      description: `Standard rules and conventions for ${cat}.`,
-                      globs: '*',
+                      trigger: DEFAULT_TEMPLATE_PARAMS.trigger,
+                      description: DEFAULT_TEMPLATE_PARAMS.getRuleDescription(cat),
+                      globs: DEFAULT_TEMPLATE_PARAMS.globs,
                       content: combinedContent.trim()
                     });
 
@@ -83,7 +90,7 @@ export class ArchiveGenerator {
         }
       } else if (pattern.type === 'dynamic-item') {
         for (const cat of pattern.categories) {
-           const selectedItems = stack[cat] as string[];
+           const selectedItems = context[cat] as string[];
            if (!selectedItems || selectedItems.length === 0) continue;
            
            for (const item of selectedItems) {
@@ -102,8 +109,9 @@ export class ArchiveGenerator {
                       
                       const finalContent = this.interpolator.interpolate(wrapperString, {
                         name: itemName,
-                        description: `Standard operational workflow for ${item}.`,
-                        globs: '*',
+                        trigger: DEFAULT_TEMPLATE_PARAMS.trigger,
+                        description: DEFAULT_TEMPLATE_PARAMS.getWorkflowDescription(item),
+                        globs: DEFAULT_TEMPLATE_PARAMS.globs,
                         content: snippet.content.trim()
                       });
 
@@ -122,15 +130,13 @@ export class ArchiveGenerator {
   }
 
   private getSchema(agent: string): ArchivePattern[] {
-    if (agent === 'claude') return CLAUDE;
-    if (agent === 'cursor') return CURSOR;
-    return ANTIGRAVITY;
+    return SCHEMA_MAP[agent] || SCHEMA_MAP['antigravity'];
   }
 
-  private getWrapperType(category: string): 'skill' | 'rule' | 'workflow' {
-    if (['frontend', 'backend', 'database'].includes(category)) return 'skill';
-    if (['conventions', 'tooling'].includes(category)) return 'rule';
-    return 'workflow';
+  private getWrapperType(category: string): WrapperType {
+    if (SKILL_CATEGORIES.includes(category)) return WRAPPER_TYPES.SKILL;
+    if (RULE_CATEGORIES.includes(category)) return WRAPPER_TYPES.RULE;
+    return WRAPPER_TYPES.WORKFLOW;
   }
 
   /**

@@ -30,6 +30,9 @@ export class RadioGroup implements ControlValueAccessor {
   /** Internal selected value */
   value: string | null = null;
 
+  /** Tracks the disabled state */
+  disabled = false;
+
   private onChange: (value: string | null) => void = () => undefined;
   private onTouched: () => void = () => undefined;
 
@@ -45,7 +48,12 @@ export class RadioGroup implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
   onRadioChange(optionId: string) {
+    if (this.disabled) return;
     this.value = optionId;
     this.onChange(this.value);
     this.onTouched();

@@ -105,4 +105,21 @@ describe('Builder', () => {
       expect(stateSpy).toHaveBeenCalled();
     });
   });
+
+  describe('Edge cases and boundary conditions', () => {
+    it('activeStepIndex should fallback to 0 if url does not match any step', async () => {
+      await router.navigateByUrl('/some/unknown/url');
+      fixture.detectChanges();
+      expect(component.activeStepIndex()).toBe(0);
+    });
+
+    it('onStepClick should not navigate if index is exactly the length of steps or negative', () => {
+      const navigateSpy = vi.spyOn(router, 'navigate');
+      component.onStepClick(component.view.steps.length);
+      expect(navigateSpy).not.toHaveBeenCalled();
+      
+      component.onStepClick(-1);
+      expect(navigateSpy).not.toHaveBeenCalled();
+    });
+  });
 });

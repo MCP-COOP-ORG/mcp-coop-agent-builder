@@ -1,6 +1,8 @@
 export const STEP_IDS = {
-  SETUP: 'setup',
-  STACK: 'stack',
+  DESCRIPTION: 'description',
+  AGENTS: 'agents',
+  RULES: 'rules',
+  WORKFLOWS: 'workflows',
   REVIEW: 'review'
 } as const;
 
@@ -40,18 +42,32 @@ export interface BuilderStep {
 
 export const BUILDER_STEPS: BuilderStep[] = [
   {
-    id: STEP_IDS.SETUP,
-    label: 'Setup',
-    icon: '@tui.settings',
-    title: 'Project Setup',
-    description: 'Select your target AI agent and define the core project parameters.'
+    id: STEP_IDS.DESCRIPTION,
+    label: 'Project',
+    icon: '@tui.folder-code',
+    title: 'Project Description',
+    description: 'Define the core project parameters and identity.'
   },
   {
-    id: STEP_IDS.STACK,
-    label: 'Stack',
-    icon: '@tui.layers',
-    title: 'Technology Stack',
-    description: 'Choose the frontend, backend, and database technologies used in your project.'
+    id: STEP_IDS.AGENTS,
+    label: 'Agents',
+    icon: '@tui.bot',
+    title: 'Agents Configuration',
+    description: 'Select skills, technologies, and tooling for your AI agents.'
+  },
+  {
+    id: STEP_IDS.RULES,
+    label: 'Rules',
+    icon: '@tui.shield-check',
+    title: 'Project Rules',
+    description: 'Configure standard engineering rules and constraints.'
+  },
+  {
+    id: STEP_IDS.WORKFLOWS,
+    label: 'Workflows',
+    icon: '@tui.git-merge',
+    title: 'Workflows',
+    description: 'Select standard operational workflows for your team.'
   },
   {
     id: STEP_IDS.REVIEW,

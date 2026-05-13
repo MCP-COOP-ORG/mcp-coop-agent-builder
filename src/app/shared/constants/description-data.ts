@@ -1,19 +1,7 @@
 import { BuilderBlockConfig } from './builder-steps';
 import { BUILDER_DICTIONARY } from './builder-dictionary';
 
-export const SETUP_BLOCKS: BuilderBlockConfig[] = [
-  {
-    id: 'aiAgent',
-    title: 'AI Environment',
-    icon: '@tui.bot',
-    type: 'radio',
-    options: [
-      { id: 'antigravity', label: 'Antigravity' },
-      { id: 'claude', label: 'Claude' },
-      { id: 'cursor', label: 'Cursor' },
-    ],
-    defaultOptionId: 'antigravity'
-  },
+export const DESCRIPTION_BLOCKS: BuilderBlockConfig[] = [
   {
     id: 'projectIdentity',
     title: 'Project Identity',

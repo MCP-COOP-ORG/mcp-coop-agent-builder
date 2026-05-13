@@ -5,7 +5,16 @@ The MCP COOP Agent Builder is in the early active development phase. The foundat
 
 ## Development History
 
-### Commit TBD: feat: add AppHeader with theme switcher and centralize Taiga UI theme customization
+### Commit TBD: test: stabilize builder component tests and achieve 85%+ branch coverage
+**Status:** Completed
+**Key Features Implemented:**
+- **Exhaustive Branch Coverage**: Achieved **89.57%** global branch coverage, surpassing the mandatory 85% threshold. Focused on covering complex template branches (`@switch`, `@case`, `@for`) and conditional logic in the `BaseFormStep`.
+- **Step Component Stabilization**: Added comprehensive unit tests for `DescriptionStep`, `AgentsStep`, `RulesStep`, and `WorkflowsStep`. Implemented a mock-override pattern for `blocksArray` in tests to hit all possible dynamic form generation and rendering scenarios.
+- **MultiSelectField Hardening**: Resolved coverage gaps in the `MultiSelectField` template (dropdown content and `ngModelChange` handler) by implementing interactive unit tests that simulate dropdown triggers and selection logic.
+- **OnPush Change Detection Fixes**: Standardized the use of `fixture.debugElement.injector.get(ChangeDetectorRef).detectChanges()` and `await whenStable()` in unit tests to ensure `OnPush` components accurately reflect internal state changes during async test execution.
+- **CVA Compliance**: Ensured all custom form components (`RadioGroup`, `MultiSelectField`) fully implement the `ControlValueAccessor` interface, including `setDisabledState`, to prevent runtime errors in integration scenarios.
+
+### Commit `bfd1a71`: feat: add AppHeader with theme switcher and centralize Taiga UI theme customization
 **Status:** Completed
 **Key Features Implemented:**
 - **AppHeaderComponent**: New standalone component (`src/app/shared/components/app-header/`) with `height: var(--app-header-height)` and `padding-inline: 1.25rem`. Placed above `<router-outlet>` in `app.html`. Contains a ghost icon button (`@tui.moon` / `@tui.sun`) in the right corner to toggle dark/light theme.

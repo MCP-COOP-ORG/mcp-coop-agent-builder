@@ -1,0 +1,3 @@
+{
+  "content": "All protected routes must implement Authentication and Authorization Guards. Ensure that tokens are validated securely and that the user's role satisfies the route requirements before rendering."
+}

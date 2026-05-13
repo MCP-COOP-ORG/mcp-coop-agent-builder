@@ -1,6 +1,6 @@
 import { BuilderBlockConfig } from './builder-steps';
 
-export const STACK_BLOCKS: BuilderBlockConfig[] = [
+export const AGENTS_BLOCKS: BuilderBlockConfig[] = [
   {
     id: 'frontend',
     title: 'Client-Side Ecosystem',

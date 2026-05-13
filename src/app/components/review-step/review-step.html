@@ -65,6 +65,21 @@
             (click)="redoEdit()"
           ></button>
         </div>
+        
+        <div class="review-step__editor-env">
+          @for (env of view.environments; track env.id) {
+            <button 
+              tuiButton 
+              size="xs" 
+              [appearance]="activeEnvironment() === env.id ? 'primary' : 'secondary'"
+              (click)="setEnvironment(env.id)"
+              [disabled]="editMode()"
+            >
+              {{ env.label }}
+            </button>
+          }
+        </div>
+
         <div class="review-step__editor-actions">
           @if (!editMode()) {
             <button tuiButton size="xs" appearance="secondary" (click)="enableEdit()">

@@ -31,7 +31,14 @@ export const RULES: Record<string, string> = {
   'prettier': 'assets/rules/tooling/prettier.json',
   'husky': 'assets/rules/tooling/husky.json',
   'jest': 'assets/rules/tooling/jest.json',
-  'vitest': 'assets/rules/tooling/vitest.json'
+  'vitest': 'assets/rules/tooling/vitest.json',
+  'strict-typing': 'assets/rules/codeQuality/strict-typing.json',
+  'zero-literals': 'assets/rules/codeQuality/zero-literals.json',
+  'xss-protection': 'assets/rules/security/xss-protection.json',
+  'auth-guards': 'assets/rules/security/auth-guards.json'
 };
 
-export const WORKFLOWS: Record<string, string> = {};
+export const WORKFLOWS: Record<string, string> = {
+  'gitflow': 'assets/workflows/development/gitflow.json',
+  'trunk-based': 'assets/workflows/development/trunk-based.json'
+};

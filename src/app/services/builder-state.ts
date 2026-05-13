@@ -9,8 +9,11 @@ export class BuilderState {
   private readonly STORAGE_KEY = 'builderState';
 
   // Signals for each step's form data
-  readonly setupData = signal<Record<string, unknown>>({});
-  readonly stackData = signal<Record<string, unknown>>({});
+  readonly descriptionData = signal<Record<string, unknown>>({});
+  readonly agentsData = signal<Record<string, unknown>>({});
+  readonly rulesData = signal<Record<string, unknown>>({});
+  readonly workflowsData = signal<Record<string, unknown>>({});
+  readonly reviewData = signal<Record<string, unknown>>({});
 
   constructor() {
     // Only access sessionStorage if we are in the browser
@@ -20,8 +23,11 @@ export class BuilderState {
       // Effect to auto-save to sessionStorage whenever signals change
       effect(() => {
         const stateToSave = {
-          setup: this.setupData(),
-          stack: this.stackData()
+          description: this.descriptionData(),
+          agents: this.agentsData(),
+          rules: this.rulesData(),
+          workflows: this.workflowsData(),
+          review: this.reviewData()
         };
         sessionStorage.setItem(this.STORAGE_KEY, JSON.stringify(stateToSave));
       });
@@ -36,8 +42,11 @@ export class BuilderState {
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
-        if (parsed.setup) this.setupData.set(parsed.setup);
-        if (parsed.stack) this.stackData.set(parsed.stack);
+        if (parsed.description) this.descriptionData.set(parsed.description);
+        if (parsed.agents) this.agentsData.set(parsed.agents);
+        if (parsed.rules) this.rulesData.set(parsed.rules);
+        if (parsed.workflows) this.workflowsData.set(parsed.workflows);
+        if (parsed.review) this.reviewData.set(parsed.review);
       } catch (e) {
         console.error('Failed to parse builder state from sessionStorage', e);
       }
@@ -51,7 +60,7 @@ export class BuilderState {
     if (isPlatformBrowser(this.platformId)) {
       sessionStorage.removeItem(this.STORAGE_KEY);
       // Hard reload to completely wipe form states and memory
-      window.location.href = '/builder/setup';
+      window.location.href = '/builder/description';
     }
   }
 }

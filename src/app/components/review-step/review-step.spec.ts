@@ -4,6 +4,7 @@ import { vi } from 'vitest';
 import { provideTaiga, TuiNotificationService } from '@taiga-ui/core';
 import { GeneratedFile } from '@shared/constants';
 import { ArchiveGenerator } from '../../services/archive-generator';
+import { BuilderState } from '../../services/builder-state';
 import { ReviewStep } from './review-step';
 
 interface ReviewStepPrivate {
@@ -197,5 +198,42 @@ describe('ReviewStep', () => {
     const priv = component as unknown as ReviewStepPrivate;
     await priv.loadPreview();
     expect(component.isLoading()).toBe(false);
+  });
+
+  describe('setEnvironment', () => {
+    it('should not update if the environment is already active', () => {
+      component.activeEnvironment.set('antigravity');
+      const spy = vi.spyOn(component['builderState'].reviewData, 'update');
+      
+      component.setEnvironment('antigravity');
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('should update environment and trigger reload', async () => {
+      component.activeEnvironment.set('cursor');
+      const updateSpy = vi.spyOn(component['builderState'].reviewData, 'update');
+      const priv = component as unknown as ReviewStepPrivate;
+      const loadSpy = vi.spyOn(priv, 'loadPreview').mockResolvedValue(undefined);
+      
+      component.setEnvironment('claude');
+      
+      expect(component.activeEnvironment()).toBe('claude');
+      expect(updateSpy).toHaveBeenCalled();
+      expect(component.isLoading()).toBe(true);
+      expect(loadSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('loadPreview edge cases', () => {
+    it('should use fallback if aiAgent is missing in builder state', async () => {
+      const builderState = TestBed.inject(BuilderState);
+      builderState.reviewData.set({});
+      component.activeEnvironment.set('cursor');
+      
+      const priv = component as unknown as ReviewStepPrivate;
+      await priv.loadPreview();
+      
+      expect(builderState.reviewData()['aiAgent']).toBe('cursor');
+    });
   });
 });

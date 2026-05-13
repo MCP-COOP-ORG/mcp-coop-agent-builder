@@ -1,0 +1,3 @@
+{
+  "content": "All TypeScript code must have strict typings. The use of `any` is strictly prohibited. Prefer `unknown` if the type is truly dynamic, and use proper type narrowing or generics."
+}

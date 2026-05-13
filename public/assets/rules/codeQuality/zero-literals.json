@@ -1,0 +1,3 @@
+{
+  "content": "Adhere strictly to the Zero Literals Policy. No hardcoded strings, magic numbers, or inline configurations are allowed in application logic or templates. All values must be sourced from constant dictionaries or configuration files."
+}

@@ -130,13 +130,22 @@
     align-items: center;
     gap: var(--tui-spacing-1);
     margin-left: -0.5rem; // Compensate for tuiIconButton internal padding
+    flex: 1; // Take equal space to keep center element centered
+  }
+
+  &__editor-env {
+    display: flex;
+    align-items: center;
+    gap: var(--tui-spacing-2); // Gives margin/spacing between buttons
+    justify-content: center;
   }
 
   &__editor-actions {
     display: flex;
     align-items: center;
     gap: var(--tui-spacing-2);
-    margin-left: auto;
+    flex: 1; // Take equal space to keep center element centered
+    justify-content: flex-end;
   }
 
   &__editor-body {

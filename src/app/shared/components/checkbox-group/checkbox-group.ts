@@ -1,15 +1,17 @@
-import { Component, ChangeDetectionStrategy, input, forwardRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, forwardRef, inject } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
-import { TuiCheckbox } from '@taiga-ui/core';
+import { TuiCheckbox, TuiDialogService, TuiIcon } from '@taiga-ui/core';
+import { ConfigItem } from '@shared/models';
+import { RecommendationEngine, RecommendationStatus, TemplateInterpolator, BuilderState } from '@services';
 
 /**
  * Reusable Checkbox Group component for the builder form.
  * Implements ControlValueAccessor to integrate seamlessly with Angular's Reactive Forms.
- * Uses Taiga UI checkboxes styled as interactive cards.
+ * Uses Taiga UI checkboxes styled as interactive cards with recommendation highlighting.
  */
 @Component({
   selector: 'app-checkbox-group',
-  imports: [FormsModule, TuiCheckbox],
+  imports: [FormsModule, TuiCheckbox, TuiIcon],
   templateUrl: './checkbox-group.html',
   styleUrl: './checkbox-group.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,11 +24,16 @@ import { TuiCheckbox } from '@taiga-ui/core';
   ]
 })
 export class CheckboxGroup implements ControlValueAccessor {
-  /** 
+  private readonly recommendationEngine = inject(RecommendationEngine);
+  private readonly dialogService = inject(TuiDialogService);
+  private readonly interpolator = inject(TemplateInterpolator);
+  private readonly builderState = inject(BuilderState);
+
+  /**
    * Array of options to render as interactive checkbox cards.
-   * Driven by configuration data to adhere to the Single Source of Truth pattern.
+   * Driven by ConfigItem data to adhere to the Single Source of Truth pattern.
    */
-  options = input.required<{ id: string; label: string }[]>();
+  options = input.required<ConfigItem[]>();
 
   /** Internal dictionary to map option IDs to their boolean selected state */
   value: Record<string, boolean> = {};
@@ -36,7 +43,7 @@ export class CheckboxGroup implements ControlValueAccessor {
 
   writeValue(val: string[]): void {
     const newValue: Record<string, boolean> = {};
-    
+
     // Initialize all available options to false (prevents indeterminate 'minus' state)
     const currentOptions = this.options();
     if (currentOptions) {
@@ -46,7 +53,7 @@ export class CheckboxGroup implements ControlValueAccessor {
     if (val && Array.isArray(val)) {
       val.forEach(id => newValue[id] = true);
     }
-    
+
     this.value = newValue;
   }
 
@@ -62,5 +69,38 @@ export class CheckboxGroup implements ControlValueAccessor {
     const selectedIds = Object.keys(this.value).filter(k => this.value[k]);
     this.onChange(selectedIds);
     this.onTouched();
+  }
+
+  /**
+   * Gets the recommendation status ('recommended' | 'discouraged' | undefined)
+   * for a given item ID from the central RecommendationEngine.
+   */
+  getStatus(itemId: string): RecommendationStatus | undefined {
+    return this.recommendationEngine.getStatus(itemId);
+  }
+
+  /**
+   * Opens a dialog showing the description for the selected item.
+   * Uses the current agent selection with fallback to 'default'.
+   */
+  showInfo(event: Event, option: ConfigItem): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.interpolator.fetchJson<{ description: Record<string, string> }>(option.filePath)
+      .then(json => {
+        if (!json?.description) return;
+
+        const review = this.builderState.reviewData();
+        const agent = (review['aiAgent'] as string) || 'default';
+        const content = json.description[agent] ?? json.description['default'] ?? '';
+
+        this.dialogService
+          .open(content, {
+            label: option.label,
+            size: 'm'
+          })
+          .subscribe();
+      });
   }
 }

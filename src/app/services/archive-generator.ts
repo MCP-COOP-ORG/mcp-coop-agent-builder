@@ -85,7 +85,7 @@ export class ArchiveGenerator {
       const url = ASSET_FILE_PATHS[item as keyof typeof ASSET_FILE_PATHS];
       if (!url) continue;
       const snippet = await this.interpolator.fetchJson<{ description: Record<string, string> }>(url);
-      const itemContent = snippet?.description?.[agent];
+      const itemContent = snippet?.description?.[agent] ?? snippet?.description?.['default'];
       if (itemContent) combinedContent += itemContent + '\n\n';
     }
 
@@ -113,7 +113,7 @@ export class ArchiveGenerator {
       const url = ASSET_FILE_PATHS[item as keyof typeof ASSET_FILE_PATHS];
       if (!url) continue;
       const snippet = await this.interpolator.fetchJson<{ description: Record<string, string> }>(url);
-      const itemContent = snippet?.description?.[agent];
+      const itemContent = snippet?.description?.[agent] ?? snippet?.description?.['default'];
       
       if (itemContent) {
         const wrapperType = this.getWrapperType(cat);

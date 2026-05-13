@@ -1,7 +1,10 @@
 {
   "description": {
+    "default": "This is a placeholder content for spring-boot.",
     "claude": "This is a placeholder content for spring-boot.",
     "cursor": "This is a placeholder content for spring-boot.",
     "antigravity": "This is a placeholder content for spring-boot."
-  }
+  },
+  "recommendedWith": ["postgresql", "docker"],
+  "discouragedWith": ["nestjs", "express", "php"]
 }

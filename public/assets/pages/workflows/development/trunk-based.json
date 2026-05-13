@@ -1,7 +1,10 @@
 {
   "description": {
-    "claude": "Employ Trunk-Based Development. All developers push code to the `main` branch directly or via short-lived feature branches. Code must always be in a releasable state, enforced by continuous integration and automated testing.",
-    "cursor": "Employ Trunk-Based Development. All developers push code to the `main` branch directly or via short-lived feature branches. Code must always be in a releasable state, enforced by continuous integration and automated testing.",
-    "antigravity": "Employ Trunk-Based Development. All developers push code to the `main` branch directly or via short-lived feature branches. Code must always be in a releasable state, enforced by continuous integration and automated testing."
-  }
+    "default": "This is a placeholder content for trunk-based.",
+    "claude": "This is a placeholder content for trunk-based.",
+    "cursor": "This is a placeholder content for trunk-based.",
+    "antigravity": "This is a placeholder content for trunk-based."
+  },
+  "recommendedWith": [],
+  "discouragedWith": ["gitflow"]
 }

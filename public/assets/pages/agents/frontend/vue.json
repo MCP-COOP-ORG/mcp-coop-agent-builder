@@ -1,7 +1,10 @@
 {
   "description": {
+    "default": "This is a placeholder content for vue.",
     "claude": "This is a placeholder content for vue.",
     "cursor": "This is a placeholder content for vue.",
     "antigravity": "This is a placeholder content for vue."
-  }
+  },
+  "recommendedWith": ["typescript", "javascript", "vitest"],
+  "discouragedWith": ["angular", "react"]
 }

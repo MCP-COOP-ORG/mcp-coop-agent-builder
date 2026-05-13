@@ -2,6 +2,8 @@ export interface ConfigItem {
   id: string;
   label: string;
   filePath: string;
+  recommendedWith?: string[];
+  discouragedWith?: string[];
 }
 
 export interface ConfigCategory {

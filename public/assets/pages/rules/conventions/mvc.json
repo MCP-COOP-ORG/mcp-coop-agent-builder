@@ -1,7 +1,10 @@
 {
   "description": {
+    "default": "This is a placeholder content for mvc.",
     "claude": "This is a placeholder content for mvc.",
     "cursor": "This is a placeholder content for mvc.",
     "antigravity": "This is a placeholder content for mvc."
-  }
+  },
+  "recommendedWith": [],
+  "discouragedWith": []
 }

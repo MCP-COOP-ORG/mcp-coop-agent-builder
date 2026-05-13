@@ -1,7 +1,10 @@
 {
   "description": {
-    "claude": "Standard PostgreSQL prompt for Claude",
-    "cursor": "Standard PostgreSQL prompt for Cursor",
-    "antigravity": "Standard PostgreSQL prompt for Antigravity"
-  }
+    "default": "This is a placeholder content for postgresql.",
+    "claude": "This is a placeholder content for postgresql.",
+    "cursor": "This is a placeholder content for postgresql.",
+    "antigravity": "This is a placeholder content for postgresql."
+  },
+  "recommendedWith": ["nestjs", "spring-boot", "strict-typing"],
+  "discouragedWith": []
 }

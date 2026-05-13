@@ -55,11 +55,14 @@ function generate() {
         const itemId = path.parse(file).name;
         const label = toTitleCase(itemId);
         const filePath = `assets/pages/${pageId}/${catId}/${file}`;
+        const itemJson = JSON.parse(fs.readFileSync(path.join(catPath, file), 'utf8'));
 
         items.push({
           id: itemId,
           label: label,
-          filePath: filePath
+          filePath: filePath,
+          ...(itemJson.recommendedWith?.length ? { recommendedWith: itemJson.recommendedWith } : {}),
+          ...(itemJson.discouragedWith?.length ? { discouragedWith: itemJson.discouragedWith } : {})
         });
 
         assetFilePaths[itemId] = filePath;

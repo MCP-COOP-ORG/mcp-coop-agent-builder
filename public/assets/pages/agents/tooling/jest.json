@@ -1,7 +1,10 @@
 {
   "description": {
-    "claude": "Standard Jest Testing prompt for Claude",
-    "cursor": "Standard Jest Testing prompt for Cursor",
-    "antigravity": "Standard Jest Testing prompt for Antigravity"
-  }
+    "default": "This is a placeholder content for jest.",
+    "claude": "This is a placeholder content for jest.",
+    "cursor": "This is a placeholder content for jest.",
+    "antigravity": "This is a placeholder content for jest."
+  },
+  "recommendedWith": ["typescript", "eslint"],
+  "discouragedWith": ["vitest"]
 }

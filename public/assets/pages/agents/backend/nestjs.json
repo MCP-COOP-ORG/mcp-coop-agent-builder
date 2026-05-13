@@ -1,7 +1,10 @@
 {
   "description": {
+    "default": "This is a placeholder content for nestjs.",
     "claude": "This is a placeholder content for nestjs.",
     "cursor": "This is a placeholder content for nestjs.",
     "antigravity": "This is a placeholder content for nestjs."
-  }
+  },
+  "recommendedWith": ["typescript", "postgresql", "docker"],
+  "discouragedWith": ["spring-boot", "php", "express"]
 }

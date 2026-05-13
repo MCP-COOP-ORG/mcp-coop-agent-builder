@@ -1,7 +1,10 @@
 {
   "description": {
-    "claude": "Standard Docker prompt for Claude",
-    "cursor": "Standard Docker prompt for Cursor",
-    "antigravity": "Standard Docker prompt for Antigravity"
-  }
+    "default": "This is a placeholder content for docker.",
+    "claude": "This is a placeholder content for docker.",
+    "cursor": "This is a placeholder content for docker.",
+    "antigravity": "This is a placeholder content for docker."
+  },
+  "recommendedWith": ["github-actions", "nestjs"],
+  "discouragedWith": []
 }

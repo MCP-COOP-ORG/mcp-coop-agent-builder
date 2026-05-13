@@ -1,7 +1,10 @@
 {
   "description": {
-    "claude": "Standard Flutter prompt for Claude",
-    "cursor": "Standard Flutter prompt for Cursor",
-    "antigravity": "Standard Flutter prompt for Antigravity"
-  }
+    "default": "This is a placeholder content for flutter.",
+    "claude": "This is a placeholder content for flutter.",
+    "cursor": "This is a placeholder content for flutter.",
+    "antigravity": "This is a placeholder content for flutter."
+  },
+  "recommendedWith": ["docker"],
+  "discouragedWith": ["react-native", "swift"]
 }

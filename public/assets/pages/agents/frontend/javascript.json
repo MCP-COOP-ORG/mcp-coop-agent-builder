@@ -1,7 +1,10 @@
 {
   "description": {
+    "default": "This is a placeholder content for javascript.",
     "claude": "This is a placeholder content for javascript.",
     "cursor": "This is a placeholder content for javascript.",
     "antigravity": "This is a placeholder content for javascript."
-  }
+  },
+  "recommendedWith": ["eslint"],
+  "discouragedWith": ["strict-typing"]
 }

@@ -1,7 +1,10 @@
 {
   "description": {
-    "claude": "Standard SOLID Principles prompt for Claude",
-    "cursor": "Standard SOLID Principles prompt for Cursor",
-    "antigravity": "Standard SOLID Principles prompt for Antigravity"
-  }
+    "default": "This is a placeholder content for solid.",
+    "claude": "This is a placeholder content for solid.",
+    "cursor": "This is a placeholder content for solid.",
+    "antigravity": "This is a placeholder content for solid."
+  },
+  "recommendedWith": ["clean-architecture", "strict-typing"],
+  "discouragedWith": []
 }

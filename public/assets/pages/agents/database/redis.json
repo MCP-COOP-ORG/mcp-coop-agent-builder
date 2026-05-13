@@ -1,7 +1,10 @@
 {
   "description": {
-    "claude": "Standard Redis prompt for Claude",
-    "cursor": "Standard Redis prompt for Cursor",
-    "antigravity": "Standard Redis prompt for Antigravity"
-  }
+    "default": "This is a placeholder content for redis.",
+    "claude": "This is a placeholder content for redis.",
+    "cursor": "This is a placeholder content for redis.",
+    "antigravity": "This is a placeholder content for redis."
+  },
+  "recommendedWith": ["nestjs", "docker"],
+  "discouragedWith": []
 }

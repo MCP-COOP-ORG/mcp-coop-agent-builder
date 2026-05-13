@@ -1,7 +1,10 @@
 {
   "description": {
+    "default": "This is a placeholder content for ddd.",
     "claude": "This is a placeholder content for ddd.",
     "cursor": "This is a placeholder content for ddd.",
     "antigravity": "This is a placeholder content for ddd."
-  }
+  },
+  "recommendedWith": ["clean-architecture"],
+  "discouragedWith": []
 }

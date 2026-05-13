@@ -1,7 +1,10 @@
 {
   "description": {
-    "claude": "Adhere strictly to the Zero Literals Policy. No hardcoded strings, magic numbers, or inline configurations are allowed in application logic or templates. All values must be sourced from constant dictionaries or configuration files.",
-    "cursor": "Adhere strictly to the Zero Literals Policy. No hardcoded strings, magic numbers, or inline configurations are allowed in application logic or templates. All values must be sourced from constant dictionaries or configuration files.",
-    "antigravity": "Adhere strictly to the Zero Literals Policy. No hardcoded strings, magic numbers, or inline configurations are allowed in application logic or templates. All values must be sourced from constant dictionaries or configuration files."
-  }
+    "default": "This is a placeholder content for zero-literals.",
+    "claude": "This is a placeholder content for zero-literals.",
+    "cursor": "This is a placeholder content for zero-literals.",
+    "antigravity": "This is a placeholder content for zero-literals."
+  },
+  "recommendedWith": ["strict-typing"],
+  "discouragedWith": []
 }

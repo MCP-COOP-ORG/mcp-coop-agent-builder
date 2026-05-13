@@ -1,7 +1,10 @@
 {
   "description": {
-    "claude": "Standard MongoDB prompt for Claude",
-    "cursor": "Standard MongoDB prompt for Cursor",
-    "antigravity": "Standard MongoDB prompt for Antigravity"
-  }
+    "default": "This is a placeholder content for mongodb.",
+    "claude": "This is a placeholder content for mongodb.",
+    "cursor": "This is a placeholder content for mongodb.",
+    "antigravity": "This is a placeholder content for mongodb."
+  },
+  "recommendedWith": ["express", "javascript"],
+  "discouragedWith": []
 }

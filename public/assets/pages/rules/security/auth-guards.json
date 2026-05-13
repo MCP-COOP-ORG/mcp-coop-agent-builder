@@ -1,7 +1,10 @@
 {
   "description": {
-    "claude": "All protected routes must implement Authentication and Authorization Guards. Ensure that tokens are validated securely and that the user's role satisfies the route requirements before rendering.",
-    "cursor": "All protected routes must implement Authentication and Authorization Guards. Ensure that tokens are validated securely and that the user's role satisfies the route requirements before rendering.",
-    "antigravity": "All protected routes must implement Authentication and Authorization Guards. Ensure that tokens are validated securely and that the user's role satisfies the route requirements before rendering."
-  }
+    "default": "This is a placeholder content for auth-guards.",
+    "claude": "This is a placeholder content for auth-guards.",
+    "cursor": "This is a placeholder content for auth-guards.",
+    "antigravity": "This is a placeholder content for auth-guards."
+  },
+  "recommendedWith": ["xss-protection"],
+  "discouragedWith": []
 }

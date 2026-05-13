@@ -1,7 +1,10 @@
 {
   "description": {
+    "default": "This is a placeholder content for php.",
     "claude": "This is a placeholder content for php.",
     "cursor": "This is a placeholder content for php.",
     "antigravity": "This is a placeholder content for php."
-  }
+  },
+  "recommendedWith": ["mongodb", "redis"],
+  "discouragedWith": ["nestjs", "spring-boot", "express"]
 }

@@ -1,7 +1,10 @@
 {
   "description": {
-    "claude": "### ESLint Configuration\n\n1.  **Strict Mode:** Enforce strict typing and error on `any` types.\n2.  **Formatting:** Use ESLint solely for code quality rules. Formatting should be delegated to Prettier.\n3.  **Zero Warnings:** Treat all warnings as errors in CI environments.",
-    "cursor": "### ESLint Configuration\n\n1.  **Strict Mode:** Enforce strict typing and error on `any` types.\n2.  **Formatting:** Use ESLint solely for code quality rules. Formatting should be delegated to Prettier.\n3.  **Zero Warnings:** Treat all warnings as errors in CI environments.",
-    "antigravity": "### ESLint Configuration\n\n1.  **Strict Mode:** Enforce strict typing and error on `any` types.\n2.  **Formatting:** Use ESLint solely for code quality rules. Formatting should be delegated to Prettier.\n3.  **Zero Warnings:** Treat all warnings as errors in CI environments."
-  }
+    "default": "This is a placeholder content for eslint.",
+    "claude": "This is a placeholder content for eslint.",
+    "cursor": "This is a placeholder content for eslint.",
+    "antigravity": "This is a placeholder content for eslint."
+  },
+  "recommendedWith": ["prettier", "typescript"],
+  "discouragedWith": []
 }

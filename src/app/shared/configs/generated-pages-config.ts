@@ -23,12 +23,20 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
           {
             "id": "clean-architecture",
             "label": "Clean Architecture",
-            "filePath": "assets/pages/agents/conventions/clean-architecture.json"
+            "filePath": "assets/pages/agents/conventions/clean-architecture.json",
+            "recommendedWith": [
+              "solid",
+              "strict-typing"
+            ]
           },
           {
             "id": "solid",
             "label": "Solid",
-            "filePath": "assets/pages/agents/conventions/solid.json"
+            "filePath": "assets/pages/agents/conventions/solid.json",
+            "recommendedWith": [
+              "clean-architecture",
+              "strict-typing"
+            ]
           }
         ]
       },
@@ -42,27 +50,64 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
           {
             "id": "angular",
             "label": "Angular",
-            "filePath": "assets/pages/agents/frontend/angular.json"
+            "filePath": "assets/pages/agents/frontend/angular.json",
+            "recommendedWith": [
+              "typescript",
+              "jest",
+              "eslint"
+            ],
+            "discouragedWith": [
+              "react",
+              "vue"
+            ]
           },
           {
             "id": "javascript",
             "label": "Javascript",
-            "filePath": "assets/pages/agents/frontend/javascript.json"
+            "filePath": "assets/pages/agents/frontend/javascript.json",
+            "recommendedWith": [
+              "eslint"
+            ],
+            "discouragedWith": [
+              "strict-typing"
+            ]
           },
           {
             "id": "react",
             "label": "React",
-            "filePath": "assets/pages/agents/frontend/react.json"
+            "filePath": "assets/pages/agents/frontend/react.json",
+            "recommendedWith": [
+              "typescript",
+              "javascript",
+              "jest"
+            ],
+            "discouragedWith": [
+              "angular",
+              "vue"
+            ]
           },
           {
             "id": "typescript",
             "label": "Typescript",
-            "filePath": "assets/pages/agents/frontend/typescript.json"
+            "filePath": "assets/pages/agents/frontend/typescript.json",
+            "recommendedWith": [
+              "eslint",
+              "strict-typing"
+            ]
           },
           {
             "id": "vue",
             "label": "Vue",
-            "filePath": "assets/pages/agents/frontend/vue.json"
+            "filePath": "assets/pages/agents/frontend/vue.json",
+            "recommendedWith": [
+              "typescript",
+              "javascript",
+              "vitest"
+            ],
+            "discouragedWith": [
+              "angular",
+              "react"
+            ]
           }
         ]
       },
@@ -76,22 +121,60 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
           {
             "id": "express",
             "label": "Express",
-            "filePath": "assets/pages/agents/backend/express.json"
+            "filePath": "assets/pages/agents/backend/express.json",
+            "recommendedWith": [
+              "javascript",
+              "typescript",
+              "mongodb"
+            ],
+            "discouragedWith": [
+              "nestjs",
+              "spring-boot",
+              "php"
+            ]
           },
           {
             "id": "nestjs",
             "label": "Nestjs",
-            "filePath": "assets/pages/agents/backend/nestjs.json"
+            "filePath": "assets/pages/agents/backend/nestjs.json",
+            "recommendedWith": [
+              "typescript",
+              "postgresql",
+              "docker"
+            ],
+            "discouragedWith": [
+              "spring-boot",
+              "php",
+              "express"
+            ]
           },
           {
             "id": "php",
             "label": "Php",
-            "filePath": "assets/pages/agents/backend/php.json"
+            "filePath": "assets/pages/agents/backend/php.json",
+            "recommendedWith": [
+              "mongodb",
+              "redis"
+            ],
+            "discouragedWith": [
+              "nestjs",
+              "spring-boot",
+              "express"
+            ]
           },
           {
             "id": "spring-boot",
             "label": "Spring Boot",
-            "filePath": "assets/pages/agents/backend/spring-boot.json"
+            "filePath": "assets/pages/agents/backend/spring-boot.json",
+            "recommendedWith": [
+              "postgresql",
+              "docker"
+            ],
+            "discouragedWith": [
+              "nestjs",
+              "express",
+              "php"
+            ]
           }
         ]
       },
@@ -105,17 +188,30 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
           {
             "id": "mongodb",
             "label": "Mongodb",
-            "filePath": "assets/pages/agents/database/mongodb.json"
+            "filePath": "assets/pages/agents/database/mongodb.json",
+            "recommendedWith": [
+              "express",
+              "javascript"
+            ]
           },
           {
             "id": "postgresql",
             "label": "Postgresql",
-            "filePath": "assets/pages/agents/database/postgresql.json"
+            "filePath": "assets/pages/agents/database/postgresql.json",
+            "recommendedWith": [
+              "nestjs",
+              "spring-boot",
+              "strict-typing"
+            ]
           },
           {
             "id": "redis",
             "label": "Redis",
-            "filePath": "assets/pages/agents/database/redis.json"
+            "filePath": "assets/pages/agents/database/redis.json",
+            "recommendedWith": [
+              "nestjs",
+              "docker"
+            ]
           }
         ]
       },
@@ -129,17 +225,37 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
           {
             "id": "flutter",
             "label": "Flutter",
-            "filePath": "assets/pages/agents/mobile/flutter.json"
+            "filePath": "assets/pages/agents/mobile/flutter.json",
+            "recommendedWith": [
+              "docker"
+            ],
+            "discouragedWith": [
+              "react-native",
+              "swift"
+            ]
           },
           {
             "id": "react-native",
             "label": "React Native",
-            "filePath": "assets/pages/agents/mobile/react-native.json"
+            "filePath": "assets/pages/agents/mobile/react-native.json",
+            "recommendedWith": [
+              "react",
+              "typescript",
+              "jest"
+            ],
+            "discouragedWith": [
+              "flutter",
+              "swift"
+            ]
           },
           {
             "id": "swift",
             "label": "Swift",
-            "filePath": "assets/pages/agents/mobile/swift.json"
+            "filePath": "assets/pages/agents/mobile/swift.json",
+            "discouragedWith": [
+              "flutter",
+              "react-native"
+            ]
           }
         ]
       },
@@ -153,17 +269,32 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
           {
             "id": "docker",
             "label": "Docker",
-            "filePath": "assets/pages/agents/tooling/docker.json"
+            "filePath": "assets/pages/agents/tooling/docker.json",
+            "recommendedWith": [
+              "github-actions",
+              "nestjs"
+            ]
           },
           {
             "id": "github-actions",
             "label": "Github Actions",
-            "filePath": "assets/pages/agents/tooling/github-actions.json"
+            "filePath": "assets/pages/agents/tooling/github-actions.json",
+            "recommendedWith": [
+              "docker",
+              "eslint"
+            ]
           },
           {
             "id": "jest",
             "label": "Jest",
-            "filePath": "assets/pages/agents/tooling/jest.json"
+            "filePath": "assets/pages/agents/tooling/jest.json",
+            "recommendedWith": [
+              "typescript",
+              "eslint"
+            ],
+            "discouragedWith": [
+              "vitest"
+            ]
           }
         ]
       }
@@ -186,22 +317,38 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
           {
             "id": "clean-code",
             "label": "Clean Code",
-            "filePath": "assets/pages/rules/conventions/clean-code.json"
+            "filePath": "assets/pages/rules/conventions/clean-code.json",
+            "recommendedWith": [
+              "solid",
+              "eslint"
+            ]
           },
           {
             "id": "ddd",
             "label": "Ddd",
-            "filePath": "assets/pages/rules/conventions/ddd.json"
+            "filePath": "assets/pages/rules/conventions/ddd.json",
+            "recommendedWith": [
+              "clean-architecture"
+            ]
           },
           {
             "id": "fsd",
             "label": "Fsd",
-            "filePath": "assets/pages/rules/conventions/fsd.json"
+            "filePath": "assets/pages/rules/conventions/fsd.json",
+            "discouragedWith": [
+              "hexagonal"
+            ]
           },
           {
             "id": "hexagonal",
             "label": "Hexagonal",
-            "filePath": "assets/pages/rules/conventions/hexagonal.json"
+            "filePath": "assets/pages/rules/conventions/hexagonal.json",
+            "recommendedWith": [
+              "clean-architecture"
+            ],
+            "discouragedWith": [
+              "fsd"
+            ]
           },
           {
             "id": "mvc",
@@ -220,12 +367,19 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
           {
             "id": "strict-typing",
             "label": "Strict Typing",
-            "filePath": "assets/pages/rules/code-quality/strict-typing.json"
+            "filePath": "assets/pages/rules/code-quality/strict-typing.json",
+            "recommendedWith": [
+              "typescript",
+              "eslint"
+            ]
           },
           {
             "id": "zero-literals",
             "label": "Zero Literals",
-            "filePath": "assets/pages/rules/code-quality/zero-literals.json"
+            "filePath": "assets/pages/rules/code-quality/zero-literals.json",
+            "recommendedWith": [
+              "strict-typing"
+            ]
           }
         ]
       },
@@ -239,12 +393,18 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
           {
             "id": "auth-guards",
             "label": "Auth Guards",
-            "filePath": "assets/pages/rules/security/auth-guards.json"
+            "filePath": "assets/pages/rules/security/auth-guards.json",
+            "recommendedWith": [
+              "xss-protection"
+            ]
           },
           {
             "id": "xss-protection",
             "label": "Xss Protection",
-            "filePath": "assets/pages/rules/security/xss-protection.json"
+            "filePath": "assets/pages/rules/security/xss-protection.json",
+            "recommendedWith": [
+              "auth-guards"
+            ]
           }
         ]
       },
@@ -258,27 +418,53 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
           {
             "id": "eslint",
             "label": "Eslint",
-            "filePath": "assets/pages/rules/tooling/eslint.json"
+            "filePath": "assets/pages/rules/tooling/eslint.json",
+            "recommendedWith": [
+              "prettier",
+              "typescript"
+            ]
           },
           {
             "id": "husky",
             "label": "Husky",
-            "filePath": "assets/pages/rules/tooling/husky.json"
+            "filePath": "assets/pages/rules/tooling/husky.json",
+            "recommendedWith": [
+              "eslint",
+              "prettier"
+            ]
           },
           {
             "id": "jest",
             "label": "Jest",
-            "filePath": "assets/pages/rules/tooling/jest.json"
+            "filePath": "assets/pages/rules/tooling/jest.json",
+            "recommendedWith": [
+              "typescript",
+              "eslint"
+            ],
+            "discouragedWith": [
+              "vitest"
+            ]
           },
           {
             "id": "prettier",
             "label": "Prettier",
-            "filePath": "assets/pages/rules/tooling/prettier.json"
+            "filePath": "assets/pages/rules/tooling/prettier.json",
+            "recommendedWith": [
+              "eslint",
+              "husky"
+            ]
           },
           {
             "id": "vitest",
             "label": "Vitest",
-            "filePath": "assets/pages/rules/tooling/vitest.json"
+            "filePath": "assets/pages/rules/tooling/vitest.json",
+            "recommendedWith": [
+              "vue",
+              "typescript"
+            ],
+            "discouragedWith": [
+              "jest"
+            ]
           }
         ]
       }
@@ -301,12 +487,18 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
           {
             "id": "gitflow",
             "label": "Gitflow",
-            "filePath": "assets/pages/workflows/development/gitflow.json"
+            "filePath": "assets/pages/workflows/development/gitflow.json",
+            "discouragedWith": [
+              "trunk-based"
+            ]
           },
           {
             "id": "trunk-based",
             "label": "Trunk Based",
-            "filePath": "assets/pages/workflows/development/trunk-based.json"
+            "filePath": "assets/pages/workflows/development/trunk-based.json",
+            "discouragedWith": [
+              "gitflow"
+            ]
           }
         ]
       }

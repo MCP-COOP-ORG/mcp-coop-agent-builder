@@ -5,7 +5,19 @@ The MCP COOP Agent Builder is in the early active development phase. The foundat
 
 ## Development History
 
-### Commit TBD: refactor: implement schema-driven archive generator and dynamic tree vivification
+### Commit TBD: feat: add AppHeader with theme switcher and centralize Taiga UI theme customization
+**Status:** Completed
+**Key Features Implemented:**
+- **AppHeaderComponent**: New standalone component (`src/app/shared/components/app-header/`) with `height: var(--app-header-height)` and `padding-inline: 1.25rem`. Placed above `<router-outlet>` in `app.html`. Contains a ghost icon button (`@tui.moon` / `@tui.sun`) in the right corner to toggle dark/light theme.
+- **TUI_DARK_MODE Integration**: Injected `TUI_DARK_MODE` WritableSignal from `@taiga-ui/core` in both `AppHeader` and root `App` component. `[attr.tuiTheme]="darkMode() ? 'dark' : null"` is bound on `<tui-root>` — this is the official Taiga UI v5 pattern. LocalStorage persistence is handled automatically by Taiga UI via `TUI_DARK_MODE_KEY`.
+- **Centralized Theme Customization** (`src/styles/themes.scss`): Single source of truth for all Taiga UI overrides. Loaded as a separate Angular `styles` entry in `angular.json` (after Taiga's own LESS files) to avoid SCSS `@use` ordering issues. Contains: typography tokens, `--app-header-height` layout token, spacing fallbacks, border-radius scale, light/dark accent color overrides (`[tuiTheme='dark']` selector).
+- **CSS Layout Token** (`--app-header-height: 2.5rem`): Defined in `themes.scss :root`. Used in both `app-header.scss` and `builder.scss` (`calc(100vh - var(--app-header-height))`), ensuring the builder footer stays in viewport when the header is present.
+- **Styles Architecture**: `styles.scss` is now a pure CSS reset with no Taiga UI specifics. All Taiga variables live in `themes.scss`. `body` color corrected from deprecated `--tui-text-01` to modern `--tui-text-primary`.
+- **Linting**: Fixed pre-existing `for` loop lint error in `review-step.ts` (replaced with `for-of`). All files pass `ng lint`.
+- **Test Coverage**: 5 unit tests for `AppHeader` (icon switching, toggle behavior). Updated `app.spec.ts` (removed stale title test, added header rendering test, fixed `eslint-disable` → `() => undefined`). 96/96 tests passing.
+- **Notification Timing**: Reduced Review step notification `autoCloseMs` from 3000ms to 1500ms.
+
+### Commit `95cf723`: refactor: implement schema-driven archive generator and dynamic tree vivification
 **Status:** Completed
 **Key Features Implemented:**
 - **Schema-Driven Archive Generation**: Rewrote `ArchiveGenerator` into a dynamic constructor pattern. It now selects the platform schema (Antigravity, Claude, Cursor) based on the user's setup state and dynamically processes `static`, `dynamic-category`, and `dynamic-item` patterns instead of hardcoded paths.

@@ -11,14 +11,10 @@ beforeAll(() => {
       matches: false,
       media: query,
       onchange: null,
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      addListener: () => {},
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      removeListener: () => {},
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      addEventListener: () => {},
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      removeEventListener: () => {},
+      addListener: () => undefined,
+      removeListener: () => undefined,
+      addEventListener: () => undefined,
+      removeEventListener: () => undefined,
       dispatchEvent: () => false,
     }),
   });
@@ -38,9 +34,10 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should have the correct title signal', () => {
+  it('should render app-header in the template', () => {
     const fixture = TestBed.createComponent(App);
-    const app = fixture.componentInstance;
-    expect(app['title']()).toBe('mcp-coop-agent-builder');
+    fixture.detectChanges();
+    const header = fixture.nativeElement.querySelector('app-header');
+    expect(header).toBeTruthy();
   });
 });

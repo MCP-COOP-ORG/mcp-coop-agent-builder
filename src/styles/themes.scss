@@ -1,0 +1,57 @@
+// ============================================================
+// TAIGA UI — GLOBAL THEME CONFIGURATION
+// This is the single source of truth for all Taiga UI styling.
+// Customize light/dark variables here.
+// ============================================================
+
+// --- Typography & Global Tokens ----------------------------
+// Applied to both themes (theme-agnostic overrides)
+:root {
+  // Font family (JetBrains Mono for the entire app)
+  --tui-typography-family-text: 'JetBrains Mono', monospace;
+  --tui-typography-family-display: 'JetBrains Mono', monospace;
+
+  // App layout tokens
+  --app-header-height: 2.5rem; // 40px — change here to resize the header everywhere
+
+  // Spacing fallbacks (used when Taiga design tokens are not yet loaded)
+  --tui-spacing-1: 0.25rem;
+  --tui-spacing-2: 0.5rem;
+  --tui-spacing-3: 0.75rem;
+  --tui-spacing-4: 1rem;
+
+  // Border radius scale (xs → s → m → l: 2 → 4 → 8 → 12px)
+  --tui-radius-xs: 0.125rem;
+  --tui-radius-s: 0.25rem;
+  --tui-radius-m: 0.5rem;
+  --tui-radius-l: 0.75rem;
+}
+
+// --- Light Theme Overrides ----------------------------------
+// These override Taiga's default light palette.
+// Selector mirrors what Taiga uses in palette/light.css
+:root {
+  // Brand accent (primary buttons, active states, links)
+  --tui-background-accent-1: #4f6ef7;
+  --tui-background-accent-1-hover: #3d5ce8;
+  --tui-background-accent-1-pressed: #2c4bd6;
+  --tui-text-primary-on-accent-1: #ffffff;
+}
+
+// --- Dark Theme Overrides -----------------------------------
+// These override Taiga's default dark palette.
+// Applied when [tuiTheme="dark"] is present on <tui-root>.
+[tuiTheme='dark'] {
+  // App backgrounds — deeper than Taiga's defaults
+  --tui-background-base: #0d0f14;
+  --tui-background-base-alt: #0d0f14;
+  --tui-background-elevation-1: #13161e;
+  --tui-background-elevation-2: #1a1d28;
+  --tui-background-elevation-3: #1f2333;
+
+  // Brand accent in dark mode (slightly lighter for contrast)
+  --tui-background-accent-1: #7b8cff;
+  --tui-background-accent-1-hover: #8f9cff;
+  --tui-background-accent-1-pressed: #6a7aff;
+  --tui-text-primary-on-accent-1: #ffffff;
+}

@@ -158,11 +158,10 @@ export class ReviewStep {
       let currentLevel = rootChildren;
       let currentPath = '';
 
-      for (let i = 0; i < pathSegments.length; i++) {
-        const segment = pathSegments[i];
+      for (const segment of pathSegments) {
         currentPath = currentPath ? `${currentPath}/${segment}` : segment;
-        
-        let node = currentLevel.find(n => n.label === segment && n.type === 'folder');
+
+        let node = currentLevel.find((n) => n.label === segment && n.type === 'folder');
         if (!node) {
           node = { label: segment, path: currentPath, type: 'folder', children: [] };
           currentLevel.push(node);

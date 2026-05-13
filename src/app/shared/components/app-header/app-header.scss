@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: var(--app-header-height);
+  padding-inline: 1.25rem; // 20px
+  flex-shrink: 0;
+}
+
+.app-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--tui-spacing-2);
+}

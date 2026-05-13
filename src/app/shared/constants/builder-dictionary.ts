@@ -33,7 +33,12 @@ export const BUILDER_DICTIONARY = {
   notifications: {
     reviewReadyLabel: 'Archive ready',
     reviewReadyMessage: 'Your AI context is configured. Click "Download" to save ai-context.zip.',
-    autoCloseMs: 3000,
+    autoCloseMs: 1500,
+  },
+  header: {
+    toggleThemeAriaLabel: 'Toggle color theme',
+    darkModeIcon: '@tui.moon',
+    lightModeIcon: '@tui.sun',
   },
   review: {
     sidebarTitle: 'ai-context.zip',

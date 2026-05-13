@@ -1,13 +1,15 @@
-import { TuiRoot } from '@taiga-ui/core';
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { TUI_DARK_MODE, TuiRoot } from '@taiga-ui/core';
+import { AppHeader } from '@shared/components';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, TuiRoot],
+  imports: [RouterOutlet, TuiRoot, AppHeader],
   templateUrl: './app.html',
   styleUrl: './app.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
-  protected readonly title = signal('mcp-coop-agent-builder');
+  protected readonly darkMode = inject(TUI_DARK_MODE);
 }

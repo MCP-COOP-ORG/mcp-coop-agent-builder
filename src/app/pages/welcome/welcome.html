@@ -1,10 +1,13 @@
-<img class="welcome__hero" priority [ngSrc]="view.assets.hero" [alt]="view.labels.welcomeTitle" width="480"
-  height="480" />
+<img class="welcome__hero" priority [ngSrc]="view.assets.hero" [alt]="view.labels.welcomeTitle" width="440"
+  height="440" />
 
 <div class="welcome__content">
-  <h1 class="welcome__title">{{ view.labels.welcomeTitle }}</h1>
-  <p class="welcome__description">
-    {{ view.labels.welcomeDescription }}
+  <h1 class="welcome__title">
+    <a [href]="view.labels.welcomeTitleHref" target="_blank" class="welcome__title-link">{{ view.labels.welcomeTitleLink
+      }}</a>{{ view.labels.welcomeTitleText }}
+  </h1>
+  <p class="welcome__description"
+    [innerHTML]="view.labels.welcomeDescription | textFormat:view.labels.welcomeHighlights">
   </p>
 </div>
 

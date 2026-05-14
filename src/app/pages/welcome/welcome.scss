@@ -23,7 +23,7 @@
 }
 
 .welcome__title {
-  font-size: 3.5rem;
+  font-size: 2.625rem;
   line-height: 1.1;
   margin: 0;
   font-weight: 800;
@@ -31,13 +31,17 @@
 }
 
 .welcome__description {
-  font-size: 1.25rem;
-  color: var(--tui-text-secondary);
-  max-width: 600px;
+  font-size: 0.9375rem;
+  color: var(--tui-text-primary);
+  max-width: 1200px;
   margin: 0 auto;
   line-height: 1.6;
 }
 
 .welcome__action {
-  margin-top: 1rem;
+}
+
+.welcome__title-link {
+  color: var(--tui-background-accent-1);
+  text-decoration: none;
 }

@@ -21,6 +21,7 @@
       "@shared/configs": ["src/app/shared/configs/index.ts"],
       "@shared/schemas": ["src/app/shared/schemas/index.ts"],
       "@shared/models": ["src/app/shared/models/index.ts"],
+      "@shared/pipes": ["src/app/shared/pipes/index.ts"],
       "@shared/utils": ["src/app/shared/utils/index.ts"],
       "@components": ["src/app/components/index.ts"],
       "@pages": ["src/app/pages/index.ts"],

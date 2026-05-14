@@ -5,7 +5,15 @@ The MCP COOP Agent Builder is in the early active development phase. The foundat
 
 ## Development History
 
-### Commit (Pending): fix: remove .util extensions from shared utilities and stabilize archive strategy tests
+### Commit (Pending): feat: production readiness (PWA, CSP, Cache), UI refinements, and text formatting pipe
+**Status:** Completed
+**Key Features Implemented:**
+- **Production Readiness**: Added `@angular/pwa` service worker caching, restrictive CSP, `GlobalErrorHandlerService`, and TTL invalidation for `@Memoize` to prevent stale data.
+- **TextFormatPipe**: Built a standalone pipe with XSS protection to handle `\n` to `<br>` conversion and keyword highlighting.
+- **Welcome UI/UX**: Switched to IBM Plex Mono, optimized widescreen layout (1200px), and refined AIDD copywriting.
+- **Zero Literals & CI**: Extracted all new strings to `BUILDER_DICTIONARY`. 100% CI pass rate (lint, typecheck, >88% test coverage).
+
+### Commit `eaa9f7e`: fix: remove .util extensions from shared utilities and stabilize archive strategy tests
 **Status:** Completed
 **Key Features Implemented:**
 - **Test Environment Stabilization**: Migrated `ArchiveGenerator` and `TemplateInterpolator` tests away from fragile `fakeAsync`/`tick` dependencies that caused `zone.js/testing` missing environment errors. Refactored all asynchronous mocks to use clean `async`/`await` patterns.

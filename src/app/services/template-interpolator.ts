@@ -16,16 +16,11 @@ export class TemplateInterpolator {
    */
   @Memoize()
   async fetchJson<T = unknown>(url: string): Promise<T | null> {
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return await response.json() as T;
-    } catch (error) {
-      console.error(`Failed to fetch JSON template at ${url}`, error);
-      return null;
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+    return await response.json() as T;
   }
 
   /**

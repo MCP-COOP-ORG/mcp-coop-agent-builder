@@ -3,10 +3,11 @@ import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TuiButton } from '@taiga-ui/core';
 import { BUILDER_DICTIONARY } from '@shared/constants';
+import { TextFormatPipe } from '@shared/pipes';
 
 @Component({
   selector: 'app-welcome',
-  imports: [RouterLink, TuiButton, NgOptimizedImage],
+  imports: [RouterLink, TuiButton, NgOptimizedImage, TextFormatPipe],
   templateUrl: './welcome.html',
   styleUrl: './welcome.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -14,7 +14,11 @@ export const BUILDER_DICTIONARY = {
     projectName: 'Project Name',
     businessDomains: 'Business Domains',
     welcomeTitle: 'MCP COOP Agent Builder',
-    welcomeDescription: 'A visual wizard to configure and generate custom AI Agent rules and project contexts for your IDE.',
+    welcomeTitleLink: 'MCP COOP',
+    welcomeTitleText: ' Agent Builder',
+    welcomeTitleHref: 'https://mcpcoop.org/en',
+    welcomeDescription: 'Basic AI assistants are too abstract and require you to constantly provide project context manually.\n MCP COOP Agent Builder is a visual configurator for assembling autonomous AI agents tailored specifically to your codebase. Choose your tech stack and architectural patterns, and the system will generate a ready-to-use agent bundle for your AI environment.\nThis is your reliable foundation for AI-Driven Development: seamlessly integrate AI into your engineering workflow while strictly adhering to development standards and maintaining absolute data privacy.',
+    welcomeHighlights: ['MCP COOP Agent Builder is a visual configurator', 'AI-Driven Development', 'your engineering', 'specifically'],
   },
   placeholders: {
     projectIdentity: 'Describe your project goal, key features, and core identity...',
@@ -75,5 +79,16 @@ export const BUILDER_DICTIONARY = {
   },
   assets: {
     hero: 'ai-builder-hero-2.png',
+  },
+  errors: {
+    genericError: 'An unexpected error occurred.',
+    fetchError: 'Failed to fetch configuration assets.',
+    genericErrorLabel: 'System Error',
+  },
+  ariaLabels: {
+    moreInfo: 'Show more information',
+  },
+  cache: {
+    ttlMs: 300000, // 5 minutes
   },
 } as const;

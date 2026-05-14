@@ -17,6 +17,7 @@
       <button 
         class="checkbox-card__info"
         type="button"
+        [attr.aria-label]="view.dictionary.ariaLabels.moreInfo"
         (click)="showInfo($event, option)"
       >
         <tui-icon icon="@tui.info" />

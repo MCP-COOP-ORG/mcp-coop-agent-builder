@@ -62,7 +62,6 @@ describe('TemplateInterpolator', () => {
       status: 404
     } as Response);
 
-    const result = await service.fetchJson(url);
-    expect(result).toBeNull();
+    await expect(service.fetchJson(url)).rejects.toThrow('HTTP error! status: 404');
   });
 });

@@ -3,6 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/f
 import { TuiCheckbox, TuiDialogService, TuiIcon } from '@taiga-ui/core';
 import { ConfigItem } from '@shared/models';
 import { RecommendationEngine, RecommendationStatus, TemplateInterpolator, BuilderState } from '@services';
+import { BUILDER_DICTIONARY } from '@shared/constants';
 
 /**
  * Reusable Checkbox Group component for the builder form.
@@ -28,6 +29,10 @@ export class CheckboxGroup implements ControlValueAccessor {
   private readonly dialogService = inject(TuiDialogService);
   private readonly interpolator = inject(TemplateInterpolator);
   private readonly builderState = inject(BuilderState);
+
+  readonly view = {
+    dictionary: BUILDER_DICTIONARY,
+  } as const;
 
   /**
    * Array of options to render as interactive checkbox cards.

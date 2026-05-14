@@ -32,9 +32,9 @@
 // Selector mirrors what Taiga uses in palette/light.css
 :root {
   // Brand accent (primary buttons, active states, links)
-  --tui-background-accent-1: #4f6ef7;
-  --tui-background-accent-1-hover: #3d5ce8;
-  --tui-background-accent-1-pressed: #2c4bd6;
+  --tui-background-accent-1: hsl(212, 100%, 47%);
+  --tui-background-accent-1-hover: hsl(212, 100%, 52%);
+  --tui-background-accent-1-pressed: hsl(212, 100%, 42%);
   --tui-text-primary-on-accent-1: #ffffff;
 }
 
@@ -50,8 +50,14 @@
   --tui-background-elevation-3: #1f2333;
 
   // Brand accent in dark mode (slightly lighter for contrast)
-  --tui-background-accent-1: #7b8cff;
-  --tui-background-accent-1-hover: #8f9cff;
-  --tui-background-accent-1-pressed: #6a7aff;
+  --tui-background-accent-1: hsl(212, 100%, 55%);
+  --tui-background-accent-1-hover: hsl(212, 100%, 60%);
+  --tui-background-accent-1-pressed: hsl(212, 100%, 50%);
   --tui-text-primary-on-accent-1: #ffffff;
+}
+
+// --- Global Utilities ---------------------------------------
+.highlight {
+  color: var(--tui-background-accent-1);
+  font-weight: 700;
 }

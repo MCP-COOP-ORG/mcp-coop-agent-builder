@@ -100,6 +100,21 @@ describe('ArchiveGenerator', () => {
        const files = await service.generatePreview();
        expect(files).toBeDefined();
     });
+
+    it('should apply manual edits from BuilderState to generated files', async () => {
+      builderState.reviewData.set({ aiAgent: 'antigravity' });
+      vi.spyOn(interpolator, 'fetchJson').mockResolvedValue({ content: 'Original Content' });
+      vi.spyOn(interpolator, 'interpolate').mockImplementation((str) => str);
+
+      // Set an override in the builder state for the static GEMINI.md file
+      builderState.editedFiles.update(files => ({ ...files, 'GEMINI.md': 'User Override Content' }));
+
+      const files = await service.generatePreview();
+      
+      const geminiFile = files.find(f => f.path === 'GEMINI.md');
+      expect(geminiFile).toBeDefined();
+      expect(geminiFile?.content).toBe('User Override Content');
+    });
   });
 
   describe('downloadArchive', () => {

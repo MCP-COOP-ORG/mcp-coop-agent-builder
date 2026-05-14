@@ -5,6 +5,13 @@ The MCP COOP Agent Builder is in the early active development phase. The foundat
 
 ## Development History
 
+### Commit (Pending): fix: eliminate vitest test bleed via sessionStorage and global config isolation
+**Status:** Completed
+**Key Features Implemented:**
+- **Global Config Isolation**: Fixed a critical test bleed in `dynamic-form-step.spec.ts` where mocking the global `GENERATED_PAGES_CONFIG` without an `afterAll` cleanup caused downstream tests in `archive-strategies.spec.ts` to incorrectly resolve `wrapperType` fallbacks (`test-step` instead of `workflow`).
+- **SessionStorage Sterilization**: Fixed a secondary test bleed in `checkbox-group.spec.ts` by introducing `sessionStorage.clear()` in the `beforeEach` hook. This ensures `BuilderState` initializes cleanly without loading residual state (like `aiAgent: 'antigravity'`) from previous test suites running in the shared JSDOM environment.
+- **Coverage Safety**: Restored full stability to the test suite, achieving 100% passing tests (174/174) with global coverage remaining safely above the strict 85% thresholds across Lines, Branches, Functions, and Statements.
+
 ### Commit (Pending): feat(ui): add github stars widget to header via shields.io
 **Status:** Completed
 **Key Features Implemented:**

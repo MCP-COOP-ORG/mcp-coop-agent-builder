@@ -64,6 +64,13 @@ describe('PresetDialogComponent', () => {
     expect(contextMock.completeWith).not.toHaveBeenCalled();
   });
 
+  it('should handle null name gracefully if validation is bypassed', () => {
+    Object.defineProperty(component.presetForm, 'valid', { get: () => true });
+    component.presetForm.patchValue({ name: null });
+    component.savePreset();
+    expect(presetManagerMock.saveCurrentStateAsPreset).toHaveBeenCalledWith('');
+  });
+
   it('should not save if limit reached', () => {
     presetsSignal.set(Array(10).fill({ id: '1', name: 'Test', state: {}, createdAt: 1 } as Preset));
     component.presetForm.setValue({ name: 'Test' });
@@ -84,12 +91,22 @@ describe('PresetDialogComponent', () => {
     expect(component.presetForm.value.name).toBe('Saved Preset');
   });
 
-  it('should render existing presets', () => {
+  it('should render existing presets and handle keyboard events', () => {
     presetsSignal.set([
       { id: '1', name: 'Preset 1', createdAt: 12345, state: {} } as Preset
     ]);
     fixture.detectChanges();
     const element = fixture.nativeElement as HTMLElement;
-    expect(element.querySelector('.preset-dialog__item')).toBeTruthy();
+    const item = element.querySelector('.preset-dialog__item') as HTMLElement;
+    expect(item).toBeTruthy();
+    
+    // Test keyup.enter
+    item.dispatchEvent(new KeyboardEvent('keyup', { key: 'Enter' }));
+    expect(component.presetForm.value.name).toBe('Preset 1');
+    
+    // Clear and test keyup.space
+    component.presetForm.patchValue({ name: '' });
+    item.dispatchEvent(new KeyboardEvent('keyup', { key: ' ' }));
+    expect(component.presetForm.value.name).toBe('Preset 1');
   });
 });

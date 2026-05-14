@@ -4,5 +4,6 @@
 export interface BuilderSnapshot {
   description: Record<string, unknown>;
   review: Record<string, unknown>;
-  [dynamicKey: string]: Record<string, unknown>;
+  editedFiles?: Record<string, string>;
+  [dynamicKey: string]: Record<string, unknown> | undefined;
 }

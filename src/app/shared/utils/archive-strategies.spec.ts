@@ -60,6 +60,8 @@ describe('Archive Strategies', () => {
         interpolator
       );
       console.log('DynamicCategoryStrategy files:', files);
+      console.log('wrapperType for cat1:', getWrapperType('cat1'));
+      console.log('fetchJson called:', vi.mocked(interpolator.fetchJson).mock.calls);
 
       expect(files.length).toBe(1);
       expect(files[0].content).toBe('interpolated');

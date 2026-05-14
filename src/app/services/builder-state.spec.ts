@@ -47,6 +47,38 @@ describe('BuilderState', () => {
     expect(parsed.description).toEqual({ aiAgent: 'antigravity' });
   });
 
+  it('should correctly update editedFiles dictionary', () => {
+    service = TestBed.inject(BuilderState);
+    service.editedFiles.update(files => ({ ...files, 'test1.md': 'content 1' }));
+    expect(service.editedFiles()).toEqual({ 'test1.md': 'content 1' });
+    
+    service.editedFiles.update(files => ({ ...files, 'test2.md': 'content 2' }));
+    expect(service.editedFiles()).toEqual({ 'test1.md': 'content 1', 'test2.md': 'content 2' });
+    
+    service.editedFiles.update(files => ({ ...files, 'test1.md': 'updated content 1' }));
+    expect(service.editedFiles()).toEqual({ 'test1.md': 'updated content 1', 'test2.md': 'content 2' });
+  });
+
+  it('should persist editedFiles to sessionStorage', () => {
+    // Initial state setup with edited files
+    const mockState = { editedFiles: { 'test.md': 'saved content' } };
+    sessionStorage.setItem('builderState', JSON.stringify(mockState));
+    
+    // Load state
+    service = TestBed.inject(BuilderState);
+    expect(service.editedFiles()).toEqual({ 'test.md': 'saved content' });
+    
+    // Update and check effect persistence
+    service.editedFiles.update(files => ({ ...files, 'test2.md': 'new content' }));
+    TestBed.flushEffects();
+    
+    const stored = sessionStorage.getItem('builderState');
+    expect(stored).toBeTruthy();
+    
+    const parsed = JSON.parse(stored as string);
+    expect(parsed.editedFiles).toEqual({ 'test.md': 'saved content', 'test2.md': 'new content' });
+  });
+
   it('should reset state and clear sessionStorage', () => {
     service = TestBed.inject(BuilderState);
     sessionStorage.setItem('builderState', '{"description":{"test":true}}');

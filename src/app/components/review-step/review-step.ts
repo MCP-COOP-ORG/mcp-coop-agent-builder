@@ -9,8 +9,8 @@ import {
   Injector
 } from '@angular/core';
 import { TuiHandler } from '@taiga-ui/cdk';
-import { TuiButton, TuiIcon, TuiLoader, TuiNotificationService } from '@taiga-ui/core';
-import { TuiTree } from '@taiga-ui/kit';
+import { TuiButton, TuiIcon, TuiLoader, TuiNotificationService, TuiDialogService } from '@taiga-ui/core';
+import { TuiTree, TUI_CONFIRM } from '@taiga-ui/kit';
 import { CodeEditor, StepHeader } from '@shared/components';
 import { BUILDER_DICTIONARY, BUILDER_STEPS, DEFAULT_LANGUAGE, GeneratedFile, LANGUAGE_MAP, STEP_IDS } from '@shared/constants';
 import { GENERATED_AI_ENVIRONMENTS } from '@shared/configs';
@@ -30,6 +30,7 @@ export class ReviewStep {
   private readonly builderState = inject(BuilderState);
   private readonly archiveGenerator = inject(ArchiveGenerator);
   private readonly notifications = inject(TuiNotificationService);
+  private readonly dialogs = inject(TuiDialogService);
   private readonly injector = inject(Injector);
   private readonly codeEditor = viewChild('codeEditor', { read: CodeEditor });
 
@@ -46,7 +47,9 @@ export class ReviewStep {
   readonly editMode = signal(false);
   readonly editContent = signal('');
   readonly isDirty = signal(false);
-  readonly activeEnvironment = signal<string>('antigravity');
+  readonly activeEnvironment = signal<string>(
+    (this.builderState.reviewData()['aiAgent'] as string) || 'antigravity'
+  );
 
   // ── Computed ──────────────────────────────────────────────────────────────
   readonly activeFile = computed(() =>
@@ -67,6 +70,11 @@ export class ReviewStep {
     (node) => node.children ?? [];
 
   constructor() {
+    // Ensure global state matches local default if it was empty
+    if (!this.builderState.reviewData()['aiAgent']) {
+      this.builderState.reviewData.update((data) => ({ ...data, aiAgent: this.activeEnvironment() }));
+    }
+
     afterNextRender(() => {
       void this.loadPreview(true);
     });
@@ -81,8 +89,22 @@ export class ReviewStep {
   }
 
   enableEdit(): void {
-    this.editContent.set(this.activeFile()?.content ?? '');
-    this.editMode.set(true);
+    this.dialogs
+      .open<boolean>(TUI_CONFIRM, {
+        label: this.view.dictionary.review.editWarningTitle,
+        size: 's',
+        data: {
+          content: this.view.dictionary.review.editWarningMessage,
+          yes: this.view.dictionary.review.editWarningConfirm,
+          no: '' // Hide the 'no' button to make it an alert, not a confirm
+        },
+      })
+      .subscribe((response) => {
+        if (response) {
+          this.editContent.set(this.activeFile()?.content ?? '');
+          this.editMode.set(true);
+        }
+      });
   }
 
   cancelEdit(): void {
@@ -108,6 +130,12 @@ export class ReviewStep {
     // Sync edits back to the generator service so the global download button picks them up
     this.archiveGenerator.previewFiles.set(updatedFiles);
 
+    // Save edit globally to persist across environment switches
+    this.builderState.editedFiles.update(edits => ({
+      ...edits,
+      [path]: newContent
+    }));
+
     this.editMode.set(false);
     this.isDirty.set(false);
   }
@@ -127,6 +155,7 @@ export class ReviewStep {
 
   setEnvironment(envId: string): void {
     this.activeEnvironment.set(envId);
+    this.builderState.reviewData.update((data) => ({ ...data, aiAgent: envId }));
     this.isLoading.set(true);
     void this.loadPreview();
   }
@@ -134,14 +163,6 @@ export class ReviewStep {
   // ── Private helpers ───────────────────────────────────────────────────────
 
   private async loadPreview(showNotification = false): Promise<void> {
-    // If there's an aiAgent in the global state, ensure local state matches
-    const reviewData = this.builderState.reviewData();
-    if (reviewData['aiAgent'] && typeof reviewData['aiAgent'] === 'string') {
-      this.activeEnvironment.set(reviewData['aiAgent']);
-    } else {
-      // Default fallback
-      this.builderState.reviewData.update(data => ({ ...data, aiAgent: this.activeEnvironment() }));
-    }
 
     const generated = await this.archiveGenerator.generatePreview();
     this.files.set(generated);

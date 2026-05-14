@@ -66,8 +66,18 @@ export class ArchiveGenerator {
       }
     }
 
-    this.previewFiles.set(files);
-    return files;
+    const edits = this.builderState.editedFiles();
+    
+    // Apply any manual edits that the user saved in the ReviewStep
+    const finalFiles = files.map(f => {
+      if (f.type === 'file' && edits[f.path]) {
+        return { ...f, content: edits[f.path] };
+      }
+      return f;
+    });
+
+    this.previewFiles.set(finalFiles);
+    return finalFiles;
   }
 
   async downloadArchive(files?: GeneratedFile[]): Promise<void> {

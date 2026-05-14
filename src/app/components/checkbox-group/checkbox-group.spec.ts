@@ -21,6 +21,8 @@ describe('CheckboxGroup', () => {
   let mockInterpolator: { fetchJson: ReturnType<typeof vi.fn> };
 
   beforeEach(async () => {
+    sessionStorage.clear();
+    
     mockRecommendationEngine = {
       getStatus: vi.fn().mockReturnValue(undefined)
     };

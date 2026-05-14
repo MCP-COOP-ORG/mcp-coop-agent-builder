@@ -14,6 +14,7 @@ export class BuilderState {
   // Signals for custom steps
   readonly descriptionData = signal<Record<string, unknown>>({});
   readonly reviewData = signal<Record<string, unknown>>({});
+  readonly editedFiles = signal<Record<string, string>>({});
 
   // Dynamic signals for all generated pages
   readonly dynamicData: Record<string, WritableSignal<Record<string, unknown>>> = {};
@@ -47,6 +48,7 @@ export class BuilderState {
     return {
       description: this.descriptionData(),
       review: this.reviewData(),
+      editedFiles: this.editedFiles(),
       ...dynamicStateToSave
     };
   }
@@ -57,6 +59,7 @@ export class BuilderState {
   restoreSnapshot(snapshot: BuilderSnapshot): void {
     if (snapshot.description) this.descriptionData.set(snapshot.description);
     if (snapshot.review) this.reviewData.set(snapshot.review);
+    if (snapshot.editedFiles) this.editedFiles.set(snapshot.editedFiles);
 
     Object.keys(this.dynamicData).forEach(stepId => {
       if (snapshot[stepId]) {

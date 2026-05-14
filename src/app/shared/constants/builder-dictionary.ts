@@ -80,6 +80,9 @@ export const BUILDER_DICTIONARY = {
     dirtyIndicator: '●',
     undoButton: 'Undo',
     redoButton: 'Redo',
+    editWarningTitle: 'Attention!',
+    editWarningMessage: 'Manual edits apply only to the current environment. Changing the environment later will discard these edits because files are regenerated from scratch. To make global changes, return to the previous steps.',
+    editWarningConfirm: 'Understood'
   },
   assets: {
     hero: 'ai-builder-hero-2.png',

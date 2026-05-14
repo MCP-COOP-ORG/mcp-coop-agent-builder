@@ -46,6 +46,11 @@ describe('DynamicFormStep', () => {
     };
   });
 
+  afterAll(() => {
+    delete (GENERATED_PAGES_CONFIG as Record<string, unknown>)[mockStepId];
+  });
+
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, DynamicFormStep],

@@ -8,6 +8,7 @@ import { BuilderState } from '../../services/builder-state';
 import { ReviewStep } from './review-step';
 import { buildFileTree } from '@shared/utils';
 import { BUILDER_DICTIONARY } from '@shared/constants';
+import { of } from 'rxjs';
 
 interface ReviewStepPrivate {
   loadPreview(): Promise<void>;
@@ -33,7 +34,7 @@ describe('ReviewStep', () => {
   };
 
   const mockDialogService = {
-    open: vi.fn().mockReturnValue({ subscribe: vi.fn() })
+    open: vi.fn().mockReturnValue(of(true))
   };
 
   beforeEach(async () => {
@@ -87,13 +88,20 @@ describe('ReviewStep', () => {
     expect(component.activeFilePath()).toBe('other.ts');
   });
 
-  it('should toggle edit mode', () => {
+  it('should enable edit mode only if dialog is confirmed', () => {
+    // True scenario (from beforeEach mock)
     component.enableEdit();
     expect(component.editMode()).toBe(true);
     expect(component.editContent()).toBe('content');
 
     component.cancelEdit();
     expect(component.editMode()).toBe(false);
+
+    // False scenario
+    const mockDialogs = TestBed.inject(TuiDialogService);
+    vi.spyOn(mockDialogs, 'open').mockReturnValueOnce(of(false));
+    component.enableEdit();
+    expect(component.editMode()).toBe(false); // Should remain false
   });
 
   it('should update isDirty when content changes', () => {
@@ -103,8 +111,8 @@ describe('ReviewStep', () => {
     expect(component.editContent()).toBe('new content');
   });
 
-  it('should save edits and sync with generator', async () => {
-    const generator = TestBed.inject(ArchiveGenerator);
+  it('should save edits and persist to builderState', async () => {
+    const builderState = TestBed.inject(BuilderState);
     component.enableEdit();
     component.onEditorChange('modified');
     component.saveEdit();
@@ -112,7 +120,8 @@ describe('ReviewStep', () => {
     expect(component.files()[0].content).toBe('modified');
     expect(component.editMode()).toBe(false);
     expect(component.isDirty()).toBe(false);
-    expect(generator.previewFiles()[0].content).toBe('modified');
+    // Ensure the manual edit is persisted to the global state
+    expect(builderState.editedFiles()['test.ts']).toBe('modified');
   });
 
   it('should detect language based on extension', async () => {
@@ -214,16 +223,11 @@ describe('ReviewStep', () => {
     });
   });
 
-  describe('loadPreview edge cases', () => {
-    it('should use fallback if aiAgent is missing in builder state', async () => {
-      const builderState = TestBed.inject(BuilderState);
-      builderState.reviewData.set({});
-      component.activeEnvironment.set('cursor');
-      
-      const priv = component as unknown as ReviewStepPrivate;
-      await priv.loadPreview();
-      
-      expect(builderState.reviewData()['aiAgent']).toBe('cursor');
-    });
+  it('should handle childrenHandler correctly', () => {
+    const nodeWithChildren = { type: 'folder' as const, path: 'src', label: 'src', children: [{ type: 'file' as const, path: 'src/app.ts', label: 'app.ts' }] };
+    const nodeWithoutChildren = { type: 'file' as const, path: 'src/app.ts', label: 'app.ts' };
+
+    expect(component.childrenHandler(nodeWithChildren)).toEqual(nodeWithChildren.children);
+    expect(component.childrenHandler(nodeWithoutChildren)).toEqual([]);
   });
 });

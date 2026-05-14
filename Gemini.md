@@ -9,7 +9,9 @@ Do NOT guess architectural decisions or tech stack configurations. Instead, read
 - **Current Context & History**: Read `docs/context.md` to understand what has already been built, the current state of the application, and the history of recent changes.
 
 ## Documentation Update Policy (IMPORTANT)
-When the user tells you to "commit", "save progress", or "update docs" at the end of a session/task:
+**CRITICAL RULE: NEVER update `docs/context.md` proactively during development. You must ONLY modify the context file when the user EXPLICITLY commands you to "commit", "save progress", or "update docs" at the very end of a fully completed task.**
+
+When the explicit command is given:
 1. You MUST update `docs/context.md`. Add a new entry at the top of the `Development History` list (descending order) detailing the new features implemented and architectural changes made.
 2. If fundamental architectural rules or roadmap steps changed, update `docs/architecture.md` and `docs/concept.md` accordingly to keep the global context perfectly synced.
 

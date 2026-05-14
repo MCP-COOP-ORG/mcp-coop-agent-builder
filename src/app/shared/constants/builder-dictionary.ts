@@ -53,6 +53,7 @@ export const BUILDER_DICTIONARY = {
     folderIcon: '@tui.folder',
     explorerIcon: '@tui.files',
     savePresetButton: '@tui.bookmark',
+    githubIcon: '@tui.github',
   },
   notifications: {
     reviewReadyLabel: 'Archive ready',
@@ -66,7 +67,9 @@ export const BUILDER_DICTIONARY = {
     toggleThemeAriaLabel: 'Toggle color theme',
     darkModeIcon: '@tui.moon',
     lightModeIcon: '@tui.sun',
-    githubWidgetUrl: 'https://ghbtns.com/github-btn.html?user=MCP-COOP-ORG&repo=mcp-coop-agent-builder&type=star&count=true&size=default',
+    githubRepoUrl: 'https://github.com/MCP-COOP-ORG/mcp-coop-agent-builder',
+    githubShieldUrl: 'https://img.shields.io/github/stars/MCP-COOP-ORG/mcp-coop-agent-builder?style=social',
+    githubBtnText: 'Star',
   },
   review: {
     sidebarTitle: 'ai-context.zip',

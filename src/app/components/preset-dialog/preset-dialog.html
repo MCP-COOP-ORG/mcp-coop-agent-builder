@@ -14,10 +14,10 @@
     </button>
     <tui-expand>
       @for (preset of presetManager.presets(); track preset.id) {
-      <div class="preset-dialog__item">
+      <div class="preset-dialog__item" tabindex="0" (click)="selectPreset(preset.name)" (keyup.enter)="selectPreset(preset.name)" (keyup.space)="selectPreset(preset.name)">
         <span class="preset-dialog__name">{{ preset.name }}</span>
         <button tuiButton appearance="flat-destructive" iconStart="@tui.trash" type="button" size="s"
-          [title]="dictionary.deleteBtn" (click)="deletePreset(preset.id)">
+          [title]="dictionary.deleteBtn" (click)="deletePreset(preset.id, $event)">
           <span style="display: none;">{{ dictionary.deleteBtn }}</span>
         </button>
       </div>
@@ -29,11 +29,11 @@
   </tui-accordion>
 
   <div class="preset-dialog__actions">
-    <button tuiButton type="submit" [disabled]="presetForm.invalid || presetManager.presets().length >= 10">
-      {{ dictionary.saveAndDownloadBtn }}
-    </button>
     <button tuiButton type="button" appearance="secondary" (click)="cancel()">
       {{ dictionary.downloadOnlyBtn }}
+    </button>
+    <button tuiButton type="submit" [disabled]="presetForm.invalid || presetManager.presets().length >= 10">
+      {{ dictionary.saveAndDownloadBtn }}
     </button>
   </div>
 </form>

@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { TUI_DARK_MODE, TuiButton } from '@taiga-ui/core';
 import { BUILDER_DICTIONARY } from '@shared/constants';
 
@@ -12,7 +11,6 @@ import { BUILDER_DICTIONARY } from '@shared/constants';
 })
 export class AppHeader {
   private readonly darkMode = inject(TUI_DARK_MODE);
-  private readonly sanitizer = inject(DomSanitizer);
 
   protected readonly view = {
     isDark: this.darkMode,
@@ -22,7 +20,10 @@ export class AppHeader {
         : BUILDER_DICTIONARY.header.darkModeIcon,
     ),
     ariaLabel: BUILDER_DICTIONARY.header.toggleThemeAriaLabel,
-    githubWidgetUrl: this.sanitizer.bypassSecurityTrustResourceUrl(BUILDER_DICTIONARY.header.githubWidgetUrl),
+    githubRepoUrl: BUILDER_DICTIONARY.header.githubRepoUrl,
+    githubShieldUrl: BUILDER_DICTIONARY.header.githubShieldUrl,
+    githubBtnText: BUILDER_DICTIONARY.header.githubBtnText,
+    githubIcon: BUILDER_DICTIONARY.icons.githubIcon,
   } as const;
 
   protected toggleTheme(): void {

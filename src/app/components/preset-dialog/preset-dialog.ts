@@ -44,7 +44,12 @@ export class PresetDialogComponent {
     this.context.completeWith();
   }
 
-  deletePreset(id: string): void {
+  selectPreset(name: string): void {
+    this.presetForm.patchValue({ name });
+  }
+
+  deletePreset(id: string, event: Event): void {
+    event.stopPropagation();
     this.presetManager.deletePreset(id);
   }
 }

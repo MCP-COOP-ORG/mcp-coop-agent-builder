@@ -15,10 +15,6 @@ export class DialogManager {
   private readonly injector = inject(Injector);
 
   openPresetDialog(): void {
-    console.log('--- DEBUG ---');
-    console.log('PresetDialogComponent is:', PresetDialogComponent);
-    console.log('Injector is:', this.injector);
-    console.log('-------------');
 
     this.dialogService.open(
       new PolymorpheusComponent(PresetDialogComponent, this.injector),

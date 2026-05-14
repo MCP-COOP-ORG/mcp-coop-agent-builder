@@ -72,8 +72,16 @@ describe('PresetDialogComponent', () => {
   });
 
   it('should delete preset', () => {
-    component.deletePreset('123');
+    const mockEvent = new Event('click');
+    vi.spyOn(mockEvent, 'stopPropagation');
+    component.deletePreset('123', mockEvent);
+    expect(mockEvent.stopPropagation).toHaveBeenCalled();
     expect(presetManagerMock.deletePreset).toHaveBeenCalledWith('123');
+  });
+
+  it('should select preset', () => {
+    component.selectPreset('Saved Preset');
+    expect(component.presetForm.value.name).toBe('Saved Preset');
   });
 
   it('should render existing presets', () => {

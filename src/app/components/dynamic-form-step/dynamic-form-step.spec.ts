@@ -93,9 +93,9 @@ describe('DynamicFormStep', () => {
     expect(component.form.get('cat1')?.value).toEqual(['item1']);
   });
 
-  it('should update builder state on form changes', () => {
+  it('should update builder state on form changes', async () => {
     component.form.patchValue({ cat1: ['item2'] });
-    
+    await new Promise(resolve => setTimeout(resolve, 350));
     const data = builderState.dynamicData[mockStepId]();
     expect(data['cat1']).toEqual(['item2']);
   });

@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "prestart": "rm -rf .angular/cache",
+    "prestart": "rm -rf .angular/cache node_modules/.cache/native-federation",
     "start": "ng serve",
-    "prebuild": "rm -rf .angular/cache",
+    "prebuild": "rm -rf .angular/cache node_modules/.cache/native-federation",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",

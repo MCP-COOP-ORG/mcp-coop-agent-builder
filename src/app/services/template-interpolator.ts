@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Memoize } from '@shared/utils';
+
 
 /**
  * Service responsible for fetching templates and replacing variables.
@@ -12,6 +14,7 @@ export class TemplateInterpolator {
    * Fetches a raw string or JSON from a URL.
    * If it's a JSON file, it will return the parsed object.
    */
+  @Memoize()
   async fetchJson<T = unknown>(url: string): Promise<T | null> {
     try {
       const response = await fetch(url);

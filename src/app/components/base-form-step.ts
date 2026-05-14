@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BuilderState } from '@services';
 import { BuilderBlockConfig } from '@shared/constants';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { debounceTime } from 'rxjs';
 
 @Directive()
 export abstract class BaseFormStep implements OnInit {
@@ -46,7 +47,10 @@ export abstract class BaseFormStep implements OnInit {
       this.stateSignal.set(this.form.getRawValue() as Record<string, unknown>);
     }
 
-    this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+    this.form.valueChanges.pipe(
+      debounceTime(300),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(() => {
       this.stateSignal.set(this.form.getRawValue() as Record<string, unknown>);
     });
   }

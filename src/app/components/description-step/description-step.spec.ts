@@ -37,8 +37,9 @@ describe('DescriptionStep', () => {
     expect(projectIdentity?.get('name')?.value).toBe('Test Project');
   });
 
-  it('should update builder state on form changes', () => {
+  it('should update builder state on form changes', async () => {
     component.form.patchValue({ projectIdentity: { name: 'New Name' } });
+    await new Promise(resolve => setTimeout(resolve, 350));
     const data = builderState.descriptionData();
     const projectIdentity = data['projectIdentity'] as Record<string, unknown>;
     expect(projectIdentity['name']).toBe('New Name');

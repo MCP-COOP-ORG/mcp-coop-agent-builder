@@ -34,7 +34,13 @@ describe('PresetManager', () => {
             reviewData: signal({ review: 'data' }),
             dynamicData: {
               'step-1': signal({ dynamic: 'val' })
-            }
+            },
+            createSnapshot: vi.fn().mockReturnValue({
+              description: { field: 'value' },
+              review: { review: 'data' },
+              dynamicData: { 'step-1': { dynamic: 'val' } }
+            }),
+            restoreSnapshot: vi.fn()
           }
         },
         {
@@ -64,7 +70,7 @@ describe('PresetManager', () => {
     
     expect(service.presets().length).toBe(1);
     expect(service.presets()[0].name).toBe('Test Preset');
-    expect(service.presets()[0].state['description']).toEqual({ field: 'value' });
+    expect(service.presets()[0].state.description).toEqual({ field: 'value' });
     expect(saveSpy).toHaveBeenCalled();
     expect(notificationService.open).toHaveBeenCalled();
   });
@@ -79,13 +85,17 @@ describe('PresetManager', () => {
     const firstId = service.presets()[0].id;
     
     // Change state
-    builderState.descriptionData.set({ field: 'updated' });
+    builderState.createSnapshot = vi.fn().mockReturnValue({
+      description: { field: 'updated' },
+      review: { review: 'data' },
+      dynamicData: { 'step-1': { dynamic: 'val' } }
+    });
     
     service.saveCurrentStateAsPreset('TEST');
     
     expect(service.presets().length).toBe(1);
     expect(service.presets()[0].id).toBe(firstId);
-    expect(service.presets()[0].state['description']).toEqual({ field: 'updated' });
+    expect(service.presets()[0].state.description).toEqual({ field: 'updated' });
   });
 
   it('should shift oldest preset if limit reached', () => {
@@ -117,8 +127,7 @@ describe('PresetManager', () => {
 
     service.loadPreset(presetId);
 
-    expect(builderState.descriptionData()).toEqual({ field: 'value' });
-    expect(builderState.dynamicData['step-1']()).toEqual({ dynamic: 'val' });
+    expect(builderState.restoreSnapshot).toHaveBeenCalledWith(expect.objectContaining({ description: { field: 'value' } }));
     expect(notificationService.open).toHaveBeenCalled();
   });
 
@@ -131,7 +140,7 @@ describe('PresetManager', () => {
     builderState.dynamicData['step-2'] = signal({ data: 'new' });
     
     service.loadPreset(presetId);
-    expect(builderState.dynamicData['step-2']()).toEqual({});
+    expect(builderState.restoreSnapshot).toHaveBeenCalled();
   });
 
   it('should delete preset', () => {

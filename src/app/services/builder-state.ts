@@ -1,6 +1,8 @@
 import { Injectable, signal, effect, PLATFORM_ID, inject, WritableSignal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { GENERATED_PAGES_CONFIG } from '@shared/configs';
+import { BuilderSnapshot } from '@shared/models';
+
 
 @Injectable({
   providedIn: 'root',
@@ -28,19 +30,41 @@ export class BuilderState {
 
       // Effect to auto-save to sessionStorage whenever signals change
       effect(() => {
-        const dynamicStateToSave: Record<string, Record<string, unknown>> = {};
-        Object.keys(this.dynamicData).forEach(stepId => {
-          dynamicStateToSave[stepId] = this.dynamicData[stepId]();
-        });
-
-        const stateToSave = {
-          description: this.descriptionData(),
-          review: this.reviewData(),
-          ...dynamicStateToSave
-        };
-        sessionStorage.setItem(this.STORAGE_KEY, JSON.stringify(stateToSave));
+        sessionStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.createSnapshot()));
       });
     }
+  }
+
+  /**
+   * Creates a Memento (snapshot) of the current state.
+   */
+  createSnapshot(): BuilderSnapshot {
+    const dynamicStateToSave: Record<string, Record<string, unknown>> = {};
+    Object.keys(this.dynamicData).forEach(stepId => {
+      dynamicStateToSave[stepId] = this.dynamicData[stepId]();
+    });
+
+    return {
+      description: this.descriptionData(),
+      review: this.reviewData(),
+      ...dynamicStateToSave
+    };
+  }
+
+  /**
+   * Restores the state from a given Memento (snapshot).
+   */
+  restoreSnapshot(snapshot: BuilderSnapshot): void {
+    if (snapshot.description) this.descriptionData.set(snapshot.description);
+    if (snapshot.review) this.reviewData.set(snapshot.review);
+
+    Object.keys(this.dynamicData).forEach(stepId => {
+      if (snapshot[stepId]) {
+        this.dynamicData[stepId].set(snapshot[stepId]);
+      } else {
+        this.dynamicData[stepId].set({}); // clear if not in preset
+      }
+    });
   }
 
   /**
@@ -50,15 +74,8 @@ export class BuilderState {
     const stored = sessionStorage.getItem(this.STORAGE_KEY);
     if (stored) {
       try {
-        const parsed = JSON.parse(stored);
-        if (parsed.description) this.descriptionData.set(parsed.description);
-        if (parsed.review) this.reviewData.set(parsed.review);
-
-        Object.keys(this.dynamicData).forEach(stepId => {
-          if (parsed[stepId]) {
-            this.dynamicData[stepId].set(parsed[stepId]);
-          }
-        });
+        const parsed = JSON.parse(stored) as BuilderSnapshot;
+        this.restoreSnapshot(parsed);
       } catch (e) {
         console.error('Failed to parse builder state from sessionStorage', e);
       }

@@ -3,11 +3,12 @@ import { isPlatformBrowser } from '@angular/common';
 import { BuilderState } from './builder-state';
 import { TuiNotificationService } from '@taiga-ui/core';
 import { BUILDER_DICTIONARY } from '@shared/constants';
+import { BuilderSnapshot } from '@shared/models';
 
 export interface Preset {
   id: string;
   name: string;
-  state: Record<string, Record<string, unknown>>;
+  state: BuilderSnapshot;
   createdAt: number;
 }
 
@@ -36,16 +37,7 @@ export class PresetManager {
   saveCurrentStateAsPreset(name: string): void {
     if (!isPlatformBrowser(this.platformId)) return;
 
-    const dynamicStateToSave: Record<string, Record<string, unknown>> = {};
-    Object.keys(this.builderState.dynamicData).forEach(stepId => {
-      dynamicStateToSave[stepId] = this.builderState.dynamicData[stepId]();
-    });
-
-    const stateToSave = {
-      description: this.builderState.descriptionData(),
-      review: this.builderState.reviewData(),
-      ...dynamicStateToSave
-    };
+    const stateToSave = this.builderState.createSnapshot();
 
     const finalName = name.trim() || `Preset ${this.presets().length + 1}`;
     const current = [...this.presets()];
@@ -88,19 +80,7 @@ export class PresetManager {
     const preset = this.presets().find(p => p.id === id);
     if (!preset) return;
 
-    const state = preset.state;
-
-    // Update BuilderState
-    if (state['description']) this.builderState.descriptionData.set(state['description']);
-    if (state['review']) this.builderState.reviewData.set(state['review']);
-    
-    Object.keys(this.builderState.dynamicData).forEach(stepId => {
-      if (state[stepId]) {
-        this.builderState.dynamicData[stepId].set(state[stepId]);
-      } else {
-        this.builderState.dynamicData[stepId].set({}); // clear if not in preset
-      }
-    });
+    this.builderState.restoreSnapshot(preset.state);
 
     this.notifications.open(BUILDER_DICTIONARY.presets.loadedMessage, {
       label: BUILDER_DICTIONARY.presets.loadedLabel,

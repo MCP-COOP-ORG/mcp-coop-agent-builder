@@ -1,0 +1,9 @@
+{
+  "title": "After Agent",
+  "icon": "@tui.user-round-check",
+  "type": "checkbox",
+  "order": 4,
+  "events": {
+    "antigravity": "AfterAgent"
+  }
+}

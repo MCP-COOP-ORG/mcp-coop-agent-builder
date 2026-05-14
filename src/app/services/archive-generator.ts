@@ -2,10 +2,9 @@ import { inject, Injectable, signal } from '@angular/core';
 import { strToU8, zipSync } from 'fflate';
 import { GeneratedFile } from '@shared/constants';
 import { CLAUDE, CURSOR, ANTIGRAVITY } from '@shared/schemas';
-import { ASSET_FILE_PATHS, GENERATED_PLATFORMS_CONFIG, MAIN } from '@shared/configs';
-import { ArchivePattern, StaticFilePattern, DynamicCategoryPattern, DynamicItemPattern, PlatformConfig } from '@shared/models';
+import { ASSET_FILE_PATHS, GENERATED_PAGES_CONFIG, GENERATED_PLATFORMS_CONFIG, MAIN } from '@shared/configs';
+import { ArchivePattern, StaticFilePattern, DynamicCategoryPattern, DynamicItemPattern, DynamicHookPattern, PlatformConfig } from '@shared/models';
 import { BuilderState } from './builder-state';
-import { SKILL_CATEGORIES, RULE_CATEGORIES, WRAPPER_TYPES, WrapperType, DEFAULT_TEMPLATE_PARAMS } from '@shared/constants';
 import { TemplateInterpolator } from './template-interpolator';
 
 import { triggerDownload } from '@shared/utils';
@@ -58,6 +57,9 @@ export class ArchiveGenerator {
              files.push(...itemFiles);
            }
         }
+      } else if (pattern.type === 'dynamic-hook') {
+        const hookFile = await this.generateHookFile(pattern, context, agent);
+        if (hookFile) files.push(hookFile);
       }
     }
 
@@ -94,11 +96,16 @@ export class ArchiveGenerator {
       const wrapperString = platformConfig?.templates?.[wrapperType as keyof typeof platformConfig.templates] as string | undefined;
       
       if (wrapperString) {
+        const defaults = platformConfig?.defaults;
+        const defaultDesc = wrapperType === 'skill'
+          ? (defaults?.skillDescription ?? '')
+          : (defaults?.ruleDescription ?? '');
+
         const finalContent = this.interpolator.interpolate(wrapperString, {
-          name: cat.charAt(0).toUpperCase() + cat.slice(1) + ' Engineering Standard',
-          trigger: DEFAULT_TEMPLATE_PARAMS.trigger,
-          description: DEFAULT_TEMPLATE_PARAMS.getRuleDescription(cat),
-          globs: DEFAULT_TEMPLATE_PARAMS.globs,
+          name: cat.charAt(0).toUpperCase() + cat.slice(1),
+          trigger: defaults?.trigger ?? '',
+          description: defaultDesc.replace('{{category}}', cat),
+          ...(defaults?.globs ? { globs: defaults.globs } : {}),
           content: combinedContent.trim()
         });
         return { path: pattern.path.replace('[category]', cat), type: 'file', content: finalContent };
@@ -120,11 +127,12 @@ export class ArchiveGenerator {
         const wrapperString = platformConfig?.templates?.[wrapperType as keyof typeof platformConfig.templates] as string | undefined;
         
         if (wrapperString) {
+            const defaults = platformConfig?.defaults;
             const finalContent = this.interpolator.interpolate(wrapperString, {
               name: item.charAt(0).toUpperCase() + item.slice(1),
-              trigger: DEFAULT_TEMPLATE_PARAMS.trigger,
-              description: DEFAULT_TEMPLATE_PARAMS.getWorkflowDescription(item),
-              globs: DEFAULT_TEMPLATE_PARAMS.globs,
+              trigger: defaults?.trigger ?? '',
+              description: (defaults?.workflowDescription ?? '').replace('{{item}}', item),
+              ...(defaults?.globs ? { globs: defaults.globs } : {}),
               content: itemContent.trim()
             });
             files.push({ path: pattern.path.replace('[item]', item), type: 'file', content: finalContent });
@@ -132,6 +140,45 @@ export class ArchiveGenerator {
       }
     }
     return files;
+  }
+
+  private async generateHookFile(pattern: DynamicHookPattern, context: Record<string, unknown>, agent: string): Promise<GeneratedFile | null> {
+    const hooksPage = GENERATED_PAGES_CONFIG['hooks'];
+    if (!hooksPage) return null;
+
+    const hookEntries: Record<string, { matcher: string; hooks: { type: string; command: string }[] }[]> = {};
+
+    for (const catId of pattern.categories) {
+      const selectedItems = context[catId] as string[];
+      if (!selectedItems || selectedItems.length === 0) continue;
+
+      const category = hooksPage.categories.find(c => c.id === catId);
+      const platformEventName = category?.events?.[agent];
+      if (!platformEventName) continue;
+
+      for (const itemId of selectedItems) {
+        const url = ASSET_FILE_PATHS[itemId as keyof typeof ASSET_FILE_PATHS];
+        if (!url) continue;
+
+        const snippet = await this.interpolator.fetchJson<{ hook?: Record<string, { matcher: string; type: string; command: string }> }>(url);
+        const hookData = snippet?.hook?.[agent];
+        if (!hookData) continue;
+
+        if (!hookEntries[platformEventName]) {
+          hookEntries[platformEventName] = [];
+        }
+
+        hookEntries[platformEventName].push({
+          matcher: hookData.matcher,
+          hooks: [{ type: hookData.type, command: hookData.command }]
+        });
+      }
+    }
+
+    if (Object.keys(hookEntries).length === 0) return null;
+
+    const settingsJson = JSON.stringify({ hooks: hookEntries }, undefined, 2);
+    return { path: pattern.path, type: 'file', content: settingsJson };
   }
 
   private getSchema(agent: string): ArchivePattern[] {
@@ -143,10 +190,13 @@ export class ArchiveGenerator {
     }
   }
 
-  private getWrapperType(category: string): WrapperType {
-    if (SKILL_CATEGORIES.includes(category)) return WRAPPER_TYPES.SKILL;
-    if (RULE_CATEGORIES.includes(category)) return WRAPPER_TYPES.RULE;
-    return WRAPPER_TYPES.WORKFLOW;
+  private getWrapperType(category: string): string {
+    for (const page of Object.values(GENERATED_PAGES_CONFIG)) {
+      if (page.categories.some(c => c.id === category)) {
+        return page.wrapperType ?? page.id;
+      }
+    }
+    return 'workflow';
   }
 
   async downloadArchive(files?: GeneratedFile[]): Promise<void> {

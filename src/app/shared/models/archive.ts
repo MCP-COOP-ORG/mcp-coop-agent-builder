@@ -21,5 +21,13 @@ export interface DynamicItemPattern {
   categories: string[];  // Array of state keys to draw items from
 }
 
-export type ArchivePattern = StaticFilePattern | DynamicCategoryPattern | DynamicItemPattern;
+// Collects all selected hook snippets across event categories
+// Groups them by platform-specific event name and outputs a single JSON settings file
+export interface DynamicHookPattern {
+  type: 'dynamic-hook';
+  path: string;          // e.g., '.gemini/settings.json'
+  categories: string[];  // Array of event category IDs to collect hooks from
+}
+
+export type ArchivePattern = StaticFilePattern | DynamicCategoryPattern | DynamicItemPattern | DynamicHookPattern;
 

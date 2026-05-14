@@ -1,0 +1,10 @@
+{
+  "title": "Pre Compress / Compact",
+  "icon": "@tui.archive",
+  "type": "checkbox",
+  "order": 10,
+  "events": {
+    "antigravity": "PreCompress",
+    "claude": "PreCompact"
+  }
+}

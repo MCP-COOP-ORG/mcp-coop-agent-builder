@@ -5,7 +5,17 @@ The MCP COOP Agent Builder is in the early active development phase. The foundat
 
 ## Development History
 
-### Commit (Pending): refactor: implement fully automated asset-driven architecture via DynamicFormStep
+### Commit (Pending): refactor: fully configuration-driven architecture, eliminate schema-categories.ts
+**Status:** Completed
+**Key Features Implemented:**
+- **Dynamic Config Generation**: Extended `scripts/generate-pages-config.ts` to automatically generate `GENERATED_PAGE_CATEGORIES` and `GENERATED_AI_ENVIRONMENTS`, eliminating the need for hardcoded TypeScript arrays.
+- **Wrapper Type Resolution**: Replaced static wrapper lookups in `ArchiveGenerator` with a dynamic approach that resolves `wrapperType` directly from the `_meta.json` file of each category page.
+- **Platform Customization via JSON**: Shifted default template parameters (`trigger`, `globs`, `skillDescription`, `ruleDescription`, `workflowDescription`) into the `defaults` object of platform assets (`antigravity.json`, `claude.json`, `cursor.json`).
+- **Zero Literals Enforcement**: Removed all hardcoded fallback strings from `ArchiveGenerator`. Fallbacks are either explicitly defined in the platform JSON or safely default to empty strings, fully adhering to the Zero Literals Policy.
+- **Schema Simplification**: Replaced all hardcoded category arrays in `antigravity.ts`, `claude.ts`, and `cursor.ts` schemas with dynamic spreads from `GENERATED_PAGE_CATEGORIES`.
+- **Cleanup & Tests**: Deleted `src/app/shared/constants/schema-categories.ts`. Ensured 100% test coverage (19/19 files, 133/133 tests) and clean linting across the entire project.
+
+### Commit `f7a110f`: refactor: implement fully automated asset-driven architecture via DynamicFormStep
 **Status:** Completed
 **Key Features Implemented:**
 - **Universal Form Step**: Created a single `DynamicFormStep` component to replace previously duplicated step components. It dynamically reads `stepId` from the active route and fetches its layout from `GENERATED_PAGES_CONFIG`.

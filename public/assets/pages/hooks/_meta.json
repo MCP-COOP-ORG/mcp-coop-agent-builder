@@ -1,0 +1,7 @@
+{
+  "label": "Hooks",
+  "icon": "@tui.webhook",
+  "title": "Lifecycle Hooks",
+  "description": "Configure shell commands that execute at specific points in the AI agent lifecycle.",
+  "wrapperType": "hook"
+}

@@ -1,0 +1,9 @@
+{
+  "title": "Subagent Stop",
+  "icon": "@tui.git-merge",
+  "type": "checkbox",
+  "order": 26,
+  "events": {
+    "claude": "SubagentStop"
+  }
+}

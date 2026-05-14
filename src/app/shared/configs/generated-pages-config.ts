@@ -12,6 +12,7 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
     "icon": "@tui.bot",
     "title": "Agents Configuration",
     "description": "Select skills, technologies, and tooling for your AI agents.",
+    "wrapperType": "skill",
     "categories": [
       {
         "id": "conventions",
@@ -300,12 +301,145 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
       }
     ]
   },
+  "hooks": {
+    "id": "hooks",
+    "label": "Hooks",
+    "icon": "@tui.webhook",
+    "title": "Lifecycle Hooks",
+    "description": "Configure shell commands that execute at specific points in the AI agent lifecycle.",
+    "wrapperType": "hook",
+    "categories": [
+      {
+        "id": "session-start",
+        "title": "Session Start",
+        "icon": "@tui.play",
+        "type": "checkbox",
+        "order": 1,
+        "events": {
+          "antigravity": "SessionStart",
+          "claude": "SessionStart"
+        },
+        "items": [
+          {
+            "id": "direnv-load",
+            "label": "Direnv Load",
+            "filePath": "assets/pages/hooks/session-start/direnv-load.json"
+          },
+          {
+            "id": "git-context",
+            "label": "Git Context",
+            "filePath": "assets/pages/hooks/session-start/git-context.json"
+          }
+        ]
+      },
+      {
+        "id": "before-tool",
+        "title": "Before Tool Execution",
+        "icon": "@tui.shield",
+        "type": "checkbox",
+        "order": 7,
+        "events": {
+          "antigravity": "BeforeTool",
+          "claude": "PreToolUse"
+        },
+        "items": [
+          {
+            "id": "env-guard",
+            "label": "Env Guard",
+            "filePath": "assets/pages/hooks/before-tool/env-guard.json"
+          },
+          {
+            "id": "lockfile-guard",
+            "label": "Lockfile Guard",
+            "filePath": "assets/pages/hooks/before-tool/lockfile-guard.json"
+          }
+        ]
+      },
+      {
+        "id": "after-tool",
+        "title": "After Tool Execution",
+        "icon": "@tui.check-circle",
+        "type": "checkbox",
+        "order": 8,
+        "events": {
+          "antigravity": "AfterTool",
+          "claude": "PostToolUse"
+        },
+        "items": [
+          {
+            "id": "auto-eslint",
+            "label": "Auto Eslint",
+            "filePath": "assets/pages/hooks/after-tool/auto-eslint.json"
+          },
+          {
+            "id": "auto-prettier",
+            "label": "Auto Prettier",
+            "filePath": "assets/pages/hooks/after-tool/auto-prettier.json"
+          }
+        ]
+      },
+      {
+        "id": "notification",
+        "title": "Notification",
+        "icon": "@tui.bell",
+        "type": "checkbox",
+        "order": 9,
+        "events": {
+          "antigravity": "Notification",
+          "claude": "Notification"
+        },
+        "items": [
+          {
+            "id": "desktop-alert",
+            "label": "Desktop Alert",
+            "filePath": "assets/pages/hooks/notification/desktop-alert.json"
+          }
+        ]
+      },
+      {
+        "id": "pre-compress",
+        "title": "Pre Compress / Compact",
+        "icon": "@tui.archive",
+        "type": "checkbox",
+        "order": 10,
+        "events": {
+          "antigravity": "PreCompress",
+          "claude": "PreCompact"
+        },
+        "items": [
+          {
+            "id": "context-save-reminder",
+            "label": "Context Save Reminder",
+            "filePath": "assets/pages/hooks/pre-compress/context-save-reminder.json"
+          }
+        ]
+      },
+      {
+        "id": "stop",
+        "title": "Stop",
+        "icon": "@tui.square",
+        "type": "checkbox",
+        "order": 27,
+        "events": {
+          "claude": "Stop"
+        },
+        "items": [
+          {
+            "id": "git-status-check",
+            "label": "Git Status Check",
+            "filePath": "assets/pages/hooks/stop/git-status-check.json"
+          }
+        ]
+      }
+    ]
+  },
   "rules": {
     "id": "rules",
     "label": "Rules",
     "icon": "@tui.shield-check",
     "title": "Project Rules",
     "description": "Configure standard engineering rules and constraints.",
+    "wrapperType": "rule",
     "categories": [
       {
         "id": "conventions",
@@ -476,6 +610,7 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
     "icon": "@tui.git-merge",
     "title": "Workflows",
     "description": "Select standard operational workflows for your team.",
+    "wrapperType": "workflow",
     "categories": [
       {
         "id": "development",
@@ -509,32 +644,97 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
 export const GENERATED_PLATFORMS_CONFIG: Record<string, PlatformConfig> = {
   "antigravity": {
     "id": "antigravity",
+    "label": "Antigravity",
     "content": "# {{ name }} Agent System Rules & Context\n\nYou are an expert AI assistant working on the **{{ name }}** project.\n\n## Project Context\n{{ description }}\n\n## Business Domains\nThis project operates in the following domains: {{ domains }}\n\n## Core Documentation Rules\nDo NOT guess architectural decisions or tech stack configurations. Instead, read the highly specific documentation in the `.agents/` folder depending on your current task:\n- **Skills**: Check `.agents/skills/` for specific engineering standards and architecture.\n- **Rules**: Check `.agents/rules/` for conventions, guidelines, and tooling.\n- **Workflows**: Check `.agents/workflows/` for step-by-step operational processes.\n\n## Documentation Update Policy (IMPORTANT)\nWhen the user tells you to \"commit\", \"save progress\", or \"update docs\" at the end of a session/task:\n1. You MUST update the central context file if one exists.\n2. If fundamental architectural rules or roadmap steps changed, update the corresponding skill or rule files to keep the global context perfectly synced.",
     "templates": {
       "skill": "---\nname: {{ name }}\ndescription: {{ description }}\n---\n\n# {{ name }}\n\n{{ content }}",
       "rule": "---\ntrigger: {{ trigger }}\ndescription: {{ description }}\n---\n\n{{ content }}",
       "workflow": "---\ndescription: {{ description }}\n---\n\n{{ content }}"
+    },
+    "defaults": {
+      "trigger": "always",
+      "skillDescription": "Standard engineering skills and patterns for {{category}}.",
+      "ruleDescription": "Standard rules and conventions for {{category}}.",
+      "workflowDescription": "Standard operational workflow for {{item}}."
     }
   },
   "claude": {
     "id": "claude",
+    "label": "Claude",
     "content": "# {{ name }} - Claude Project Instructions\n\nYou are Claude, an expert AI coding assistant assigned to the **{{ name }}** project.\n\n## Project Context\n{{ description }}\n\n## Business Domains\n{{ domains }}\n\n## Instructions & Knowledge Base\nThis project uses a structured knowledge base located in the `.claude/` directory:\n- **Skills**: Look in `.claude/skills/` for technical instructions and strict engineering standards.\n- **Rules**: Look in `.claude/rules/` for project conventions and structural constraints.\n- **Workflows**: Look in `.claude/workflows/` for specific tasks and operational procedures.\n\nBefore answering questions or writing code, ALWAYS review the relevant skills and rules to ensure architectural compliance. Do not hallucinate stack configurations.",
     "templates": {
       "skill": "---\nname: {{ name }}\ndescription: {{ description }}\n---\n\n# {{ name }}\n\n{{ content }}",
       "rule": "---\ntrigger: {{ trigger }}\ndescription: {{ description }}\n---\n\n{{ content }}",
       "workflow": "---\ndescription: {{ description }}\n---\n\n{{ content }}"
+    },
+    "defaults": {
+      "trigger": "always",
+      "skillDescription": "Standard engineering skills and patterns for {{category}}.",
+      "ruleDescription": "Standard rules and conventions for {{category}}.",
+      "workflowDescription": "Standard operational workflow for {{item}}."
     }
   },
   "cursor": {
     "id": "cursor",
+    "label": "Cursor",
     "content": "You are an expert AI coding assistant for Cursor, working on the **{{ name }}** project.\n\n## Project Context\n{{ description }}\n**Business Domains**: {{ domains }}\n\n## Cursor Rules System\nThis project utilizes Cursor's `.mdc` rules system.\nAll architectural rules, skills, and workflows are located in the `.cursor/rules/` directory.\n\n- When generating or analyzing code, automatically apply the relevant rules based on their `globs` and descriptions.\n- Strictly adhere to the project's specific conventions as defined in the `.mdc` files.\n- Do not hallucinate architectural patterns. If a rule exists for a specific framework or domain, follow it exactly.",
     "templates": {
       "skill": "---\nname: {{ name }}\ndescription: {{ description }}\nglobs: {{ globs }}\n---\n\n# {{ name }}\n\n{{ content }}",
       "rule": "---\ndescription: {{ description }}\nglobs: {{ globs }}\n---\n\n{{ content }}",
       "workflow": "---\ndescription: {{ description }}\nglobs: *\n---\n\n{{ content }}"
+    },
+    "defaults": {
+      "trigger": "always",
+      "globs": "*",
+      "skillDescription": "Standard engineering skills and patterns for {{category}}.",
+      "ruleDescription": "Standard rules and conventions for {{category}}.",
+      "workflowDescription": "Standard operational workflow for {{item}}."
     }
   }
 };
+
+export const GENERATED_PAGE_CATEGORIES: Record<string, string[]> = {
+  "agents": [
+    "conventions",
+    "frontend",
+    "backend",
+    "database",
+    "mobile",
+    "tooling"
+  ],
+  "hooks": [
+    "session-start",
+    "before-tool",
+    "after-tool",
+    "notification",
+    "pre-compress",
+    "stop"
+  ],
+  "rules": [
+    "conventions",
+    "code-quality",
+    "security",
+    "tooling"
+  ],
+  "workflows": [
+    "development"
+  ]
+};
+
+export const GENERATED_AI_ENVIRONMENTS: { id: string; label: string }[] = [
+  {
+    "id": "antigravity",
+    "label": "Antigravity"
+  },
+  {
+    "id": "claude",
+    "label": "Claude"
+  },
+  {
+    "id": "cursor",
+    "label": "Cursor"
+  }
+];
 
 export const ASSET_FILE_PATHS: Record<string, string> = {
   "express": "assets/pages/agents/backend/express.json",
@@ -557,6 +757,15 @@ export const ASSET_FILE_PATHS: Record<string, string> = {
   "docker": "assets/pages/agents/tooling/docker.json",
   "github-actions": "assets/pages/agents/tooling/github-actions.json",
   "jest": "assets/pages/rules/tooling/jest.json",
+  "auto-eslint": "assets/pages/hooks/after-tool/auto-eslint.json",
+  "auto-prettier": "assets/pages/hooks/after-tool/auto-prettier.json",
+  "env-guard": "assets/pages/hooks/before-tool/env-guard.json",
+  "lockfile-guard": "assets/pages/hooks/before-tool/lockfile-guard.json",
+  "desktop-alert": "assets/pages/hooks/notification/desktop-alert.json",
+  "context-save-reminder": "assets/pages/hooks/pre-compress/context-save-reminder.json",
+  "direnv-load": "assets/pages/hooks/session-start/direnv-load.json",
+  "git-context": "assets/pages/hooks/session-start/git-context.json",
+  "git-status-check": "assets/pages/hooks/stop/git-status-check.json",
   "strict-typing": "assets/pages/rules/code-quality/strict-typing.json",
   "zero-literals": "assets/pages/rules/code-quality/zero-literals.json",
   "clean-code": "assets/pages/rules/conventions/clean-code.json",

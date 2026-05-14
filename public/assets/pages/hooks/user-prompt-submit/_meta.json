@@ -1,0 +1,9 @@
+{
+  "title": "User Prompt Submit",
+  "icon": "@tui.message-square",
+  "type": "checkbox",
+  "order": 20,
+  "events": {
+    "claude": "UserPromptSubmit"
+  }
+}

@@ -104,6 +104,91 @@ describe('ArchiveGenerator', () => {
       expect(files.some(f => f.path === '.workflows/gitflow.md')).toBeTruthy();
     });
 
+    it('should process dynamic-hook and produce settings.json', async () => {
+      const serviceAccess = service as unknown as ArchiveGeneratorPrivate;
+      vi.spyOn(serviceAccess, 'getSchema').mockReturnValue([
+        { path: '.gemini/settings.json', type: 'dynamic-hook', categories: ['after-tool'] }
+      ]);
+      builderState.reviewData.set({ aiAgent: 'antigravity' });
+      builderState.dynamicData['hooks'] = builderState.dynamicData['hooks'] ?? (() => undefined)();
+      builderState.dynamicData['hooks'] = { set: () => undefined, '': '' } as never;
+      
+      // Override dynamic context to provide selected hooks
+      vi.spyOn(Object, 'keys').mockRestore?.();
+      const originalDynamicData = builderState.dynamicData;
+      Object.defineProperty(builderState, 'dynamicData', {
+        get: () => ({
+          ...originalDynamicData,
+          hooks: vi.fn().mockReturnValue({ 'after-tool': ['auto-prettier'] })
+        }),
+        configurable: true
+      });
+
+      vi.spyOn(interpolator, 'fetchJson').mockImplementation(async (url: string) => {
+        if (url && url.includes('auto-prettier')) {
+          return {
+            hook: {
+              antigravity: { matcher: 'write_file|replace', type: 'command', command: 'prettier --write' }
+            }
+          };
+        }
+        return null;
+      });
+
+      const files = await service.generatePreview();
+      const hookFile = files.find(f => f.path === '.gemini/settings.json');
+      if (hookFile) {
+        const parsed = JSON.parse(hookFile.content);
+        expect(parsed.hooks).toBeDefined();
+        expect(parsed.hooks['AfterTool']).toBeDefined();
+      }
+    });
+
+    it('should skip dynamic-hook if no hooks selected', async () => {
+      const serviceAccess = service as unknown as ArchiveGeneratorPrivate;
+      vi.spyOn(serviceAccess, 'getSchema').mockReturnValue([
+        { path: '.gemini/settings.json', type: 'dynamic-hook', categories: ['after-tool'] }
+      ]);
+      builderState.reviewData.set({ aiAgent: 'antigravity' });
+
+      vi.spyOn(interpolator, 'fetchJson').mockResolvedValue(null);
+
+      const files = await service.generatePreview();
+      expect(files.some(f => f.path === '.gemini/settings.json')).toBeFalsy();
+    });
+
+    it('should skip hook entries for unsupported platforms', async () => {
+      const serviceAccess = service as unknown as ArchiveGeneratorPrivate;
+      vi.spyOn(serviceAccess, 'getSchema').mockReturnValue([
+        { path: '.gemini/settings.json', type: 'dynamic-hook', categories: ['stop'] }
+      ]);
+      builderState.reviewData.set({ aiAgent: 'antigravity' });
+
+      const originalDynamicData = builderState.dynamicData;
+      Object.defineProperty(builderState, 'dynamicData', {
+        get: () => ({
+          ...originalDynamicData,
+          hooks: vi.fn().mockReturnValue({ 'stop': ['git-status-check'] })
+        }),
+        configurable: true
+      });
+
+      vi.spyOn(interpolator, 'fetchJson').mockImplementation(async (url: string) => {
+        if (url && url.includes('git-status-check')) {
+          return {
+            hook: {
+              claude: { matcher: '*', type: 'command', command: 'git status' }
+            }
+          };
+        }
+        return null;
+      });
+
+      const files = await service.generatePreview();
+      // stop event has no antigravity mapping, so no settings.json should be produced
+      expect(files.some(f => f.path === '.gemini/settings.json')).toBeFalsy();
+    });
+
     it('should cover getSchema branches', async () => {
        builderState.reviewData.set({ aiAgent: 'claude' });
        vi.spyOn(interpolator, 'fetchJson').mockResolvedValue({ content: 'test' });

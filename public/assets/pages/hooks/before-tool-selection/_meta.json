@@ -1,0 +1,9 @@
+{
+  "title": "Before Tool Selection",
+  "icon": "@tui.list-filter",
+  "type": "checkbox",
+  "order": 11,
+  "events": {
+    "antigravity": "BeforeToolSelection"
+  }
+}

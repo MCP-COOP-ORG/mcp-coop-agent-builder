@@ -12,6 +12,7 @@ export interface ConfigCategory {
   icon: string;
   type: 'checkbox' | 'radio';
   order?: number;
+  events?: Record<string, string>;
   items: ConfigItem[];
 }
 
@@ -22,5 +23,6 @@ export interface PageConfig {
   title: string;
   description: string;
   order?: number;
+  wrapperType?: string;
   categories: ConfigCategory[];
 }

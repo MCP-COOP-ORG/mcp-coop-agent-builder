@@ -1,0 +1,10 @@
+{
+  "title": "Session Start",
+  "icon": "@tui.play",
+  "type": "checkbox",
+  "order": 1,
+  "events": {
+    "antigravity": "SessionStart",
+    "claude": "SessionStart"
+  }
+}

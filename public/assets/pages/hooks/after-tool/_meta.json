@@ -1,0 +1,10 @@
+{
+  "title": "After Tool Execution",
+  "icon": "@tui.check-circle",
+  "type": "checkbox",
+  "order": 8,
+  "events": {
+    "antigravity": "AfterTool",
+    "claude": "PostToolUse"
+  }
+}

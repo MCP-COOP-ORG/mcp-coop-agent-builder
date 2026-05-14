@@ -11,7 +11,8 @@ import { TuiHandler } from '@taiga-ui/cdk';
 import { TuiButton, TuiIcon, TuiLoader, TuiNotificationService } from '@taiga-ui/core';
 import { TuiTree } from '@taiga-ui/kit';
 import { CodeEditor, StepHeader } from '@shared/components';
-import { BUILDER_DICTIONARY, BUILDER_STEPS, DEFAULT_LANGUAGE, GeneratedFile, LANGUAGE_MAP, STEP_IDS, AI_ENVIRONMENTS } from '@shared/constants';
+import { BUILDER_DICTIONARY, BUILDER_STEPS, DEFAULT_LANGUAGE, GeneratedFile, LANGUAGE_MAP, STEP_IDS } from '@shared/constants';
+import { GENERATED_AI_ENVIRONMENTS } from '@shared/configs';
 import { ArchiveGenerator } from '../../services/archive-generator';
 import { BuilderState } from '../../services/builder-state';
 
@@ -33,7 +34,7 @@ export class ReviewStep {
   readonly view = {
     step: BUILDER_STEPS.find((step) => step.id === STEP_IDS.REVIEW)!,
     dictionary: BUILDER_DICTIONARY,
-    environments: AI_ENVIRONMENTS
+    environments: GENERATED_AI_ENVIRONMENTS
   };
 
   // ── State signals ─────────────────────────────────────────────────────────

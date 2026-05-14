@@ -1,0 +1,9 @@
+{
+  "title": "File Changed",
+  "icon": "@tui.file-pen",
+  "type": "checkbox",
+  "order": 28,
+  "events": {
+    "claude": "FileChanged"
+  }
+}

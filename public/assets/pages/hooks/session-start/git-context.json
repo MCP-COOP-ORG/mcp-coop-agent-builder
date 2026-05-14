@@ -1,0 +1,17 @@
+{
+  "description": {
+    "default": "Inject recent git log context into the session for better code awareness."
+  },
+  "hook": {
+    "antigravity": {
+      "matcher": "*",
+      "type": "command",
+      "command": "git log --oneline -20 2>/dev/null | jq -Rs '{\"systemMessage\": .}'"
+    },
+    "claude": {
+      "matcher": "startup",
+      "type": "command",
+      "command": "git log --oneline -20 2>/dev/null"
+    }
+  }
+}

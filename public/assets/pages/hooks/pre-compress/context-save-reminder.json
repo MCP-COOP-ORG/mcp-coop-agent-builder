@@ -1,0 +1,17 @@
+{
+  "description": {
+    "default": "Save a summary of the current session context before context compression occurs."
+  },
+  "hook": {
+    "antigravity": {
+      "matcher": "*",
+      "type": "command",
+      "command": "echo '{\"systemMessage\": \"Context is about to be compressed. Ensure critical information is preserved in memory files.\"}'"
+    },
+    "claude": {
+      "matcher": "*",
+      "type": "command",
+      "command": "echo 'Context compaction starting — ensure critical info is saved to CLAUDE.md or memory files' >&2"
+    }
+  }
+}

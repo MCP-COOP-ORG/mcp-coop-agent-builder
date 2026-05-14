@@ -1,6 +1,5 @@
 import { ArchivePattern } from '../models';
-import { SKILL_CATEGORIES, RULE_CATEGORIES, WORKFLOW_CATEGORIES } from '../constants';
-import { MAIN } from '@shared/configs';
+import { GENERATED_PAGE_CATEGORIES, MAIN } from '@shared/configs';
 
 export const CURSOR: ArchivePattern[] = [
   {
@@ -11,6 +10,10 @@ export const CURSOR: ArchivePattern[] = [
   {
     type: 'dynamic-category',
     path: '.cursor/rules/[category].mdc',
-    categories: [...SKILL_CATEGORIES, ...RULE_CATEGORIES, ...WORKFLOW_CATEGORIES]
+    categories: [
+      ...(GENERATED_PAGE_CATEGORIES['agents'] ?? []),
+      ...(GENERATED_PAGE_CATEGORIES['rules'] ?? []),
+      ...(GENERATED_PAGE_CATEGORIES['workflows'] ?? [])
+    ]
   }
 ];

@@ -1,0 +1,9 @@
+{
+  "title": "Stop",
+  "icon": "@tui.square",
+  "type": "checkbox",
+  "order": 27,
+  "events": {
+    "claude": "Stop"
+  }
+}

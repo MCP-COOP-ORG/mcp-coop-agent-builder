@@ -1,0 +1,17 @@
+{
+  "description": {
+    "default": "Auto-format modified files with Prettier after every code edit."
+  },
+  "hook": {
+    "antigravity": {
+      "matcher": "write_file|replace",
+      "type": "command",
+      "command": "jq -r '.toolInput.path // empty' | xargs -I {} npx prettier --write {} 2>/dev/null; echo '{\"decision\":\"allow\"}'"
+    },
+    "claude": {
+      "matcher": "Edit|Write",
+      "type": "command",
+      "command": "jq -r '.tool_input.file_path // empty' | xargs -I {} npx prettier --write {} 2>/dev/null"
+    }
+  }
+}

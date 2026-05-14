@@ -1,0 +1,9 @@
+{
+  "title": "Permission Request",
+  "icon": "@tui.lock",
+  "type": "checkbox",
+  "order": 21,
+  "events": {
+    "claude": "PermissionRequest"
+  }
+}

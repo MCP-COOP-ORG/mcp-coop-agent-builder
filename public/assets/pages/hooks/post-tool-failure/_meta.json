@@ -1,0 +1,9 @@
+{
+  "title": "Post Tool Failure",
+  "icon": "@tui.triangle-alert",
+  "type": "checkbox",
+  "order": 23,
+  "events": {
+    "claude": "PostToolUseFailure"
+  }
+}

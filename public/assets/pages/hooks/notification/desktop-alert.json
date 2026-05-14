@@ -1,0 +1,17 @@
+{
+  "description": {
+    "default": "Send a desktop notification when the agent needs user attention or input."
+  },
+  "hook": {
+    "antigravity": {
+      "matcher": "*",
+      "type": "command",
+      "command": "osascript -e 'display notification \"Gemini CLI needs your attention\" with title \"Agent Notification\"' 2>/dev/null; echo '{}'"
+    },
+    "claude": {
+      "matcher": "permission_prompt",
+      "type": "command",
+      "command": "osascript -e 'display notification \"Claude Code needs your attention\" with title \"Agent Notification\"' 2>/dev/null"
+    }
+  }
+}

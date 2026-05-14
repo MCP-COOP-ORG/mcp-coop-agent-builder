@@ -1,6 +1,5 @@
 import { ArchivePattern } from '../models';
-import { SKILL_CATEGORIES, RULE_CATEGORIES, WORKFLOW_CATEGORIES } from '../constants';
-import { MAIN } from '@shared/configs';
+import { GENERATED_PAGE_CATEGORIES, MAIN } from '@shared/configs';
 
 export const CLAUDE: ArchivePattern[] = [
   {
@@ -12,17 +11,22 @@ export const CLAUDE: ArchivePattern[] = [
     // Agent skills (Following official Claude docs: a folder named after the skill containing SKILL.md)
     type: 'dynamic-category',
     path: '.claude/skills/[category]/SKILL.md',
-    categories: SKILL_CATEGORIES
+    categories: GENERATED_PAGE_CATEGORIES['agents']
   },
   {
     // Custom rules and instructions are organized within the .claude/rules/ directory
     type: 'dynamic-category',
     path: '.claude/rules/[category].md',
-    categories: [...SKILL_CATEGORIES, ...RULE_CATEGORIES]
+    categories: [...(GENERATED_PAGE_CATEGORIES['agents'] ?? []), ...(GENERATED_PAGE_CATEGORIES['rules'] ?? [])]
   },
   {
     type: 'dynamic-item',
     path: '.claude/workflows/[item].md',
-    categories: WORKFLOW_CATEGORIES
+    categories: GENERATED_PAGE_CATEGORIES['workflows']
+  },
+  {
+    type: 'dynamic-hook',
+    path: '.claude/settings.json',
+    categories: GENERATED_PAGE_CATEGORIES['hooks']
   }
 ];

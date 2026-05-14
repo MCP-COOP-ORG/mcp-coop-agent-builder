@@ -1,0 +1,17 @@
+{
+  "description": {
+    "default": "Prevent modifications to lock files (package-lock.json, yarn.lock, pnpm-lock.yaml)."
+  },
+  "hook": {
+    "antigravity": {
+      "matcher": "write_file|replace",
+      "type": "command",
+      "command": "jq -r '.toolInput.path // empty' | grep -qE '(package-lock|yarn\\.lock|pnpm-lock)' && echo '{\"decision\":\"deny\",\"message\":\"Blocked: lock files are protected\"}' || echo '{\"decision\":\"allow\"}'"
+    },
+    "claude": {
+      "matcher": "Edit|Write",
+      "type": "command",
+      "command": "jq -r '.tool_input.file_path // empty' | grep -qE '(package-lock|yarn\\.lock|pnpm-lock)' && exit 2 || exit 0"
+    }
+  }
+}

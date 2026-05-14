@@ -1,0 +1,9 @@
+{
+  "title": "Post Tool Batch",
+  "icon": "@tui.layers",
+  "type": "checkbox",
+  "order": 24,
+  "events": {
+    "claude": "PostToolBatch"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "title": "Permission Denied",
+  "icon": "@tui.lock-keyhole",
+  "type": "checkbox",
+  "order": 22,
+  "events": {
+    "claude": "PermissionDenied"
+  }
+}

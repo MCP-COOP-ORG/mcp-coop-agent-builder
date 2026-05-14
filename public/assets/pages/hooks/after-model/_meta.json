@@ -1,0 +1,9 @@
+{
+  "title": "After Model Call",
+  "icon": "@tui.brain",
+  "type": "checkbox",
+  "order": 6,
+  "events": {
+    "antigravity": "AfterModel"
+  }
+}

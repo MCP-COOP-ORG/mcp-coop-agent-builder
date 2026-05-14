@@ -1,0 +1,9 @@
+{
+  "title": "Subagent Start",
+  "icon": "@tui.git-branch",
+  "type": "checkbox",
+  "order": 25,
+  "events": {
+    "claude": "SubagentStart"
+  }
+}

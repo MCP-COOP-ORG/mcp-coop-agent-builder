@@ -5,6 +5,14 @@ The MCP COOP Agent Builder is in the early active development phase. The foundat
 
 ## Development History
 
+### Commit (Pending): feat(ui): add github stars widget to header
+**Status:** Completed
+**Key Features Implemented:**
+- **GitHub Stars Integration**: Integrated a native-looking GitHub Star button into the `AppHeaderComponent` to increase social proof.
+- **Zero Literals Enforcement**: Configured the widget URL via `BUILDER_DICTIONARY.header.githubWidgetUrl` and securely bound it to the template using `DomSanitizer.bypassSecurityTrustResourceUrl`.
+- **Pixel-Perfect Alignment**: Optically aligned the iframe button with the Taiga UI theme switcher using a custom `.github-widget` class with `translateY` offset, and adjusted the width to 76px to cleanly display the button without the text counter.
+- **Content Security Policy (CSP)**: Updated `index.html` to include `frame-src 'self' https://ghbtns.com;`, ensuring the external widget loads securely without violating the strict PWA CSP rules.
+
 ### Commit (Pending): feat: production readiness (PWA, CSP, Cache), UI refinements, and text formatting pipe
 **Status:** Completed
 **Key Features Implemented:**

@@ -66,6 +66,7 @@ export const BUILDER_DICTIONARY = {
     toggleThemeAriaLabel: 'Toggle color theme',
     darkModeIcon: '@tui.moon',
     lightModeIcon: '@tui.sun',
+    githubWidgetUrl: 'https://ghbtns.com/github-btn.html?user=MCP-COOP-ORG&repo=mcp-coop-agent-builder&type=star&count=true&size=default',
   },
   review: {
     sidebarTitle: 'ai-context.zip',

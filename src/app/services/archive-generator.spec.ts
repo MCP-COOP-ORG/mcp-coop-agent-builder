@@ -1,10 +1,12 @@
+import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { ArchiveGenerator } from './archive-generator';
 import { BuilderState } from './builder-state';
 import { TemplateInterpolator } from './template-interpolator';
-import { vi } from 'vitest';
 import { GeneratedFile } from '@shared/constants';
+import { StaticFilePattern, PlatformConfig } from '@shared/models';
+import { signal } from '@angular/core';
 
 interface ArchiveGeneratorPrivate {
   getSchema(agent: string): { path: string; type: string; categories?: string[]; url?: string }[];
@@ -110,8 +112,7 @@ describe('ArchiveGenerator', () => {
         { path: '.gemini/settings.json', type: 'dynamic-hook', categories: ['after-tool'] }
       ]);
       builderState.reviewData.set({ aiAgent: 'antigravity' });
-      builderState.dynamicData['hooks'] = builderState.dynamicData['hooks'] ?? (() => undefined)();
-      builderState.dynamicData['hooks'] = { set: () => undefined, '': '' } as never;
+      builderState.dynamicData['hooks'] = signal<Record<string, unknown>>({ 'after-tool': ['auto-prettier'] });
       
       // Override dynamic context to provide selected hooks
       vi.spyOn(Object, 'keys').mockRestore?.();
@@ -198,17 +199,19 @@ describe('ArchiveGenerator', () => {
        await service.generatePreview();
     });
 
-    it('should process static files that are not main', async () => {
-      const serviceAccess = service as unknown as ArchiveGeneratorPrivate;
-      vi.spyOn(serviceAccess, 'getSchema').mockReturnValue([
-        { path: 'extra.md', type: 'static', url: 'extra.json' }
-      ]);
-      builderState.reviewData.set({ aiAgent: 'antigravity' });
-      vi.spyOn(interpolator, 'fetchJson').mockResolvedValue({ content: 'Extra Content' });
-      vi.spyOn(interpolator, 'interpolate').mockReturnValue('Interpolated Extra');
+    it('should return null if fetchJson returns no content in generateStaticFile', async () => {
+      vi.spyOn(interpolator, 'fetchJson').mockResolvedValue(null);
+      const serviceAccess = service as unknown as { 
+        generateStaticFile: (p: StaticFilePattern, a: string, pc: PlatformConfig | undefined, c: Record<string, unknown>) => Promise<GeneratedFile | null> 
+      };
+      const result = await serviceAccess.generateStaticFile({ type: 'static', url: 'test.json', path: 'test.md' }, 'agent', undefined, {});
+      expect(result).toBeNull();
+    });
 
-      const files = await service.generatePreview();
-      expect(files.some(f => f.path === 'extra.md')).toBeTruthy();
+    it('should use page.id if wrapperType is missing in getWrapperType', () => {
+      const serviceAccess = service as unknown as ArchiveGeneratorPrivate;
+      const result = serviceAccess.getWrapperType('after-tool');
+      expect(result).toBe('hook');
     });
   });
 

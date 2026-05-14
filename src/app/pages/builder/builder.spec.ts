@@ -1,8 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
 import { Builder } from './builder';
-import { APP_ROUTES, BUILDER_STEPS } from '@shared/constants';
+import { APP_ROUTES, BUILDER_STEPS, GeneratedFile } from '@shared/constants';
 import { vi } from 'vitest';
+import { signal } from '@angular/core';
+import { of } from 'rxjs';
+import { TuiDialogService, provideTaiga } from '@taiga-ui/core';
+import { ArchiveGenerator, PresetManager } from '@services';
 
 describe('Builder', () => {
   let component: Builder;
@@ -10,12 +14,44 @@ describe('Builder', () => {
   let router: Router;
 
   beforeEach(async () => {
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: (query: string) => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: () => undefined,
+        removeListener: () => undefined,
+        addEventListener: () => undefined,
+        removeEventListener: () => undefined,
+        dispatchEvent: () => undefined,
+      }),
+    });
+
     await TestBed.configureTestingModule({
       imports: [Builder],
       providers: [
         provideRouter([
           { path: '**', component: Builder } // Catch-all route for testing URL changes
-        ])
+        ]),
+        provideTaiga(),
+        { 
+          provide: ArchiveGenerator, 
+          useValue: { 
+            previewFiles: signal<GeneratedFile[]>([]),
+            downloadArchive: vi.fn() 
+          } 
+        },
+        {
+          provide: PresetManager,
+          useValue: {
+            saveCurrentStateAsPreset: vi.fn()
+          }
+        },
+        {
+          provide: TuiDialogService,
+          useValue: { open: vi.fn().mockReturnValue(of({ action: 'download' })) }
+        }
       ]
     }).compileComponents();
 
@@ -91,10 +127,21 @@ describe('Builder', () => {
   });
 
   describe('download', () => {
-    it('should call console.log (placeholder)', () => {
-      const consoleSpy = vi.spyOn(console, 'log');
+    it('should trigger download immediately', async () => {
+      const archiveGenerator = TestBed.inject(ArchiveGenerator);
+      const downloadSpy = vi.spyOn(archiveGenerator, 'downloadArchive').mockResolvedValue(undefined);
+      
       component.download();
-      expect(consoleSpy).toHaveBeenCalledWith('Downloading context archive...');
+      
+      expect(downloadSpy).toHaveBeenCalledWith(archiveGenerator.previewFiles());
+    });
+  });
+
+  describe('savePreset', () => {
+    it('should open preset dialog', () => {
+      const dialogSpy = vi.spyOn(component['dialogManager'], 'openPresetDialog');
+      component.savePreset();
+      expect(dialogSpy).toHaveBeenCalled();
     });
   });
 

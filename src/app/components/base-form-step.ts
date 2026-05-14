@@ -23,7 +23,10 @@ export abstract class BaseFormStep implements OnInit {
           const nestedGroup: Record<string, FormControl> = {};
           block.fields.forEach(field => {
             const isArray = field.type === 'checkbox' || field.type === 'multi-select';
-            const defaultValue = isArray ? [] : (field.options?.[0]?.id || '');
+            let defaultValue: string | string[] | null = isArray ? [] : '';
+            if (field.type === 'select' || field.type === 'radio') {
+              defaultValue = null;
+            }
             const validators = field.validators?.includes('required') ? [Validators.required] : [];
             nestedGroup[field.id] = new FormControl(defaultValue, validators);
           });

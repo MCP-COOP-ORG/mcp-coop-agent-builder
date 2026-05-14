@@ -49,6 +49,15 @@
       @if (activeStepIndex() === view.steps.length - 1) {
         <button 
           tuiButton 
+          appearance="secondary" 
+          size="m"
+          [iconStart]="view.icons.savePresetButton"
+          (click)="savePreset()"
+        >
+          {{ view.buttons.savePreset }}
+        </button>
+        <button 
+          tuiButton 
           appearance="primary" 
           size="m"
           [iconEnd]="view.icons.downloadButton"

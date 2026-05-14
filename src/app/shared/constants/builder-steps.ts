@@ -10,7 +10,7 @@ export const STEP_IDS = {
 } as const;
 
 export type FieldLayout = 'full' | 'half' | 'third';
-export type FieldType = 'radio' | 'checkbox' | 'textarea' | 'input' | 'multi-select' | 'composite';
+export type FieldType = 'radio' | 'checkbox' | 'textarea' | 'input' | 'multi-select' | 'composite' | 'select';
 
 export interface BuilderFieldConfig {
   id: string;

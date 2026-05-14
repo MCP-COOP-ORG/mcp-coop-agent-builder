@@ -5,7 +5,7 @@ import { GENERATED_PAGES_CONFIG } from '@shared/configs';
 const dynamicRoutes = Object.keys(GENERATED_PAGES_CONFIG).map(stepId => ({
   path: stepId,
   data: { stepId },
-  loadComponent: () => import('./shared/components/dynamic-form-step/dynamic-form-step').then(m => m.DynamicFormStep)
+  loadComponent: () => import('./components/dynamic-form-step/dynamic-form-step').then(m => m.DynamicFormStep)
 }));
 
 export const routes: Routes = [

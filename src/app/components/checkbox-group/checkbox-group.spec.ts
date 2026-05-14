@@ -119,4 +119,19 @@ describe('CheckboxGroup', () => {
     expect(Object.keys(component.value).length).toBe(MOCK_OPTIONS.length);
     expect(Object.values(component.value).every(v => v === false)).toBe(true);
   });
+
+  it('should trigger events from template', async () => {
+    const checkbox = fixture.nativeElement.querySelector('input[tuiCheckbox]');
+    checkbox.click();
+    fixture.detectChanges();
+    expect(component.value['opt1']).toBe(true);
+
+    const infoBtn = fixture.nativeElement.querySelector('.checkbox-card__info');
+    infoBtn.click();
+    fixture.detectChanges();
+    
+    // showInfo is async, we need to wait for it
+    await fixture.whenStable();
+    expect(mockDialogService.open).toHaveBeenCalled();
+  });
 });

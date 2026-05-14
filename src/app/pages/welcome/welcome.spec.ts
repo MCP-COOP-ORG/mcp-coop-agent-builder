@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { IMAGE_LOADER, ImageLoaderConfig } from '@angular/common';
 
 import { Welcome } from './welcome';
 
@@ -10,7 +11,10 @@ describe('Welcome', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Welcome],
-      providers: [provideRouter([])],
+      providers: [
+        provideRouter([]),
+        { provide: IMAGE_LOADER, useValue: (config: ImageLoaderConfig) => `http://localhost/${config.src}` }
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Welcome);

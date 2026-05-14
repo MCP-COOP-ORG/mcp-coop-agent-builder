@@ -3,7 +3,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { GENERATED_PAGES_CONFIG } from '@shared/configs';
 import { ConfigCategory } from '@shared/models';
-import { StepLayout, RadioGroup, CheckboxGroup, TextareaField, BaseFormStep } from '@shared/components';
+import { StepLayout, RadioGroup, TextareaField } from '@shared/components';
+import { BaseFormStep } from '../base-form-step';
+import { CheckboxGroup } from '../checkbox-group/checkbox-group';
 import { WritableSignal } from '@angular/core';
 
 /**
@@ -17,10 +19,10 @@ import { WritableSignal } from '@angular/core';
 })
 export class DynamicFormStep extends BaseFormStep implements OnInit {
   private readonly route = inject(ActivatedRoute);
-  
+
   // The stepId is injected via route data
   private stepId = this.route.snapshot.data['stepId'] as string;
-  
+
   /**
    * View Model containing all data from the generated file-system based configuration.
    */

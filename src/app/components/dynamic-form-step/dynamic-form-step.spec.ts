@@ -35,6 +35,12 @@ describe('DynamicFormStep', () => {
           items: [
             { id: 'opt1', label: 'Opt 1' }
           ]
+        },
+        {
+          id: 'cat3',
+          title: 'Category 3',
+          type: 'textarea',
+          items: []
         }
       ]
     };
@@ -70,7 +76,7 @@ describe('DynamicFormStep', () => {
   });
 
   it('should construct blocksArray from generated config', () => {
-    expect(component.view.blocksArray.length).toBe(2);
+    expect(component.view.blocksArray.length).toBe(3);
     expect(component.view.blocksArray[0].id).toBe('cat1');
     expect(component.view.blocksArray[0].options?.length).toBe(2);
     expect(component.view.blocksArray[1].id).toBe('cat2');

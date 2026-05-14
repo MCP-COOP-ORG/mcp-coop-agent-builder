@@ -6,6 +6,7 @@ import {
   inject,
   signal,
   viewChild,
+  Injector
 } from '@angular/core';
 import { TuiHandler } from '@taiga-ui/cdk';
 import { TuiButton, TuiIcon, TuiLoader, TuiNotificationService } from '@taiga-ui/core';
@@ -29,6 +30,7 @@ export class ReviewStep {
   private readonly builderState = inject(BuilderState);
   private readonly archiveGenerator = inject(ArchiveGenerator);
   private readonly notifications = inject(TuiNotificationService);
+  private readonly injector = inject(Injector);
   private readonly codeEditor = viewChild('codeEditor', { read: CodeEditor });
 
   readonly view = {
@@ -123,18 +125,8 @@ export class ReviewStep {
     this.codeEditor()?.redoEdit();
   }
 
-  async download(): Promise<void> {
-    await this.archiveGenerator.downloadArchive(this.files());
-  }
-
   setEnvironment(envId: string): void {
-    if (this.activeEnvironment() === envId) return;
     this.activeEnvironment.set(envId);
-    
-    // Sync the chosen environment to the global state
-    this.builderState.reviewData.update(data => ({ ...data, aiAgent: envId }));
-    
-    // Trigger regeneration
     this.isLoading.set(true);
     void this.loadPreview();
   }

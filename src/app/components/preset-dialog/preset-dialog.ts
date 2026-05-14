@@ -1,0 +1,50 @@
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TuiButton, TuiDialogContext, TuiLabel, TuiTextfield, TuiInput, TuiTitle } from '@taiga-ui/core';
+import { TuiAccordion } from '@taiga-ui/kit';
+import { POLYMORPHEUS_CONTEXT } from '@taiga-ui/polymorpheus';
+import { PresetManager } from '@services';
+import { BUILDER_DICTIONARY } from '@shared/constants';
+
+
+@Component({
+  selector: 'app-preset-dialog',
+  imports: [
+    ReactiveFormsModule,
+    TuiButton,
+    TuiTextfield,
+    TuiLabel,
+    TuiInput,
+    TuiAccordion,
+    TuiTitle
+  ],
+  templateUrl: './preset-dialog.html',
+  styleUrl: './preset-dialog.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class PresetDialogComponent {
+  readonly context = inject<TuiDialogContext<void>>(POLYMORPHEUS_CONTEXT);
+  readonly presetManager = inject(PresetManager);
+  private readonly fb = inject(FormBuilder);
+
+  readonly dictionary = BUILDER_DICTIONARY.presets;
+
+  readonly presetForm = this.fb.group({
+    name: ['', Validators.required]
+  });
+
+  savePreset(): void {
+    if (this.presetForm.valid && this.presetManager.presets().length < 10) {
+      this.presetManager.saveCurrentStateAsPreset(this.presetForm.value.name ?? '');
+      this.context.completeWith();
+    }
+  }
+
+  cancel(): void {
+    this.context.completeWith();
+  }
+
+  deletePreset(id: string): void {
+    this.presetManager.deletePreset(id);
+  }
+}

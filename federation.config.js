@@ -1,8 +1,13 @@
 const { withNativeFederation, shareAll } = require('@angular-architects/native-federation/config');
 
+// Ensure consistent timestamp across all esbuild worker threads/processes
+if (!process.env.BUILD_TIMESTAMP) {
+  process.env.BUILD_TIMESTAMP = Date.now().toString();
+}
+
 module.exports = withNativeFederation({
   name: 'mcp-coop-agent-builder',
-  version: `0.0.0-build-${Date.now()}`,
+  version: `0.0.0-build-${process.env.BUILD_TIMESTAMP}`,
 
   exposes: {
     './Component': './src/app/app.ts',

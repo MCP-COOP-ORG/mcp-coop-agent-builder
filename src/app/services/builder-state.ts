@@ -53,7 +53,7 @@ export class BuilderState {
         const parsed = JSON.parse(stored);
         if (parsed.description) this.descriptionData.set(parsed.description);
         if (parsed.review) this.reviewData.set(parsed.review);
-        
+
         Object.keys(this.dynamicData).forEach(stepId => {
           if (parsed[stepId]) {
             this.dynamicData[stepId].set(parsed[stepId]);

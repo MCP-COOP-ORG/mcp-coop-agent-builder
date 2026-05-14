@@ -17,11 +17,19 @@ export const DESCRIPTION_BLOCKS: BuilderBlockConfig[] = [
         validators: ['required']
       },
       {
+        id: 'preset',
+        type: 'select',
+        label: BUILDER_DICTIONARY.presets.label,
+        placeholder: BUILDER_DICTIONARY.presets.placeholder,
+        layout: 'half',
+        options: [] // dynamically populated
+      },
+      {
         id: 'domains',
         type: 'multi-select',
         label: BUILDER_DICTIONARY.labels.businessDomains,
         placeholder: BUILDER_DICTIONARY.placeholders.businessDomains,
-        layout: 'half',
+        layout: 'full',
         options: [
           { id: 'ecommerce', label: 'E-commerce' },
           { id: 'fintech', label: 'Fintech' },

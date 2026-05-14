@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { signal } from '@angular/core';
 import { vi } from 'vitest';
-import { provideTaiga, TuiNotificationService } from '@taiga-ui/core';
+import { provideTaiga, TuiNotificationService, TuiDialogService } from '@taiga-ui/core';
 import { GeneratedFile } from '@shared/constants';
 import { ArchiveGenerator } from '../../services/archive-generator';
 import { BuilderState } from '../../services/builder-state';
@@ -32,6 +32,10 @@ describe('ReviewStep', () => {
     open: () => ({ subscribe: () => ({ unsubscribe: () => undefined }) }),
   };
 
+  const mockDialogService = {
+    open: vi.fn().mockReturnValue({ subscribe: vi.fn() })
+  };
+
   beforeEach(async () => {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
@@ -53,6 +57,7 @@ describe('ReviewStep', () => {
         provideTaiga(),
         { provide: ArchiveGenerator, useValue: mockArchiveGenerator },
         { provide: TuiNotificationService, useValue: mockNotificationService },
+        { provide: TuiDialogService, useValue: mockDialogService },
       ],
     }).compileComponents();
 
@@ -163,13 +168,6 @@ describe('ReviewStep', () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
-  it('should trigger download archive', () => {
-    const generator = TestBed.inject(ArchiveGenerator);
-    const spy = vi.spyOn(generator, 'downloadArchive');
-    component.download();
-    expect(spy).toHaveBeenCalled();
-  });
-
   it('should handle buildTree with no files', () => {
     const tree = buildFileTree([], BUILDER_DICTIONARY.review.sidebarTitle);
     expect(tree.children?.length).toBe(0);
@@ -203,24 +201,14 @@ describe('ReviewStep', () => {
   });
 
   describe('setEnvironment', () => {
-    it('should not update if the environment is already active', () => {
-      component.activeEnvironment.set('antigravity');
-      const spy = vi.spyOn(component['builderState'].reviewData, 'update');
-      
-      component.setEnvironment('antigravity');
-      expect(spy).not.toHaveBeenCalled();
-    });
-
     it('should update environment and trigger reload', async () => {
       component.activeEnvironment.set('cursor');
-      const updateSpy = vi.spyOn(component['builderState'].reviewData, 'update');
       const priv = component as unknown as ReviewStepPrivate;
       const loadSpy = vi.spyOn(priv, 'loadPreview').mockResolvedValue(undefined);
       
       component.setEnvironment('claude');
       
       expect(component.activeEnvironment()).toBe('claude');
-      expect(updateSpy).toHaveBeenCalled();
       expect(component.isLoading()).toBe(true);
       expect(loadSpy).toHaveBeenCalled();
     });

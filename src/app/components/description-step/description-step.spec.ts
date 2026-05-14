@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DescriptionStep } from './description-step';
-import { BuilderState } from '@services';
+import { BuilderState, PresetManager } from '@services';
+import { vi } from 'vitest';
 
 describe('DescriptionStep', () => {
   let component: DescriptionStep;
@@ -61,11 +62,14 @@ describe('DescriptionStep', () => {
     });
     const newFixture = TestBed.createComponent(DescriptionStep);
     const newComponent = newFixture.componentInstance;
-    const newComponentAccess = newComponent as unknown as { view: unknown };
-    newComponentAccess.view = { 
-      blocksArray: [customBlock],
-      step: { id: 'test', label: 'test', icon: 'test', title: 'test', description: 'test' }
-    };
+    Object.defineProperty(newComponent, 'view', {
+      get: () => ({
+        blocksArray: [customBlock],
+        step: { id: 'test', label: 'test', icon: 'test', title: 'test', description: 'test' },
+        dictionary: { limits: { textarea: 1000 } }
+      })
+    });
+    Object.defineProperty(newComponent, 'blocksArray', { value: () => [customBlock] });
     newFixture.detectChanges();
     
     expect(newComponent.form.get('topText')?.value).toBe('');
@@ -91,16 +95,54 @@ describe('DescriptionStep', () => {
     });
     const newFixture = TestBed.createComponent(DescriptionStep);
     const newComponent = newFixture.componentInstance;
-    const newComponentAccess = newComponent as unknown as { view: unknown };
-    newComponentAccess.view = { 
-      blocksArray: [customBlock],
-      step: { id: 'test', label: 'test', icon: 'test', title: 'test', description: 'test' }
-    };
+    Object.defineProperty(newComponent, 'view', {
+      get: () => ({
+        blocksArray: [customBlock],
+        step: { id: 'test', label: 'test', icon: 'test', title: 'test', description: 'test' },
+        dictionary: { limits: { textarea: 1000 } }
+      })
+    });
+    Object.defineProperty(newComponent, 'blocksArray', { value: () => [customBlock] });
     newFixture.detectChanges();
     
     const group = newComponent.form.get('comp1');
     expect(group?.get('f1')).toBeTruthy();
     expect(group?.get('f2')).toBeTruthy();
     expect(group?.get('f3')).toBeTruthy();
+  });
+
+  it('should load preset when preset field changes', () => {
+    const mockPresetManager = { loadPreset: vi.fn(), presets: vi.fn().mockReturnValue([]) };
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, DescriptionStep],
+      providers: [
+        BuilderState,
+        { provide: PresetManager, useValue: mockPresetManager }
+      ]
+    });
+    const newFixture = TestBed.createComponent(DescriptionStep);
+    const newComponent = newFixture.componentInstance;
+    Object.defineProperty(newComponent, 'view', {
+      get: () => ({
+        blocksArray: [
+          {
+            id: 'projectIdentity',
+            type: 'composite',
+            fields: [{ id: 'preset', type: 'select' }]
+          }
+        ],
+        step: { id: 'test', label: 'test', icon: 'test', title: 'test', description: 'test' },
+        dictionary: { limits: { textarea: 1000 } }
+      })
+    });
+    Object.defineProperty(newComponent, 'blocksArray', { value: () => [] });
+    newFixture.detectChanges();
+    
+    const presetControl = newComponent.form.get('projectIdentity.preset');
+    presetControl?.setValue('preset-123');
+    
+    expect(mockPresetManager.loadPreset).toHaveBeenCalledWith('preset-123');
+    expect(presetControl?.value).toBeNull(); // It resets to null immediately
   });
 });

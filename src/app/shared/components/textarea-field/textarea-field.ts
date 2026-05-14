@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, forwardRef, input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef, inject, input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { TuiTextarea } from '@taiga-ui/kit';
 import { TuiTextfield, TuiLabel } from '@taiga-ui/core';
@@ -23,6 +23,8 @@ import { TuiTextfield, TuiLabel } from '@taiga-ui/core';
   ]
 })
 export class TextareaField implements ControlValueAccessor {
+  private readonly cdr = inject(ChangeDetectorRef);
+  
   /** The floating label for the text field, supplied by the dictionary */
   label = input.required<string>();
   
@@ -46,6 +48,7 @@ export class TextareaField implements ControlValueAccessor {
 
   writeValue(val: string): void {
     this.value = val || '';
+    this.cdr.markForCheck();
   }
 
   registerOnChange(fn: (value: string) => void): void {

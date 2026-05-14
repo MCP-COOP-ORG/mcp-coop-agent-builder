@@ -1,0 +1,43 @@
+.preset-dialog {
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--tui-spacing-4);
+    margin-top: var(--tui-spacing-4);
+  }
+
+  &__accordion {
+    margin-top: var(--tui-spacing-2);
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--tui-spacing-2) 0;
+    border-bottom: 1px solid var(--tui-border-normal);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__name {
+    font: var(--tui-font-text-m);
+    color: var(--tui-text-primary);
+  }
+
+  &__empty {
+    padding: var(--tui-spacing-4) 0;
+    color: var(--tui-text-secondary);
+    font: var(--tui-font-text-s);
+    text-align: center;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--tui-spacing-2);
+    margin-top: var(--tui-spacing-2);
+  }
+}

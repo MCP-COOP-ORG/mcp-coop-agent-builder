@@ -1,5 +1,5 @@
 <form [formGroup]="form">
-  <app-step-layout [step]="view.step" [blocks]="view.blocksArray">
+  <app-step-layout [step]="view.step" [blocks]="blocksArray()">
     <ng-template #blockContent let-block>
       @switch (block.type) {
         @case ('radio') {
@@ -18,7 +18,7 @@
           <app-textarea-field
             [label]="block.label || ''"
             [placeholder]="block.placeholder || ''"
-            [limit]="1000"
+            [limit]="view.dictionary.limits.textarea"
             [formControlName]="block.id"
           ></app-textarea-field>
         }
@@ -38,7 +38,7 @@
                     <app-textarea-field
                       [label]="field.label || ''"
                       [placeholder]="field.placeholder || ''"
-                      [limit]="1000"
+                      [limit]="view.dictionary.limits.textarea"
                       [formControlName]="field.id"
                     ></app-textarea-field>
                   }
@@ -49,6 +49,14 @@
                       [options]="field.options || []"
                       [formControlName]="field.id"
                     ></app-multi-select-field>
+                  }
+                  @case ('select') {
+                    <app-select-field
+                      [label]="field.label || ''"
+                      [placeholder]="field.placeholder || ''"
+                      [options]="field.options || []"
+                      [formControlName]="field.id"
+                    ></app-select-field>
                   }
                 }
               </div>

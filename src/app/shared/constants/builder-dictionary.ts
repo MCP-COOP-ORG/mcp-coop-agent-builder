@@ -6,6 +6,7 @@ export const BUILDER_DICTIONARY = {
     download: 'Download',
     reset: 'Reset All',
     getStarted: 'Get Started',
+    savePreset: 'Save Preset',
   },
   labels: {
     contents: 'Contents',
@@ -20,6 +21,24 @@ export const BUILDER_DICTIONARY = {
     projectName: 'e.g. My Awesome App',
     businessDomains: 'Select domains',
   },
+  presets: {
+    label: 'Load Preset (Optional)',
+    placeholder: 'Select a saved configuration',
+    dialogTitle: 'Save Preset',
+    dialogDescription: 'You can optionally save this configuration as a preset for future use.',
+    inputLabel: 'Preset Name',
+    inputPlaceholder: 'e.g. Next.js Stack',
+    saveAndDownloadBtn: 'Save',
+    downloadOnlyBtn: 'Cancel',
+    existingPresetsLabel: 'Saved Presets',
+    limitReached: 'Limit reached (10 max)',
+    deleteBtn: 'Delete preset',
+    savedLabel: 'Preset Saved',
+    savedMessage: 'Your configuration was successfully saved.',
+    loadedLabel: 'Preset Loaded',
+    loadedMessage: 'The builder state has been updated.',
+    empty: 'No presets saved'
+  },
   icons: {
     downloadButton: '@tui.download',
     resetButton: '@tui.trash',
@@ -29,11 +48,15 @@ export const BUILDER_DICTIONARY = {
     fileIcon: '@tui.file-text',
     folderIcon: '@tui.folder',
     explorerIcon: '@tui.files',
+    savePresetButton: '@tui.bookmark',
   },
   notifications: {
     reviewReadyLabel: 'Archive ready',
     reviewReadyMessage: 'Your AI context is configured. Click "Download" to save ai-context.zip.',
     autoCloseMs: 1500,
+  },
+  limits: {
+    textarea: 1000,
   },
   header: {
     toggleThemeAriaLabel: 'Toggle color theme',

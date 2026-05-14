@@ -5,7 +5,8 @@ import { TuiButton } from '@taiga-ui/core';
 import { TuiStep, TuiStepper } from '@taiga-ui/kit';
 import { filter, map, startWith } from 'rxjs';
 import { APP_ROUTES, BUILDER_DICTIONARY, BUILDER_STEPS } from '@shared/constants';
-import { ArchiveGenerator, BuilderState } from '@services';
+import { ArchiveGenerator, BuilderState, DialogManager } from '@services';
+import { Injector } from '@angular/core';
 
 @Component({
   selector: 'app-builder',
@@ -19,6 +20,8 @@ export class Builder {
   private readonly router = inject(Router);
   private readonly archiveGenerator = inject(ArchiveGenerator);
   private readonly builderState = inject(BuilderState);
+  private readonly dialogManager = inject(DialogManager);
+  private readonly injector = inject(Injector);
 
   // All constants and UI texts gathered into a single object
   readonly view = {
@@ -67,10 +70,13 @@ export class Builder {
     }
   }
 
-  // Placeholder for downloading the context archive on the final Export step
-  async download() {
-    console.log('Downloading context archive...');
-    await this.archiveGenerator.downloadArchive();
+  savePreset(): void {
+    this.dialogManager.openPresetDialog();
+  }
+
+  download(): void {
+    // Trigger the download immediately
+    this.archiveGenerator.downloadArchive(this.archiveGenerator.previewFiles());
   }
 
   // Resets the entire builder session and returns to start

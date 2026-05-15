@@ -10,25 +10,21 @@
 
   <tui-accordion class="preset-dialog__accordion" [closeOthers]="true">
     <button tuiAccordion type="button">
-      {{ dictionary.existingPresetsLabel }} ({{ presetManager.presets().length }}/10)
+      {{ dictionary.existingPresetsLabel }} ({{ presetManager.userPresets().length }}/10)
     </button>
     <tui-expand>
-      @for (preset of presetManager.presets(); track preset.id) {
+      @for (preset of presetManager.userPresets(); track preset.id) {
       <div class="preset-dialog__item" tabindex="0" (click)="selectPreset(preset.name)" (keyup.enter)="selectPreset(preset.name)" (keyup.space)="selectPreset(preset.name)">
         <span class="preset-dialog__name">
           {{ preset.name }}
-          @if (preset.isSystem) {
-            <span class="tui-text_body-s tui-text_normal preset-date">(System)</span>
-          } @else {
-            <span class="tui-text_body-s tui-text_normal preset-date">{{ preset.createdAt | date:'shortDate' }}</span>
-          }
         </span>
-        @if (!preset.isSystem) {
+        <div class="preset-dialog__meta">
+          <span class="tui-text_body-s tui-text_normal preset-date">{{ preset.createdAt | date:'d MMM yyyy' }}</span>
           <button tuiButton appearance="flat-destructive" iconStart="@tui.trash" type="button" size="s"
             [title]="dictionary.deleteBtn" (click)="deletePreset(preset.id, $event)">
             <span style="display: none;">{{ dictionary.deleteBtn }}</span>
           </button>
-        }
+        </div>
       </div>
       }
       @empty {
@@ -41,7 +37,7 @@
     <button tuiButton type="button" appearance="secondary" (click)="cancel()">
       {{ dictionary.downloadOnlyBtn }}
     </button>
-    <button tuiButton type="submit" [disabled]="presetForm.invalid || presetManager.presets().length >= 10">
+    <button tuiButton type="submit" [disabled]="presetForm.invalid || presetManager.userPresets().length >= 10">
       {{ dictionary.saveAndDownloadBtn }}
     </button>
   </div>

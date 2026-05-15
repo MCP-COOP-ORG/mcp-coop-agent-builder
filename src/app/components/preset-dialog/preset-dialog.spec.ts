@@ -5,13 +5,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { POLYMORPHEUS_CONTEXT } from '@taiga-ui/polymorpheus';
 import { PresetManager } from '@services';
 import { Preset } from '@shared/models';
-import { ChangeDetectorRef, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectorRef, signal, WritableSignal, computed, Signal } from '@angular/core';
 
 describe('PresetDialogComponent', () => {
   let component: PresetDialogComponent;
   let fixture: ComponentFixture<PresetDialogComponent>;
   let presetManagerMock: { 
     presets: WritableSignal<Preset[]>; 
+    userPresets: Signal<Preset[]>;
     deletePreset: ReturnType<typeof vi.fn>;
     saveCurrentStateAsPreset: ReturnType<typeof vi.fn>;
   };
@@ -22,6 +23,7 @@ describe('PresetDialogComponent', () => {
     presetsSignal = signal([]);
     presetManagerMock = {
       presets: presetsSignal,
+      userPresets: computed(() => presetsSignal().filter(p => !p.isSystem)),
       deletePreset: vi.fn(),
       saveCurrentStateAsPreset: vi.fn()
     };

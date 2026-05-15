@@ -21,7 +21,7 @@
   <!-- Right Sidebar Table of Contents -->
   <aside class="step-sidebar">
     <div class="sticky-nav" #navContainer>
-      <h3 class="tui-text_body-s-2 nav-title">{{ view.labels.contents }}</h3>
+      <h3 class="tui-text_body-s-2 nav-title">{{ step().label }}</h3>
       <tui-tabs
         vertical="start"
         [activeItemIndex]="activeTabIndex()"

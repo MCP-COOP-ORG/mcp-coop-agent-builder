@@ -31,10 +31,26 @@
     overflow-y: auto;
     
     .nav-title {
-      margin: 0;
-      color: var(--tui-text-02);
+      margin-bottom: 1.5rem;
+      color: var(--tui-text-primary);
+      font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.05em;
+    }
+
+    button[tuiTab] {
+      color: var(--tui-text-primary);
+      transition: color 0.2s ease-in-out;
+
+      &._active {
+        color: var(--tui-background-accent-1);
+        font-weight: 700;
+      }
+
+      &:hover:not(._active) {
+        color: var(--tui-background-accent-1);
+        opacity: 0.8;
+      }
     }
   }
 }

@@ -26,8 +26,8 @@
   }
 
   &--active {
-    border-color: var(--tui-border-focus);
-    background: var(--tui-background-neutral-1);
+    border-color: var(--tui-background-accent-1);
+    background: color-mix(in srgb, var(--tui-background-accent-1) 8%, var(--tui-background-base));
   }
 
   &--recommended {
@@ -64,7 +64,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    color: var(--tui-text-tertiary);
+    color: var(--tui-status-info);
     padding: 0;
     margin-inline-start: auto;
     transition: color 0.2s;

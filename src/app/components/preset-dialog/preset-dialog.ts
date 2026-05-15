@@ -35,7 +35,7 @@ export class PresetDialogComponent {
   });
 
   savePreset(): void {
-    if (this.presetForm.valid && this.presetManager.presets().length < 10) {
+    if (this.presetForm.valid && this.presetManager.userPresets().length < 10) {
       this.presetManager.saveCurrentStateAsPreset(this.presetForm.value.name ?? '');
       this.context.completeWith();
     }

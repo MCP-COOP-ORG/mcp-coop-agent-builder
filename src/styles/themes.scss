@@ -35,6 +35,25 @@
   --tui-background-accent-1: hsl(212, 100%, 47%);
   --tui-background-accent-1-hover: hsl(212, 100%, 52%);
   --tui-background-accent-1-pressed: hsl(212, 100%, 42%);
+
+  --tui-background-accent-2: var(--tui-background-accent-1);
+  --tui-text-accent-1: var(--tui-background-accent-1);
+  --tui-text-accent-2: var(--tui-background-accent-1);
+  --tui-primary: var(--tui-background-accent-1);
+  --tui-primary-hover: var(--tui-background-accent-1-hover);
+  --tui-primary-active: var(--tui-background-accent-1-pressed);
+
+  // Text tokens — removing alpha transparency for high contrast
+  --tui-text-primary: #000000;
+  --tui-text-secondary: #444444;
+  --tui-text-tertiary: #757575;
+
+  // Status and Border tokens
+  --tui-status-info: var(--tui-background-accent-1);
+  --tui-border-selected: var(--tui-background-accent-1);
+  --tui-border-focus: var(--tui-background-accent-1);
+
+  --tui-text-action: var(--tui-background-accent-1);
   --tui-text-primary-on-accent-1: #ffffff;
 }
 
@@ -53,6 +72,25 @@
   --tui-background-accent-1: hsl(212, 100%, 55%);
   --tui-background-accent-1-hover: hsl(212, 100%, 60%);
   --tui-background-accent-1-pressed: hsl(212, 100%, 50%);
+
+  --tui-background-accent-2: var(--tui-background-accent-1);
+  --tui-text-accent-1: var(--tui-background-accent-1);
+  --tui-text-accent-2: var(--tui-background-accent-1);
+  --tui-primary: var(--tui-background-accent-1);
+  --tui-primary-hover: var(--tui-background-accent-1-hover);
+  --tui-primary-active: var(--tui-background-accent-1-pressed);
+
+  // Text tokens for dark mode
+  --tui-text-primary: #ffffff;
+  --tui-text-secondary: #b0b0b0;
+  --tui-text-tertiary: #808080;
+
+  // Status and Border tokens for dark mode
+  --tui-status-info: var(--tui-background-accent-1);
+  --tui-border-selected: var(--tui-background-accent-1);
+  --tui-border-focus: var(--tui-background-accent-1);
+
+  --tui-text-action: var(--tui-background-accent-1);
   --tui-text-primary-on-accent-1: #ffffff;
 }
 
@@ -60,4 +98,40 @@
 .highlight {
   color: var(--tui-background-accent-1);
   font-weight: 700;
+}
+
+// Custom appearance for stepper/actions
+[tuiAppearance][data-appearance=action] {
+  color: var(--tui-text-action);
+  background: transparent;
+}
+
+// Global Info Icons & Checkbox Borders
+:root {
+
+  tui-icon[icon*="tuiIconInfo"],
+  tui-icon[icon*="info"],
+  [tuiIcon*="info"] {
+    color: var(--tui-status-info);
+  }
+}
+
+tui-checkbox {
+  --tui-border-selected: var(--tui-background-accent-1);
+  --tui-border-focus: var(--tui-background-accent-1);
+}
+
+// --- Taiga UI 5.5.0 Component Overrides ---------------------
+
+// Forcing tuiBadge neutral to look like our Primary Brand (Vibrant Blue)
+html body [tuiBadge]:where(*[data-tui-version="5.5.0"]) {
+  &[data-appearance=neutral] {
+    --t-status: var(--tui-background-accent-1);
+    background-color: var(--tui-background-accent-1);
+    opacity: 1;
+  }
+
+  &[tuiAppearance][data-appearance=neutral] {
+    color: #ffffff; // Solid white for best contrast on blue
+  }
 }

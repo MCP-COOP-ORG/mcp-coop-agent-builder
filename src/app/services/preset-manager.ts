@@ -1,4 +1,4 @@
-import { Injectable, inject, PLATFORM_ID, signal } from '@angular/core';
+import { Injectable, inject, PLATFORM_ID, signal, computed } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { BuilderState } from './builder-state';
 import { TuiNotificationService } from '@taiga-ui/core';
@@ -17,6 +17,7 @@ export class PresetManager {
   private readonly MAX_PRESETS = 10;
 
   readonly presets = signal<Preset[]>([]);
+  readonly userPresets = computed(() => this.presets().filter(p => !p.isSystem));
 
   constructor() {
     if (isPlatformBrowser(this.platformId)) {

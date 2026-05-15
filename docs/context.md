@@ -5,6 +5,19 @@ The MCP COOP Agent Builder is in the early active development phase. The foundat
 
 ## Development History
 
+### Commit (Pending): feat(ui): refine badge branding, implement user-only preset filtering, and modernize date formats
+**Status:** Completed
+**Key Features Implemented:**
+- **Refined Badge Branding**: Implemented a high-contrast visual identity for `tuiBadge` components. Overrode library defaults in `themes.scss` to use the primary brand blue (`--tui-background-accent-1`) with white text. Increased visual footprint by 30% and moved badges to the right-hand corner of builder headers for improved hierarchy.
+- **Dynamic Content Injection**: Added a `# ` prefix to badges via HTML interpolation in `builder-block.html`, providing a more recognizable "tag" aesthetic without CSS pseudo-element overhead.
+- **User-Only Preset Filtering**: Refactored `PresetManager` to include a `userPresets` computed signal. This separates persistent user data from static system templates, resolving a bug where system presets appeared in management interfaces.
+- **Preset Dialog Modernization**:
+    - **Date Formatting**: Transitioned to an American-style abbreviated month format (`d MMM yyyy`, e.g., "15 May 2026").
+    - **Layout Optimization**: Relocated the date metadata next to the delete icon for a cleaner, action-oriented row structure.
+- **Architecture & Quality**:
+    - Eliminated all `any` usage in `PresetDialog` unit tests, ensuring full compliance with the project's strict typing policy.
+    - Achieved 100% CI pass rate (192/192 tests) and clean linting.
+
 ### Commit (Pending): feat(ui): add environment compatibility tags and descriptive subtitles to lifecycle hooks
 **Status:** Completed
 **Key Features Implemented:**

@@ -32,12 +32,16 @@
   &__name {
     font: var(--tui-font-text-m);
     color: var(--tui-text-primary);
+  }
+
+  &__meta {
     display: flex;
     align-items: center;
+    gap: var(--tui-spacing-2);
 
     .preset-date {
       color: var(--tui-text-tertiary);
-      margin-left: var(--tui-spacing-2);
+      font: var(--tui-font-text-s);
     }
   }
 

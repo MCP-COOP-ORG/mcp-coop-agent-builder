@@ -1,11 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { signal } from '@angular/core';
 import { vi } from 'vitest';
 import { provideTaiga, TuiNotificationService, TuiDialogService } from '@taiga-ui/core';
 import { GeneratedFile } from '@shared/constants';
-import { ArchiveGenerator } from '../../services/archive-generator';
-import { BuilderState } from '../../services/builder-state';
+import { ArchiveGenerator, BuilderState } from '@services';
 import { ReviewStep } from './review-step';
+import { CodeEditor } from '@shared/components';
 import { buildFileTree } from '@shared/utils';
 import { BUILDER_DICTIONARY } from '@shared/constants';
 import { of } from 'rxjs';
@@ -229,5 +230,49 @@ describe('ReviewStep', () => {
 
     expect(component.childrenHandler(nodeWithChildren)).toEqual(nodeWithChildren.children);
     expect(component.childrenHandler(nodeWithoutChildren)).toEqual([]);
+  });
+
+  it('should trigger redoEdit from template', async () => {
+    component.enableEdit();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const redoButton = fixture.debugElement.query(By.css('button[title="Redo"]'));
+    const redoSpy = vi.spyOn(component, 'redoEdit');
+    redoButton.nativeElement.click();
+    expect(redoSpy).toHaveBeenCalled();
+  });
+
+  it('should trigger setEnvironment from template', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const envButtons = fixture.debugElement.queryAll(By.css('.review-step__editor-env button'));
+    const setEnvSpy = vi.spyOn(component, 'setEnvironment');
+    envButtons[0].nativeElement.click();
+    expect(setEnvSpy).toHaveBeenCalled();
+  });
+
+  it('should trigger onEditorChange from code-editor', async () => {
+    component.enableEdit();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const editor = fixture.debugElement.query(By.directive(CodeEditor));
+    const onEditorChangeSpy = vi.spyOn(component, 'onEditorChange');
+    editor.componentInstance.valueChange.emit('new value');
+    expect(onEditorChangeSpy).toHaveBeenCalledWith('new value');
+  });
+
+  it('should show empty state when no files are loaded', async () => {
+    const priv = component as unknown as ReviewStepPrivate;
+    vi.spyOn(priv.archiveGenerator, 'generatePreview').mockResolvedValue([]);
+    
+    await priv.loadPreview();
+    fixture.detectChanges();
+    
+    const emptyState = fixture.debugElement.query(By.css('.review-step__empty'));
+    expect(emptyState).toBeTruthy();
+    expect(emptyState.nativeElement.textContent).toContain(BUILDER_DICTIONARY.review.emptyState);
   });
 });

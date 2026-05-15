@@ -5,17 +5,15 @@ import {
   computed,
   inject,
   signal,
-  viewChild,
-  Injector
+  viewChild
 } from '@angular/core';
 import { TuiHandler } from '@taiga-ui/cdk';
-import { TuiButton, TuiIcon, TuiLoader, TuiNotificationService, TuiDialogService } from '@taiga-ui/core';
-import { TuiTree, TUI_CONFIRM } from '@taiga-ui/kit';
+import { TuiButton, TuiIcon, TuiLoader, TuiNotificationService } from '@taiga-ui/core';
+import { TuiTree } from '@taiga-ui/kit';
 import { CodeEditor, StepHeader } from '@shared/components';
 import { BUILDER_DICTIONARY, BUILDER_STEPS, DEFAULT_LANGUAGE, GeneratedFile, LANGUAGE_MAP, STEP_IDS } from '@shared/constants';
 import { GENERATED_AI_ENVIRONMENTS } from '@shared/configs';
-import { ArchiveGenerator } from '../../services/archive-generator';
-import { BuilderState } from '../../services/builder-state';
+import { ArchiveGenerator, BuilderState, DialogManager } from '@services';
 
 import { buildFileTree, FileTreeNode } from '@shared/utils';
 
@@ -30,8 +28,7 @@ export class ReviewStep {
   private readonly builderState = inject(BuilderState);
   private readonly archiveGenerator = inject(ArchiveGenerator);
   private readonly notifications = inject(TuiNotificationService);
-  private readonly dialogs = inject(TuiDialogService);
-  private readonly injector = inject(Injector);
+  private readonly dialogManager = inject(DialogManager);
   private readonly codeEditor = viewChild('codeEditor', { read: CodeEditor });
 
   readonly view = {
@@ -89,16 +86,12 @@ export class ReviewStep {
   }
 
   enableEdit(): void {
-    this.dialogs
-      .open<boolean>(TUI_CONFIRM, {
-        label: this.view.dictionary.review.editWarningTitle,
-        size: 's',
-        data: {
-          content: this.view.dictionary.review.editWarningMessage,
-          yes: this.view.dictionary.review.editWarningConfirm,
-          no: '' // Hide the 'no' button to make it an alert, not a confirm
-        },
-      })
+    this.dialogManager
+      .openConfirmDialog(
+        this.view.dictionary.review.editWarningTitle,
+        this.view.dictionary.review.editWarningMessage,
+        this.view.dictionary.review.editWarningConfirm
+      )
       .subscribe((response) => {
         if (response) {
           this.editContent.set(this.activeFile()?.content ?? '');

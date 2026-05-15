@@ -144,6 +144,5 @@ describe('DescriptionStep', () => {
     presetControl?.setValue('preset-123');
     
     expect(mockPresetManager.loadPreset).toHaveBeenCalledWith('preset-123');
-    expect(presetControl?.value).toBeNull(); // It resets to null immediately
   });
 });

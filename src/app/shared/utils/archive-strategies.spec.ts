@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { StaticFileStrategy, DynamicCategoryStrategy, DynamicItemStrategy, DynamicHookStrategy, fetchItemsConcurrently, getWrapperType } from './archive-strategies';
-import { TemplateInterpolator } from '../../services/template-interpolator';
+import { TemplateInterpolator } from '@services';
 import { provideHttpClient } from '@angular/common/http';
 import { vi } from 'vitest';
 import { GENERATED_PAGES_CONFIG } from '@shared/configs';
+import { PageConfig, PlatformConfig, PlatformDefaults } from '@shared/models';
 
 describe('Archive Strategies', () => {
   let interpolator: TemplateInterpolator;
@@ -38,7 +39,7 @@ describe('Archive Strategies', () => {
       vi.spyOn(interpolator, 'interpolate').mockReturnValue('test content');
 
       const files = await strategy.generate({ type: 'static', path: 'test.md', url: 'test.json' }, {}, 'custom', undefined, interpolator);
-      
+
       expect(files.length).toBe(1);
       expect(files[0].content).toBe('test content');
     });
@@ -78,6 +79,30 @@ describe('Archive Strategies', () => {
       );
       expect(files.length).toBe(0);
     });
+
+    it('should include globs if available in defaults', async () => {
+      const strategy = new DynamicCategoryStrategy();
+      vi.spyOn(interpolator, 'fetchJson').mockResolvedValue({
+        description: { default: 'default content' }
+      });
+      vi.spyOn(interpolator, 'interpolate').mockImplementation((tmpl, ctx) => ctx['globs'] ? 'with globs' : 'without globs');
+
+      const files = await strategy.generate(
+        { type: 'dynamic-category', path: '[category].md', categories: ['cat1'] },
+        { cat1: ['eslint'] },
+        'custom',
+        {
+          id: 'mock',
+          label: 'mock',
+          content: '',
+          templates: { workflow: 'wrapper', rule: 'wrapper', skill: 'wrapper' },
+          defaults: { globs: ['**/*.js'] } as unknown as PlatformDefaults
+        },
+        interpolator
+      );
+
+      expect(files[0].content).toBe('with globs');
+    });
   });
 
   describe('DynamicItemStrategy', () => {
@@ -99,12 +124,62 @@ describe('Archive Strategies', () => {
       expect(files.length).toBe(1);
       expect(files[0].content).toBe('interpolated');
     });
+
+    it('should include globs if available in defaults', async () => {
+      const strategy = new DynamicItemStrategy();
+      vi.spyOn(interpolator, 'fetchJson').mockResolvedValue({
+        description: { default: 'default content' }
+      });
+      vi.spyOn(interpolator, 'interpolate').mockImplementation((tmpl, ctx) => ctx['globs'] ? 'with globs' : 'without globs');
+
+      const files = await strategy.generate(
+        { type: 'dynamic-item', path: '[item].md', categories: ['cat1'] },
+        { cat1: ['eslint'] },
+        'custom',
+        {
+          id: 'mock',
+          label: 'mock',
+          content: '',
+          templates: { workflow: 'wrapper', skill: 'wrapper', rule: 'wrapper' },
+          defaults: { globs: ['**/*.js'] } as unknown as PlatformDefaults
+        },
+        interpolator
+      );
+
+      expect(files[0].content).toBe('with globs');
+    });
+
+    it('should skip if itemContent or wrapperString is missing', async () => {
+      const strategy = new DynamicItemStrategy();
+
+      // Case 1: missing itemContent
+      vi.spyOn(interpolator, 'fetchJson').mockResolvedValue({});
+      let files = await strategy.generate(
+        { type: 'dynamic-item', path: '[item].md', categories: ['cat1'] },
+        { cat1: ['eslint'] },
+        'custom',
+        { templates: { workflow: 'wrapper' } } as unknown as PlatformConfig,
+        interpolator
+      );
+      expect(files.length).toBe(0);
+
+      // Case 2: missing wrapperString
+      vi.spyOn(interpolator, 'fetchJson').mockResolvedValue({ description: { default: 'content' } });
+      files = await strategy.generate(
+        { type: 'dynamic-item', path: '[item].md', categories: ['cat1'] },
+        { cat1: ['eslint'] },
+        'custom',
+        { templates: {} } as unknown as PlatformConfig,
+        interpolator
+      );
+      expect(files.length).toBe(0);
+    });
   });
 
   describe('DynamicHookStrategy', () => {
     it('should generate hooks JSON if valid events exist', async () => {
       const strategy = new DynamicHookStrategy();
-      
+
       // Mock the hooks config
       const originalHooks = GENERATED_PAGES_CONFIG['hooks'];
       GENERATED_PAGES_CONFIG['hooks'] = {
@@ -141,7 +216,7 @@ describe('Archive Strategies', () => {
 
       expect(files.length).toBe(1);
       expect(files[0].content).toContain('onCustomEvent');
-      
+
       // Restore
       GENERATED_PAGES_CONFIG['hooks'] = originalHooks;
     });
@@ -154,6 +229,46 @@ describe('Archive Strategies', () => {
       const files = await strategy.generate(
         { type: 'dynamic-hook', path: 'settings.json', categories: ['hookCat'] },
         {},
+        'custom',
+        undefined,
+        interpolator
+      );
+
+      expect(files.length).toBe(0);
+      GENERATED_PAGES_CONFIG['hooks'] = originalHooks;
+    });
+
+    it('should continue if platformEventName is missing', async () => {
+      const strategy = new DynamicHookStrategy();
+      const originalHooks = GENERATED_PAGES_CONFIG['hooks'];
+      GENERATED_PAGES_CONFIG['hooks'] = {
+        categories: [{ id: 'hookCat', events: {} }]
+      } as unknown as PageConfig;
+
+      const files = await strategy.generate(
+        { type: 'dynamic-hook', path: 'settings.json', categories: ['hookCat'] },
+        { hookCat: ['eslint'] },
+        'custom',
+        undefined,
+        interpolator
+      );
+
+      expect(files.length).toBe(0);
+      GENERATED_PAGES_CONFIG['hooks'] = originalHooks;
+    });
+
+    it('should continue if hookData is missing', async () => {
+      const strategy = new DynamicHookStrategy();
+      const originalHooks = GENERATED_PAGES_CONFIG['hooks'];
+      GENERATED_PAGES_CONFIG['hooks'] = {
+        categories: [{ id: 'hookCat', events: { custom: 'onCustom' } }]
+      } as unknown as PageConfig;
+
+      vi.spyOn(interpolator, 'fetchJson').mockResolvedValue({}); // No hook data
+
+      const files = await strategy.generate(
+        { type: 'dynamic-hook', path: 'settings.json', categories: ['hookCat'] },
+        { hookCat: ['eslint'] },
         'custom',
         undefined,
         interpolator

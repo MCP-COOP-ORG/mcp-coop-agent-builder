@@ -31,6 +31,17 @@ module.exports = defineConfig([
           style: 'kebab-case',
         },
       ],
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['../../*'],
+              message: 'Please use TS aliases (e.g., @shared/..., @services/...) instead of relative parent paths (../../*).',
+            },
+          ],
+        },
+      ],
     },
   },
   {

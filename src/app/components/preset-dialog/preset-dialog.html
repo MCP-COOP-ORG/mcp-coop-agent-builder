@@ -15,11 +15,20 @@
     <tui-expand>
       @for (preset of presetManager.presets(); track preset.id) {
       <div class="preset-dialog__item" tabindex="0" (click)="selectPreset(preset.name)" (keyup.enter)="selectPreset(preset.name)" (keyup.space)="selectPreset(preset.name)">
-        <span class="preset-dialog__name">{{ preset.name }}</span>
-        <button tuiButton appearance="flat-destructive" iconStart="@tui.trash" type="button" size="s"
-          [title]="dictionary.deleteBtn" (click)="deletePreset(preset.id, $event)">
-          <span style="display: none;">{{ dictionary.deleteBtn }}</span>
-        </button>
+        <span class="preset-dialog__name">
+          {{ preset.name }}
+          @if (preset.isSystem) {
+            <span class="tui-text_body-s tui-text_normal preset-date">(System)</span>
+          } @else {
+            <span class="tui-text_body-s tui-text_normal preset-date">{{ preset.createdAt | date:'shortDate' }}</span>
+          }
+        </span>
+        @if (!preset.isSystem) {
+          <button tuiButton appearance="flat-destructive" iconStart="@tui.trash" type="button" size="s"
+            [title]="dictionary.deleteBtn" (click)="deletePreset(preset.id, $event)">
+            <span style="display: none;">{{ dictionary.deleteBtn }}</span>
+          </button>
+        }
       </div>
       }
       @empty {

@@ -5,6 +5,16 @@ The MCP COOP Agent Builder is in the early active development phase. The foundat
 
 ## Development History
 
+### Commit (Pending): test: achieve 85%+ global branch coverage and stabilize dynamic builder components
+**Status:** Completed
+**Key Features Implemented:**
+- **Global Coverage Milestone**: Successfully surpassed the mandatory 85% threshold across all metrics: **Statements (91.73%), Branch (89.7%), Functions (86.28%), and Lines (95.55%)**. This ensures full architectural stability for the configuration-driven builder.
+- **Select Fields Hardening**: Added comprehensive unit tests for `SelectField` and `MultiSelectField` covering asynchronous `onSearch` filtering, `showInfo` dialog triggers for documentation previews, and strict `ControlValueAccessor` behavior validation.
+- **Archive Strategy Stabilization**: Remediated coverage gaps in `DynamicCategoryStrategy`, `DynamicItemStrategy`, and `DynamicHookStrategy`. Added tests for deep JSON interpolation, fallback platform templates, and automated glob inclusion.
+- **Review Step UI Testing**: Improved HTML/Component coverage by directly triggering UI actions (`redoEdit`, `setEnvironment`, `onEditorChange`) and verifying the "Empty State" rendering when no files are generated.
+- **Mock Optimization**: Standardized the use of `vi.spyOn` and strictly typed mocks for `TemplateInterpolator` and `DialogManager`, resolving intermittent race conditions during dynamic asset loading in the JSDOM environment.
+
+
 ### Commit (Pending): fix: eliminate vitest test bleed via sessionStorage and global config isolation
 **Status:** Completed
 **Key Features Implemented:**

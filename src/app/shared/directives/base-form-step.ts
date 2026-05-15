@@ -1,4 +1,4 @@
-import { Directive, inject, OnInit, WritableSignal, DestroyRef } from '@angular/core';
+import { Directive, inject, OnInit, WritableSignal, DestroyRef, effect } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BuilderState } from '@services';
 import { BuilderBlockConfig } from '@shared/constants';
@@ -16,6 +16,20 @@ export abstract class BaseFormStep implements OnInit {
 
   // Each child step must define which signal it binds to
   protected abstract get stateSignal(): WritableSignal<Record<string, unknown>>;
+
+  constructor() {
+    effect(() => {
+      const state = this.stateSignal();
+      // Form might not be initialized when the effect first runs
+      if (!this.form) return;
+      
+      // Prevent cursor jumping by only patching if the state actually differs from the form
+      const currentState = this.form.getRawValue();
+      if (JSON.stringify(currentState) !== JSON.stringify(state)) {
+        this.form.patchValue(state, { emitEvent: false });
+      }
+    });
+  }
 
   ngOnInit() {
     this.form = new FormGroup(

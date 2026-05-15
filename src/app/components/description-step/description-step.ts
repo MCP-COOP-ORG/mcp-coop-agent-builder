@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, computed, inject } from '@angular/c
 import { ReactiveFormsModule } from '@angular/forms';
 import { BUILDER_STEPS, STEP_IDS, DESCRIPTION_BLOCKS, BUILDER_DICTIONARY, BuilderFieldConfig } from '@shared/constants';
 import { StepLayout, RadioGroup, TextareaField, InputField, MultiSelectField, SelectField } from '@shared/components';
-import { BaseFormStep } from '../base-form-step';
+import { BaseFormStep } from '@shared/directives';
 import { CheckboxGroup } from '../checkbox-group/checkbox-group';
 import { PresetManager } from '@services';
 
@@ -41,7 +41,10 @@ export class DescriptionStep extends BaseFormStep {
       if (block.fields) {
         const presetField = block.fields.find((f: BuilderFieldConfig) => f.id === 'preset');
         if (presetField) {
-          presetField.options = presets.map(p => ({ id: p.id, label: p.name }));
+          presetField.options = presets.map(p => ({ 
+            id: p.id, 
+            label: p.isSystem ? `${p.name} (System)` : p.name 
+          }));
         }
       }
     }
@@ -59,8 +62,6 @@ export class DescriptionStep extends BaseFormStep {
     this.form.get('projectIdentity.preset')?.valueChanges.subscribe(presetId => {
       if (presetId) {
         this.presetManager.loadPreset(presetId);
-        // Reset the dropdown so it doesn't stay selected
-        this.form.get('projectIdentity.preset')?.setValue(null);
       }
     });
   }

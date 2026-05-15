@@ -1,5 +1,6 @@
 import { BuilderBlockConfig } from './builder-steps';
 import { BUILDER_DICTIONARY } from './builder-dictionary';
+import { GENERATED_PROJECT_META } from '@shared/configs';
 
 export const DESCRIPTION_BLOCKS: BuilderBlockConfig[] = [
   {
@@ -30,15 +31,11 @@ export const DESCRIPTION_BLOCKS: BuilderBlockConfig[] = [
         label: BUILDER_DICTIONARY.labels.businessDomains,
         placeholder: BUILDER_DICTIONARY.placeholders.businessDomains,
         layout: 'full',
-        options: [
-          { id: 'ecommerce', label: 'E-commerce' },
-          { id: 'fintech', label: 'Fintech' },
-          { id: 'edtech', label: 'Edtech' },
-          { id: 'healthtech', label: 'Healthtech' },
-          { id: 'saas', label: 'SaaS' },
-          { id: 'social', label: 'Social Network' },
-          { id: 'marketplace', label: 'Marketplace' }
-        ]
+        options: GENERATED_PROJECT_META.map(meta => ({
+          id: meta.id,
+          label: meta.label,
+          description: meta.description
+        }))
       },
       {
         id: 'description',

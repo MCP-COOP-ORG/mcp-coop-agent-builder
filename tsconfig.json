@@ -23,6 +23,7 @@
       "@shared/models": ["src/app/shared/models/index.ts"],
       "@shared/pipes": ["src/app/shared/pipes/index.ts"],
       "@shared/utils": ["src/app/shared/utils/index.ts"],
+      "@shared/directives": ["src/app/shared/directives/index.ts"],
       "@components": ["src/app/components/index.ts"],
       "@pages": ["src/app/pages/index.ts"],
       "@services": ["src/app/services/index.ts"]

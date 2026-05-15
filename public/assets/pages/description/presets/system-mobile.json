@@ -1,0 +1,20 @@
+{
+  "name": "Mobile Application",
+  "createdAt": 0,
+  "isSystem": true,
+  "state": {
+    "description": {},
+    "review": {},
+    "agents": {
+      "frontend": [
+        "react-native"
+      ],
+      "backend": [
+        "firebase"
+      ],
+      "database": [
+        "firestore"
+      ]
+    }
+  }
+}

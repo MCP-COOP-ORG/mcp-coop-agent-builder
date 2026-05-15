@@ -6,6 +6,8 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TuiRoot, provideTaiga } from '@taiga-ui/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MultiSelectField } from './multi-select-field';
+import { DialogManager, TemplateInterpolator, BuilderState } from '@services';
+import { of } from 'rxjs';
 
 @Component({
   template: `
@@ -46,7 +48,19 @@ describe('MultiSelectField', () => {
       imports: [TestHostComponent, NoopAnimationsModule],
       providers: [
         provideTaiga(),
-        { provide: ChangeDetectorRef, useValue: { markForCheck: vi.fn() } }
+        { provide: ChangeDetectorRef, useValue: { markForCheck: vi.fn() } },
+        {
+          provide: DialogManager,
+          useValue: { openInfoDialog: vi.fn().mockReturnValue(of({})) }
+        },
+        {
+          provide: TemplateInterpolator,
+          useValue: { fetchJson: vi.fn() }
+        },
+        {
+          provide: BuilderState,
+          useValue: { reviewData: signal({}) }
+        }
       ]
     }).compileComponents();
 
@@ -119,5 +133,53 @@ describe('MultiSelectField', () => {
     
     multiSelect.setDisabledState(false);
     expect(multiSelect.disabled).toBe(false);
+  });
+
+  it('should filter options based on search input', () => {
+    const multiSelect = fixture.debugElement.query(By.directive(MultiSelectField)).componentInstance as MultiSelectField;
+    
+    // Simulate search
+    const event = { target: { value: 'Option 2' } } as unknown as Event;
+    multiSelect.onSearch(event);
+    fixture.detectChanges();
+
+    expect(multiSelect.filteredOptions()).toHaveLength(1);
+    expect(multiSelect.filteredOptions()[0].id).toBe('2');
+  });
+
+  it('should open info dialog when showInfo is called with description', () => {
+    const multiSelect = fixture.debugElement.query(By.directive(MultiSelectField)).componentInstance as MultiSelectField;
+    const dialogManager = TestBed.inject(DialogManager);
+    const openInfoSpy = vi.spyOn(dialogManager, 'openInfoDialog');
+    
+    const event = { preventDefault: vi.fn(), stopPropagation: vi.fn() } as unknown as Event;
+    const option = { id: '1', label: 'Option 1', description: 'Test Description' };
+    
+    multiSelect.showInfo(event, option);
+    
+    expect(event.preventDefault).toHaveBeenCalled();
+    expect(event.stopPropagation).toHaveBeenCalled();
+    expect(openInfoSpy).toHaveBeenCalledWith('Option 1', 'Test Description');
+  });
+
+  it('should fetch and open info dialog when showInfo is called with filePath', async () => {
+    const multiSelect = fixture.debugElement.query(By.directive(MultiSelectField)).componentInstance as MultiSelectField;
+    const dialogManager = TestBed.inject(DialogManager);
+    const interpolator = TestBed.inject(TemplateInterpolator);
+    
+    const openInfoSpy = vi.spyOn(dialogManager, 'openInfoDialog');
+    vi.spyOn(interpolator, 'fetchJson').mockResolvedValue({ 
+      description: { default: 'Fetched Content' } 
+    });
+    
+    const event = { preventDefault: vi.fn(), stopPropagation: vi.fn() } as unknown as Event;
+    const option = { id: '1', label: 'Option 1', filePath: 'some/path.json' };
+    
+    multiSelect.showInfo(event, option);
+    
+    // Wait for the microtask (promise)
+    await new Promise(r => setTimeout(r, 0));
+    
+    expect(openInfoSpy).toHaveBeenCalledWith('Option 1', 'Fetched Content');
   });
 });

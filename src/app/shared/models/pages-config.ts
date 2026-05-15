@@ -1,3 +1,9 @@
+export interface MetaInformation {
+  id: string;
+  label: string;
+  description: string;
+}
+
 export interface ConfigItem {
   id: string;
   label: string;

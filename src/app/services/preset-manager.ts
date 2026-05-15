@@ -3,14 +3,8 @@ import { isPlatformBrowser } from '@angular/common';
 import { BuilderState } from './builder-state';
 import { TuiNotificationService } from '@taiga-ui/core';
 import { BUILDER_DICTIONARY } from '@shared/constants';
-import { BuilderSnapshot } from '@shared/models';
-
-export interface Preset {
-  id: string;
-  name: string;
-  state: BuilderSnapshot;
-  createdAt: number;
-}
+import { GENERATED_PRESETS } from '@shared/configs';
+import { Preset } from '@shared/models';
 
 @Injectable({
   providedIn: 'root',
@@ -39,35 +33,43 @@ export class PresetManager {
 
     const stateToSave = this.builderState.createSnapshot();
 
-    const finalName = name.trim() || `Preset ${this.presets().length + 1}`;
-    const current = [...this.presets()];
-    const existingIndex = current.findIndex(p => p.name.toLowerCase() === finalName.toLowerCase());
+    // Remove any GENERATED_PRESETS before finding index, because we only save to local storage
+    const localPresets = this.presets().filter(p => !p.isSystem);
+
+    const finalName = name.trim() || `Preset ${localPresets.length + 1}`;
+    const existingIndex = localPresets.findIndex(p => p.name.toLowerCase() === finalName.toLowerCase());
 
     if (existingIndex !== -1) {
-      // Overwrite existing preset
-      current[existingIndex] = {
-        ...current[existingIndex],
+      if (stateToSave.description && stateToSave.description['projectIdentity']) {
+        (stateToSave.description['projectIdentity'] as Record<string, unknown>)['preset'] = localPresets[existingIndex].id;
+      }
+      localPresets[existingIndex] = {
+        ...localPresets[existingIndex],
         state: stateToSave,
         createdAt: Date.now()
       };
     } else {
-      // Add new preset
+      const newId = Date.now().toString();
+      if (stateToSave.description && stateToSave.description['projectIdentity']) {
+        (stateToSave.description['projectIdentity'] as Record<string, unknown>)['preset'] = newId;
+      }
       const newPreset: Preset = {
-        id: Date.now().toString(),
+        id: newId,
         name: finalName,
         state: stateToSave,
-        createdAt: Date.now()
+        createdAt: Date.now(),
+        isSystem: false
       };
 
-      if (current.length >= this.MAX_PRESETS) {
-        current.sort((a, b) => a.createdAt - b.createdAt);
-        current.shift();
+      if (localPresets.length >= this.MAX_PRESETS) {
+        localPresets.sort((a, b) => b.createdAt - a.createdAt); // newest first
+        localPresets.pop(); // remove oldest
       }
-      current.push(newPreset);
+      localPresets.push(newPreset);
     }
 
-    this.presets.set(current);
-    this.savePresetsToStorage(current);
+    this.savePresetsToStorage(localPresets);
+    this.reloadPresets();
 
     this.notifications.open(BUILDER_DICTIONARY.presets.savedMessage, {
       label: BUILDER_DICTIONARY.presets.savedLabel,
@@ -90,20 +92,32 @@ export class PresetManager {
   }
 
   deletePreset(id: string): void {
-    const current = this.presets().filter(p => p.id !== id);
-    this.presets.set(current);
-    this.savePresetsToStorage(current);
+    const localPresets = this.presets().filter(p => !p.isSystem && p.id !== id);
+    this.savePresetsToStorage(localPresets);
+    this.reloadPresets();
   }
 
   private loadPresetsFromStorage(): void {
+    this.reloadPresets();
+  }
+  
+  private reloadPresets(): void {
+    let localPresets: Preset[] = [];
     try {
       const stored = localStorage.getItem(this.STORAGE_KEY);
       if (stored) {
-        this.presets.set(JSON.parse(stored));
+        localPresets = JSON.parse(stored);
       }
     } catch (e) {
       console.error('Failed to parse presets from localStorage', e);
     }
+    
+    // Sort local presets by date descending
+    localPresets.sort((a, b) => b.createdAt - a.createdAt);
+    
+    // Append system presets
+    const allPresets = [...localPresets, ...GENERATED_PRESETS];
+    this.presets.set(allPresets);
   }
 
   private savePresetsToStorage(presets: Preset[]): void {

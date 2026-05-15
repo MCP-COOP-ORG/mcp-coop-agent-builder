@@ -6,6 +6,8 @@ import { By } from '@angular/platform-browser';
 import { TuiRoot, provideTaiga } from '@taiga-ui/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SelectField, SelectOption } from './select-field';
+import { DialogManager, TemplateInterpolator, BuilderState } from '@services';
+import { of } from 'rxjs';
 
 // Taiga UI dark-mode token requires matchMedia which jsdom does not provide
 beforeAll(() => {
@@ -56,7 +58,19 @@ describe('SelectField', () => {
       imports: [TestHostComponent, NoopAnimationsModule],
       providers: [
         provideTaiga(),
-        { provide: ChangeDetectorRef, useValue: { markForCheck: vi.fn() } }
+        { provide: ChangeDetectorRef, useValue: { markForCheck: vi.fn() } },
+        {
+          provide: DialogManager,
+          useValue: { openInfoDialog: vi.fn().mockReturnValue(of({})) }
+        },
+        {
+          provide: TemplateInterpolator,
+          useValue: { fetchJson: vi.fn() }
+        },
+        {
+          provide: BuilderState,
+          useValue: { reviewData: signal({}) }
+        }
       ]
     }).compileComponents();
 
@@ -121,13 +135,70 @@ describe('SelectField', () => {
     await fixture.whenStable();
     
     // Trigger dropdown opening
-    const select = fixture.nativeElement.querySelector('input[tuiSelect]');
+    const select = fixture.nativeElement.querySelector('input[tuiComboBox]');
     (select as HTMLElement)?.click();
     fixture.detectChanges();
     await fixture.whenStable();
     
     const options = document.querySelectorAll('button[tuiOption]');
-    expect(options[0]?.textContent?.trim()).toBe('No options');
+    expect(options[0]?.textContent?.trim()).toBe('No options found');
     expect((options[0] as HTMLButtonElement).disabled).toBe(true);
+  });
+
+  it('should filter options based on search input', () => {
+    const selectField = fixture.debugElement.query(By.directive(SelectField)).componentInstance as SelectField;
+    
+    // Simulate search
+    const event = { target: { value: 'Option 2' } } as unknown as Event;
+    selectField.onSearch(event);
+    fixture.detectChanges();
+
+    expect(selectField.filteredOptions()).toHaveLength(1);
+    expect(selectField.filteredOptions()[0].id).toBe('2');
+  });
+
+  it('should reset search when writeValue is called', () => {
+    const selectField = fixture.debugElement.query(By.directive(SelectField)).componentInstance as SelectField;
+    selectField.search.set('some search');
+    
+    selectField.writeValue('2');
+    expect(selectField.value).toBe('2');
+    expect(selectField.search()).toBe('');
+  });
+
+  it('should open info dialog when showInfo is called with description', () => {
+    const selectField = fixture.debugElement.query(By.directive(SelectField)).componentInstance as SelectField;
+    const dialogManager = TestBed.inject(DialogManager);
+    const openInfoSpy = vi.spyOn(dialogManager, 'openInfoDialog');
+    
+    const event = { preventDefault: vi.fn(), stopPropagation: vi.fn() } as unknown as Event;
+    const option = { id: '1', label: 'Option 1', description: 'Test Description' };
+    
+    selectField.showInfo(event, option);
+    
+    expect(event.preventDefault).toHaveBeenCalled();
+    expect(event.stopPropagation).toHaveBeenCalled();
+    expect(openInfoSpy).toHaveBeenCalledWith('Option 1', 'Test Description');
+  });
+
+  it('should fetch and open info dialog when showInfo is called with filePath', async () => {
+    const selectField = fixture.debugElement.query(By.directive(SelectField)).componentInstance as SelectField;
+    const dialogManager = TestBed.inject(DialogManager);
+    const interpolator = TestBed.inject(TemplateInterpolator);
+    
+    const openInfoSpy = vi.spyOn(dialogManager, 'openInfoDialog');
+    vi.spyOn(interpolator, 'fetchJson').mockResolvedValue({ 
+      description: { default: 'Fetched Content' } 
+    });
+    
+    const event = { preventDefault: vi.fn(), stopPropagation: vi.fn() } as unknown as Event;
+    const option = { id: '1', label: 'Option 1', filePath: 'some/path.json' };
+    
+    selectField.showInfo(event, option);
+    
+    // Wait for the microtask (promise)
+    await new Promise(r => setTimeout(r, 0));
+    
+    expect(openInfoSpy).toHaveBeenCalledWith('Option 1', 'Fetched Content');
   });
 });

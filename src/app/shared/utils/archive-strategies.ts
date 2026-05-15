@@ -3,7 +3,7 @@ import { map } from 'rxjs/operators';
 import { GeneratedFile } from '@shared/constants';
 import { ASSET_FILE_PATHS, GENERATED_PAGES_CONFIG, MAIN } from '@shared/configs';
 import { ArchivePattern, StaticFilePattern, DynamicCategoryPattern, DynamicItemPattern, DynamicHookPattern, PlatformConfig } from '@shared/models';
-import { TemplateInterpolator } from '../../services/template-interpolator';
+import { TemplateInterpolator } from '@services';
 
 export function getWrapperType(category: string): string {
   for (const page of Object.values(GENERATED_PAGES_CONFIG)) {

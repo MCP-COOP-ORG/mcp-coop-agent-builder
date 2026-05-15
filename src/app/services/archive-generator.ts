@@ -1,8 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { strToU8, zipSync } from 'fflate';
 import { GeneratedFile } from '@shared/constants';
-import { CLAUDE, CURSOR, ANTIGRAVITY } from '../shared/schemas';
-import { GENERATED_PLATFORMS_CONFIG } from '@shared/configs';
+import { CLAUDE, CURSOR, ANTIGRAVITY } from '@shared/schemas';
+import { GENERATED_PLATFORMS_CONFIG, GENERATED_PROJECT_META } from '@shared/configs';
 import { ArchivePattern } from '@shared/models';
 import { BuilderState } from './builder-state';
 import { TemplateInterpolator } from './template-interpolator';
@@ -50,9 +50,25 @@ export class ArchiveGenerator {
       dynamicContext = { ...dynamicContext, ...this.builderState.dynamicData[key]() };
     });
 
+    const projectIdentity = (desc['projectIdentity'] as Record<string, unknown>) || {};
+    let combinedDescription = (projectIdentity['description'] as string) || '';
+    
+    const domains = projectIdentity['domains'] as string[];
+    if (Array.isArray(domains)) {
+      const domainDescriptions = domains.map(dId => 
+        GENERATED_PROJECT_META.find(meta => meta.id === dId)?.description
+      ).filter(Boolean);
+      
+      if (domainDescriptions.length > 0) {
+        const joined = domainDescriptions.join('\n\n');
+        combinedDescription = combinedDescription ? `${joined}\n\n${combinedDescription}` : joined;
+      }
+    }
+
     const context: Record<string, unknown> = {
       ...desc,
-      ...(desc['projectIdentity'] as Record<string, unknown> || {}),
+      ...projectIdentity,
+      description: combinedDescription,
       ...dynamicContext
     };
     

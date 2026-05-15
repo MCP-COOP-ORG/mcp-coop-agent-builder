@@ -5,7 +5,7 @@ import { BuilderState } from './builder-state';
 import { TuiNotificationService } from '@taiga-ui/core';
 import { signal } from '@angular/core';
 import { of } from 'rxjs';
-
+import { GENERATED_PRESETS } from '@shared/configs';
 describe('PresetManager', () => {
   let service: PresetManager;
   let builderState: BuilderState;
@@ -68,7 +68,8 @@ describe('PresetManager', () => {
     const saveSpy = vi.spyOn(window.localStorage, 'setItem');
     service.saveCurrentStateAsPreset('Test Preset');
     
-    expect(service.presets().length).toBe(1);
+    const systemCount = GENERATED_PRESETS.length;
+    expect(service.presets().length).toBe(systemCount + 1);
     expect(service.presets()[0].name).toBe('Test Preset');
     expect(service.presets()[0].state.description).toEqual({ field: 'value' });
     expect(saveSpy).toHaveBeenCalled();
@@ -93,7 +94,8 @@ describe('PresetManager', () => {
     
     service.saveCurrentStateAsPreset('TEST');
     
-    expect(service.presets().length).toBe(1);
+    const systemCount = GENERATED_PRESETS.length;
+    expect(service.presets().length).toBe(systemCount + 1);
     expect(service.presets()[0].id).toBe(firstId);
     expect(service.presets()[0].state.description).toEqual({ field: 'updated' });
   });
@@ -104,17 +106,19 @@ describe('PresetManager', () => {
       vi.spyOn(Date, 'now').mockReturnValue(1000 + i);
       service.saveCurrentStateAsPreset(`Preset ${i}`);
     }
-    const firstPresetId = service.presets()[0].id;
+    // The oldest preset will be at index 9 because of descending sort
+    const oldestPresetId = service.presets()[9].id;
     
     // Add 11th preset with a later timestamp
     vi.spyOn(Date, 'now').mockReturnValue(2000);
     service.saveCurrentStateAsPreset('Newest');
     
-    expect(service.presets().length).toBe(10);
-    // The first one should be gone (FIFO)
-    const found = service.presets().find(p => p.id === firstPresetId);
+    const systemCount = GENERATED_PRESETS.length;
+    expect(service.presets().length).toBe(systemCount + 10);
+    // The oldest one should be gone
+    const found = service.presets().find(p => p.id === oldestPresetId);
     expect(found).toBeUndefined();
-    expect(service.presets()[9].name).toBe('Newest');
+    expect(service.presets()[0].name).toBe('Newest');
   });
 
   it('should load preset into state', () => {
@@ -148,7 +152,8 @@ describe('PresetManager', () => {
     const presetId = service.presets()[0].id;
     
     service.deletePreset(presetId);
-    expect(service.presets().length).toBe(0);
+    const systemCount = GENERATED_PRESETS.length;
+    expect(service.presets().length).toBe(systemCount);
   });
 
   it('should handle localStorage errors gracefully', () => {

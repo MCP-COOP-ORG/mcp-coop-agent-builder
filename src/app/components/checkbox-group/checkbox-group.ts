@@ -1,8 +1,8 @@
 import { Component, ChangeDetectionStrategy, input, forwardRef, inject } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
-import { TuiCheckbox, TuiDialogService, TuiIcon } from '@taiga-ui/core';
+import { TuiCheckbox, TuiIcon } from '@taiga-ui/core';
 import { ConfigItem } from '@shared/models';
-import { RecommendationEngine, RecommendationStatus, TemplateInterpolator, BuilderState } from '@services';
+import { RecommendationEngine, RecommendationStatus, TemplateInterpolator, BuilderState, DialogManager } from '@services';
 import { BUILDER_DICTIONARY } from '@shared/constants';
 
 /**
@@ -26,7 +26,7 @@ import { BUILDER_DICTIONARY } from '@shared/constants';
 })
 export class CheckboxGroup implements ControlValueAccessor {
   private readonly recommendationEngine = inject(RecommendationEngine);
-  private readonly dialogService = inject(TuiDialogService);
+  private readonly dialogManager = inject(DialogManager);
   private readonly interpolator = inject(TemplateInterpolator);
   private readonly builderState = inject(BuilderState);
 
@@ -84,10 +84,6 @@ export class CheckboxGroup implements ControlValueAccessor {
     return this.recommendationEngine.getStatus(itemId);
   }
 
-  /**
-   * Opens a dialog showing the description for the selected item.
-   * Uses the current agent selection with fallback to 'default'.
-   */
   showInfo(event: Event, option: ConfigItem): void {
     event.preventDefault();
     event.stopPropagation();
@@ -100,12 +96,7 @@ export class CheckboxGroup implements ControlValueAccessor {
         const agent = (review['aiAgent'] as string) || 'default';
         const content = json.description[agent] ?? json.description['default'] ?? '';
 
-        this.dialogService
-          .open(content, {
-            label: option.label,
-            size: 'm'
-          })
-          .subscribe();
+        this.dialogManager.openInfoDialog(option.label, content).subscribe();
       });
   }
 }

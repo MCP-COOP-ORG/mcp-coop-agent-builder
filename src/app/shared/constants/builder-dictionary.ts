@@ -62,6 +62,7 @@ export const BUILDER_DICTIONARY = {
   },
   limits: {
     textarea: 1000,
+    dropdownSearchMinLength: 2,
   },
   header: {
     toggleThemeAriaLabel: 'Toggle color theme',

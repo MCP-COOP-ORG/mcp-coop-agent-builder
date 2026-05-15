@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { GENERATED_PAGES_CONFIG } from '@shared/configs';
 import { ConfigCategory } from '@shared/models';
 import { StepLayout, RadioGroup, TextareaField } from '@shared/components';
-import { BaseFormStep } from '../base-form-step';
+import { BaseFormStep } from '@shared/directives';
 import { CheckboxGroup } from '../checkbox-group/checkbox-group';
 import { WritableSignal } from '@angular/core';
 

@@ -1,5 +1,5 @@
-import { GENERATED_PAGES_CONFIG } from '../configs/generated-pages-config';
-import { PageConfig } from '../models/pages-config';
+import { GENERATED_PAGES_CONFIG } from '@shared/configs';
+import { PageConfig } from '@shared/models';
 
 export const STEP_IDS = {
   DESCRIPTION: 'description',

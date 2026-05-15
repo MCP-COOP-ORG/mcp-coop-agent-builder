@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TuiButton, TuiDialogContext, TuiLabel, TuiTextfield, TuiInput, TuiTitle } from '@taiga-ui/core';
 import { TuiAccordion } from '@taiga-ui/kit';
@@ -6,10 +7,10 @@ import { POLYMORPHEUS_CONTEXT } from '@taiga-ui/polymorpheus';
 import { PresetManager } from '@services';
 import { BUILDER_DICTIONARY } from '@shared/constants';
 
-
 @Component({
   selector: 'app-preset-dialog',
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     TuiButton,
     TuiTextfield,

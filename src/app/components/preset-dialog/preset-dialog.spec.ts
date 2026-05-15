@@ -3,7 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PresetDialogComponent } from './preset-dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { POLYMORPHEUS_CONTEXT } from '@taiga-ui/polymorpheus';
-import { Preset, PresetManager } from '@services';
+import { PresetManager } from '@services';
+import { Preset } from '@shared/models';
 import { ChangeDetectorRef, signal, WritableSignal } from '@angular/core';
 
 describe('PresetDialogComponent', () => {

@@ -27,10 +27,13 @@ describe('DialogManager', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should open preset dialog', () => {
+  it('should open preset dialog', async () => {
+    vi.spyOn(dialogService, 'open').mockReturnValue(of({}));
     const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined);
     service.openPresetDialog();
-    expect(dialogService.open).toHaveBeenCalled();
+    await vi.waitFor(() => {
+      expect(dialogService.open).toHaveBeenCalled();
+    });
     consoleSpy.mockRestore();
   });
 });

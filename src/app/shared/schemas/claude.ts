@@ -1,4 +1,4 @@
-import { ArchivePattern } from '../models';
+import { ArchivePattern } from '@shared/models';
 import { GENERATED_PAGE_CATEGORIES, MAIN } from '@shared/configs';
 
 export const CLAUDE: ArchivePattern[] = [

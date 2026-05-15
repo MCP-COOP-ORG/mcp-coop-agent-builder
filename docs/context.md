@@ -5,6 +5,14 @@ The MCP COOP Agent Builder is in the early active development phase. The foundat
 
 ## Development History
 
+### Commit (Pending): feat: add docker build and github actions deploy configuration
+**Status:** Completed
+**Key Features Implemented:**
+- **Standalone Web App Dockerization**: Created a multistage `Dockerfile` to build the Agent Builder as a standalone SPA using `@angular/build:application`. Included Nginx configuration (`nginx.conf`) for proper SPA routing (`try_files`) and static asset caching.
+- **GitHub Actions Deployment**: Implemented `.github/workflows/deploy.yml` CI/CD pipeline using Google Cloud Workload Identity Federation (WIF). The workflow builds the Docker image, pushes it to Google Artifact Registry (GAR), and deploys it to the VM via SSH.
+- **Docker Compose Configuration**: Added `.github/deploy/docker-compose.prod.yml` to define the `agent-builder-webapp` service connected to the `mcp-network`.
+- **Platform Integration Prep**: Aligned deployment structure with the existing monorepo patterns (similar to Unbogi) to allow the main platform Nginx to reverse-proxy traffic to `/agent-builder/`.
+
 ### Commit (Pending): feat(ui): refine badge branding, implement user-only preset filtering, and modernize date formats
 **Status:** Completed
 **Key Features Implemented:**

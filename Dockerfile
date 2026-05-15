@@ -16,6 +16,6 @@ RUN npm run build -- --base-href /agent-builder/
 FROM nginx:alpine AS production
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Angular 17+ with application builder outputs to dist/project-name/browser
-COPY --from=base /app/dist/mcp-coop-agent-builder/browser /usr/share/nginx/html
+COPY --from=base /app/dist/mcp-coop-agent-builder/browser /usr/share/nginx/html/agent-builder
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

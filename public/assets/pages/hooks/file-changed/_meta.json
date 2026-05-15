@@ -5,5 +5,6 @@
   "order": 28,
   "events": {
     "claude": "FileChanged"
-  }
+  },
+  "description": "Fires whenever a file in the workspace is modified by the AI."
 }

@@ -44,4 +44,54 @@ describe('BuilderBlock', () => {
     expect(projectedEl).toBeTruthy();
     expect(projectedEl?.textContent).toContain('Projected Content');
   });
+
+  it('should render environment tags when events are provided', () => {
+    // Create a new host component with events
+    @Component({
+      template: `
+        <app-builder-block 
+          title="Hooks" 
+          icon="@tui.webhook" 
+          [events]="{ 'antigravity': 'SessionStart', 'claude': 'SessionStart' }"
+        >
+        </app-builder-block>
+      `,
+      imports: [BuilderBlock],
+    })
+    class TagsHostComponent {}
+
+    const tagsFixture = TestBed.createComponent(TagsHostComponent);
+    tagsFixture.detectChanges();
+    
+    const compiled = tagsFixture.nativeElement as HTMLElement;
+    const tags = compiled.querySelectorAll('.builder-block__tag');
+    
+    expect(tags.length).toBe(2);
+    expect(tags[0].textContent).toContain('antigravity');
+    expect(tags[1].textContent).toContain('claude');
+  });
+
+  it('should render description subtitle when provided', () => {
+    @Component({
+      template: `
+        <app-builder-block 
+          title="Hooks" 
+          icon="@tui.webhook" 
+          description="Test description subtitle"
+        >
+        </app-builder-block>
+      `,
+      imports: [BuilderBlock],
+    })
+    class DescriptionHostComponent {}
+
+    const descFixture = TestBed.createComponent(DescriptionHostComponent);
+    descFixture.detectChanges();
+    
+    const compiled = descFixture.nativeElement as HTMLElement;
+    const descEl = compiled.querySelector('.builder-block__subtitle');
+    
+    expect(descEl).toBeTruthy();
+    expect(descEl?.textContent).toContain('Test description subtitle');
+  });
 });

@@ -6,5 +6,6 @@
   "events": {
     "antigravity": "SessionStart",
     "claude": "SessionStart"
-  }
+  },
+  "description": "Fires immediately when the AI session or project starts."
 }

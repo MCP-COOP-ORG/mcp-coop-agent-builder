@@ -5,5 +5,6 @@
   "order": 27,
   "events": {
     "claude": "Stop"
-  }
+  },
+  "description": "Fires when the AI session is explicitly stopped or finished."
 }

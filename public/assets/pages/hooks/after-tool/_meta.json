@@ -6,5 +6,6 @@
   "events": {
     "antigravity": "AfterTool",
     "claude": "PostToolUse"
-  }
+  },
+  "description": "Fires immediately after a tool or shell command has finished execution."
 }

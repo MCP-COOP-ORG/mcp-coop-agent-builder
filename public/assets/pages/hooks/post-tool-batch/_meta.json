@@ -5,5 +5,6 @@
   "order": 24,
   "events": {
     "claude": "PostToolBatch"
-  }
+  },
+  "description": "Fires after a batch of tools or commands has been executed."
 }

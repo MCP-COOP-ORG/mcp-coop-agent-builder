@@ -5,5 +5,6 @@
   "order": 26,
   "events": {
     "claude": "SubagentStop"
-  }
+  },
+  "description": "Fires when a sub-agent completes its task and returns control."
 }

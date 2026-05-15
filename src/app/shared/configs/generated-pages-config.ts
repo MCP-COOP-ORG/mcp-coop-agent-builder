@@ -319,6 +319,7 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
           "antigravity": "SessionStart",
           "claude": "SessionStart"
         },
+        "description": "Fires immediately when the AI session or project starts.",
         "items": [
           {
             "id": "direnv-load",
@@ -342,6 +343,7 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
           "antigravity": "BeforeTool",
           "claude": "PreToolUse"
         },
+        "description": "Fires every time the AI is about to execute a tool or shell command.",
         "items": [
           {
             "id": "env-guard",
@@ -365,6 +367,7 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
           "antigravity": "AfterTool",
           "claude": "PostToolUse"
         },
+        "description": "Fires immediately after a tool or shell command has finished execution.",
         "items": [
           {
             "id": "auto-eslint",
@@ -388,6 +391,7 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
           "antigravity": "Notification",
           "claude": "Notification"
         },
+        "description": "Fires when the AI triggers a system notification or alert.",
         "items": [
           {
             "id": "desktop-alert",
@@ -406,6 +410,7 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
           "antigravity": "PreCompress",
           "claude": "PreCompact"
         },
+        "description": "Fires before the AI attempts to compress or compact its context history.",
         "items": [
           {
             "id": "context-save-reminder",
@@ -423,6 +428,7 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
         "events": {
           "claude": "Stop"
         },
+        "description": "Fires when the AI session is explicitly stopped or finished.",
         "items": [
           {
             "id": "git-status-check",

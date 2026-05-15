@@ -5,5 +5,6 @@
   "order": 4,
   "events": {
     "antigravity": "AfterAgent"
-  }
+  },
+  "description": "Fires after the primary AI agent completes its turn or task."
 }

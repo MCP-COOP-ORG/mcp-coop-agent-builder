@@ -5,6 +5,17 @@ The MCP COOP Agent Builder is in the early active development phase. The foundat
 
 ## Development History
 
+### Commit (Pending): feat(ui): add environment compatibility tags and descriptive subtitles to lifecycle hooks
+**Status:** Completed
+**Key Features Implemented:**
+- **Environment Compatibility Tags**: Implemented visual badges using `TuiBadge` next to hook category titles. These tags represent AI environments (e.g., `antigravity`, `claude`) that support the specific hook, driven by the `events` dictionary in the configuration.
+- **Descriptive Hook Subtitles**: Added a `description` field to all 20+ hook category metadata files (`_meta.json`). These descriptions are rendered as subtitles under each category title to provide immediate context on when the hook fires.
+- **Architectural Data Flow**: Extended `BuilderBlockConfig` and `ConfigCategory` interfaces to include `events` and `description` properties. Updated `scripts/generate-pages-config.ts` to automatically propagate these new metadata fields into the generated UI configuration.
+- **Enhanced UI Components**:
+    - **`BuilderBlock`**: Added support for rendering badges and subtitles with appropriate typography (`tui-text_body-s`) and BEM-compliant styling.
+    - **`StepLayout`**: Updated the dynamic block loop to pass the new metadata down to the block components.
+- **Quality Assurance**: Added unit tests to `builder-block.spec.ts` to verify the correct rendering of both tags and subtitles. Achieved 100% CI pass rate (192/192 tests, clean linting).
+
 ### Commit (Pending): test: achieve 85%+ global branch coverage and stabilize dynamic builder components
 **Status:** Completed
 **Key Features Implemented:**

@@ -5,5 +5,6 @@
   "order": 11,
   "events": {
     "antigravity": "BeforeToolSelection"
-  }
+  },
+  "description": "Fires when the AI is deciding which tool or command to use next."
 }

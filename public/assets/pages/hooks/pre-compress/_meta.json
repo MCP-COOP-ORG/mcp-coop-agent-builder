@@ -6,5 +6,6 @@
   "events": {
     "antigravity": "PreCompress",
     "claude": "PreCompact"
-  }
+  },
+  "description": "Fires before the AI attempts to compress or compact its context history."
 }

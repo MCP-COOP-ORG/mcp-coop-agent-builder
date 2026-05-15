@@ -5,5 +5,6 @@
   "order": 3,
   "events": {
     "antigravity": "BeforeAgent"
-  }
+  },
+  "description": "Fires before the primary AI agent begins its turn or task."
 }

@@ -6,5 +6,6 @@
   "events": {
     "antigravity": "BeforeTool",
     "claude": "PreToolUse"
-  }
+  },
+  "description": "Fires every time the AI is about to execute a tool or shell command."
 }

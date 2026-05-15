@@ -18,6 +18,7 @@ export interface ConfigCategory {
   icon: string;
   type: 'checkbox' | 'radio';
   order?: number;
+  description?: string;
   events?: Record<string, string>;
   items: ConfigItem[];
 }

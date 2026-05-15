@@ -5,7 +5,12 @@
   <div class="step-main">
     @for (block of blocks(); track block.id) {
       <div #blockElement [id]="block.id">
-        <app-builder-block [title]="block.title" [icon]="block.icon">
+        <app-builder-block 
+          [title]="block.title" 
+          [icon]="block.icon" 
+          [events]="block.events"
+          [description]="block.description"
+        >
           <!-- Dynamic Form Injection point -->
           <ng-container *ngTemplateOutlet="contentTemplate() || null; context: { $implicit: block }"></ng-container>
         </app-builder-block>

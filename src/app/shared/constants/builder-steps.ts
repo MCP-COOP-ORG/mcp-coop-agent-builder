@@ -32,6 +32,8 @@ export interface BuilderBlockConfig {
   label?: string;
   placeholder?: string;
   fields?: BuilderFieldConfig[];
+  events?: Record<string, string>;
+  description?: string;
 }
 
 export interface BuilderStep {

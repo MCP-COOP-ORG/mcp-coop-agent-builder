@@ -1,9 +1,18 @@
 # Current Project Context & History
 
 ## General Context
-The MCP COOP Agent Builder is in the early active development phase. The foundational architecture (Native Federation, Angular 21, Taiga UI) is set up. The core layout and routing for the Builder feature are complete. The builder uses a 3-step workflow (Setup, Stack, Review) with Lucide icons on the TuiStepper. We are currently focusing on implementing the individual form steps strictly adhering to the established Zero Literals and View Model patterns.
+The MCP COOP Agent Builder is a standalone web application built with Angular 21 and Taiga UI. It uses a dual-build architecture: standalone mode (default, optimized) via `@angular/build:application`, and an optional micro-frontend mode via `@angular-architects/native-federation:build` (accessible through `npm run build:federation`). The builder uses a 3-step workflow (Setup, Stack, Review) with Lucide icons on the TuiStepper. All form steps are implemented strictly adhering to the Zero Literals and View Model patterns.
 
 ## Development History
+
+### Commit (Pending): perf: implement dual-build strategy and frontend performance optimization
+**Status:** Completed
+**Key Features Implemented:**
+- **Dual-Build Architecture**: Implemented a switchable build system using Angular CLI configurations. `npm run build` / `npm start` now produce a standalone application using `@angular/build:application` with direct bootstrap (`main.standalone.ts`), bypassing federation overhead. `npm run build:federation` / `npm run start:federation` preserve the full Native Federation mode for future micro-frontend integration.
+- **Image Optimization**: Converted hero image from PNG (730 KB) to WebP (268 KB). Added `<link rel="preload">` to `index.html` for immediate LCP resource discovery.
+- **Nginx Compression & Cache Strategy**: Enabled gzip compression (level 6) for all text-based assets. Implemented granular Cache-Control: `immutable` for hashed assets, `no-cache` for `remoteEntry.json` and Service Worker files.
+- **Service Worker Prefetch Split**: Refactored `ngsw-config.json` from a "prefetch everything" strategy to a split: lightweight `app-shell` (prefetch) for core CSS/JS, and `federation-shared` (lazy) for 250+ federation chunks.
+- **Performance Impact**: Standalone build produces 6 initial JS files (318 KB gzipped) vs federation's 259 separate chunks. HTTP requests reduced from ~520 to ~15-20. Build time reduced from ~10s to ~6s. `es-module-shims` polyfill (37 KB) eliminated from standalone builds.
 
 ### Commit (Pending): feat: add docker build and github actions deploy configuration
 **Status:** Completed

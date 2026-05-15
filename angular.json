@@ -20,6 +20,76 @@
       "prefix": "app",
       "architect": {
         "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "src/main.standalone.ts",
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "serviceWorker": "ngsw-config.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/@taiga-ui/icons/src",
+                "output": "assets/taiga-ui/icons"
+              }
+            ],
+            "styles": [
+              "node_modules/@taiga-ui/styles/taiga-ui-theme.less",
+              "node_modules/@taiga-ui/styles/taiga-ui-fonts.less",
+              "src/styles.scss",
+              "src/styles/themes.scss"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "1500kB",
+                  "maximumError": "2MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "mcp-coop-agent-builder:build:production"
+            },
+            "development": {
+              "buildTarget": "mcp-coop-agent-builder:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 4200
+          }
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "runnerConfig": "vitest.config.ts"
+          }
+        },
+        "build-federation": {
           "builder": "@angular-architects/native-federation:build",
           "options": {},
           "configurations": {
@@ -33,7 +103,7 @@
           },
           "defaultConfiguration": "production"
         },
-        "serve": {
+        "serve-federation": {
           "builder": "@angular-architects/native-federation:build",
           "options": {
             "target": "mcp-coop-agent-builder:serve-original:development",
@@ -41,12 +111,6 @@
             "dev": true,
             "cacheExternalArtifacts": false,
             "port": 0
-          }
-        },
-        "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "runnerConfig": "vitest.config.ts"
           }
         },
         "esbuild": {

@@ -86,7 +86,7 @@ export const BUILDER_DICTIONARY = {
     editWarningConfirm: 'Understood'
   },
   assets: {
-    hero: 'ai-builder-hero-2.png',
+    hero: 'ai-builder-hero-2.webp',
   },
   errors: {
     genericError: 'An unexpected error occurred.',

@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "prestart": "rm -rf .angular/cache node_modules/.cache/native-federation",
     "start": "ng serve",
-    "prebuild": "rm -rf .angular/cache node_modules/.cache/native-federation",
     "build": "ng build",
+    "start:federation": "rm -rf .angular/cache node_modules/.cache/native-federation && ng run mcp-coop-agent-builder:serve-federation",
+    "build:federation": "rm -rf .angular/cache node_modules/.cache/native-federation && ng run mcp-coop-agent-builder:build-federation",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:ci": "ng test --watch=false",

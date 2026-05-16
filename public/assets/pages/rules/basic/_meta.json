@@ -1,0 +1,8 @@
+{
+  "title": "Basic Rules",
+  "icon": "@tui.shield",
+  "type": "checkbox",
+  "order": 100,
+  "default": true,
+  "description": "Foundational coding standards and constraints recommended for every project."
+}

@@ -10,6 +10,7 @@
           [icon]="block.icon" 
           [events]="block.events"
           [description]="block.description"
+          [isDefault]="block.default"
         >
           <!-- Dynamic Form Injection point -->
           <ng-container *ngTemplateOutlet="contentTemplate() || null; context: { $implicit: block }"></ng-container>

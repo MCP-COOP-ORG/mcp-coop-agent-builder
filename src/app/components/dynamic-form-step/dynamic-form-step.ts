@@ -30,7 +30,8 @@ export class DynamicFormStep extends BaseFormStep implements OnInit {
     step: GENERATED_PAGES_CONFIG[this.stepId],
     blocksArray: GENERATED_PAGES_CONFIG[this.stepId].categories.map((cat: ConfigCategory) => ({
       ...cat,
-      options: cat.items
+      options: cat.items,
+      ...(cat.default ? { default: cat.default } : {})
     }))
   };
 

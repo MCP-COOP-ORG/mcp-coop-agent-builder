@@ -94,4 +94,35 @@ describe('BuilderBlock', () => {
     expect(descEl).toBeTruthy();
     expect(descEl?.textContent).toContain('Test description subtitle');
   });
+
+  it('should render recommended badge when isDefault is true', () => {
+    @Component({
+      template: `
+        <app-builder-block 
+          title="Common Rules" 
+          icon="@tui.shield" 
+          [isDefault]="true"
+        >
+        </app-builder-block>
+      `,
+      imports: [BuilderBlock],
+    })
+    class DefaultHostComponent {}
+
+    const defaultFixture = TestBed.createComponent(DefaultHostComponent);
+    defaultFixture.detectChanges();
+    
+    const compiled = defaultFixture.nativeElement as HTMLElement;
+    const recommendedBadge = compiled.querySelector('.builder-block__tag--recommended');
+    
+    expect(recommendedBadge).toBeTruthy();
+    expect(recommendedBadge?.textContent?.trim()).toBe('recommended');
+  });
+
+  it('should not render recommended badge when isDefault is not set', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    const recommendedBadge = compiled.querySelector('.builder-block__tag--recommended');
+    
+    expect(recommendedBadge).toBeNull();
+  });
 });

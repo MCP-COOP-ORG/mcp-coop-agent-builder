@@ -74,6 +74,7 @@ function generate() {
         id: catId,
         ...catMeta,
         ...(catMeta.events ? { events: catMeta.events } : {}),
+        ...(catMeta.default ? { default: catMeta.default } : {}),
         items: items
       });
     });

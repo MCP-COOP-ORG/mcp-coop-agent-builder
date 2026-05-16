@@ -3,15 +3,20 @@
     <tui-icon [icon]="icon()" class="builder-block__icon" />
     <h3 class="builder-block__title">{{ title() }}</h3>
 
-    @if (events()) {
     <div class="builder-block__tags">
-      @for (event of events() | keyvalue; track event.key) {
-      <span tuiBadge appearance="neutral" size="s" class="builder-block__tag">
-        #{{ event.key }}
+      @if (isDefault()) {
+      <span tuiBadge appearance="custom" size="s" class="builder-block__tag builder-block__tag--recommended">
+        recommended
       </span>
       }
+      @if (events()) {
+        @for (event of events() | keyvalue; track event.key) {
+        <span tuiBadge appearance="neutral" size="s" class="builder-block__tag">
+          #{{ event.key }}
+        </span>
+        }
+      }
     </div>
-    }
   </div>
 
   @if (description()) {

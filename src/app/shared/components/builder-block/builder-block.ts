@@ -16,4 +16,5 @@ export class BuilderBlock {
   icon = input.required<string>();
   events = input<Record<string, string>>();
   description = input<string>();
+  isDefault = input<boolean>();
 }

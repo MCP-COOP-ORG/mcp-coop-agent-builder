@@ -20,6 +20,7 @@ export interface ConfigCategory {
   order?: number;
   description?: string;
   events?: Record<string, string>;
+  default?: boolean;
   items: ConfigItem[];
 }
 

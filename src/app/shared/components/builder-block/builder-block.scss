@@ -41,6 +41,12 @@
     --t-size: 1.3rem; // +30% from base 1rem
     font-size: 0.85rem; // Scaled up font
     opacity: 1; // Ensuring full vibrance
+
+    &--recommended {
+      --t-status: hsl(30, 100%, 50%);
+      background-color: hsl(30, 100%, 50%) !important;
+      color: #ffffff !important;
+    }
   }
 
   &__subtitle {

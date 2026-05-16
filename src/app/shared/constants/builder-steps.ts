@@ -34,6 +34,7 @@ export interface BuilderBlockConfig {
   fields?: BuilderFieldConfig[];
   events?: Record<string, string>;
   description?: string;
+  default?: boolean;
 }
 
 export interface BuilderStep {

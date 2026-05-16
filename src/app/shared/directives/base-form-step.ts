@@ -47,7 +47,12 @@ export abstract class BaseFormStep implements OnInit {
           });
           acc[block.id] = new FormGroup(nestedGroup);
         } else {
-          const defaultValue = block.type === 'checkbox' ? [] : (block.defaultOptionId || (block.type === 'textarea' ? '' : null));
+          let defaultValue: string | string[] | null;
+          if (block.type === 'checkbox') {
+            defaultValue = block.default && block.options ? block.options.map(o => o.id) : [];
+          } else {
+            defaultValue = block.defaultOptionId || (block.type === 'textarea' ? '' : null);
+          }
           acc[block.id] = new FormControl(defaultValue);
         }
         return acc;

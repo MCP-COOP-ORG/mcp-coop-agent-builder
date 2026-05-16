@@ -1,10 +1,10 @@
 {
-  "title": "Subagent Stop",
-  "icon": "@tui.git-merge",
-  "type": "checkbox",
-  "order": 26,
-  "events": {
-    "claude": "SubagentStop"
-  },
-  "description": "Fires when a sub-agent completes its task and returns control."
+    "title": "Subagent Stop",
+    "icon": "@tui.git-merge",
+    "type": "checkbox",
+    "order": 26,
+    "events": {
+        "claude": "SubagentStop"
+    },
+    "description": "Fires when a sub-agent completes its task and returns control."
 }

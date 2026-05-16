@@ -1,10 +1,10 @@
 {
-  "description": {
-    "default": "This is a placeholder content for angular.",
-    "claude": "This is a placeholder content for angular.",
-    "cursor": "This is a placeholder content for angular.",
-    "antigravity": "This is a placeholder content for angular."
-  },
-  "recommendedWith": ["typescript", "jest", "eslint"],
-  "discouragedWith": ["react", "vue"]
+    "description": {
+        "default": "This is a placeholder content for angular.",
+        "claude": "This is a placeholder content for angular.",
+        "cursor": "This is a placeholder content for angular.",
+        "antigravity": "This is a placeholder content for angular."
+    },
+    "recommendedWith": ["typescript", "jest", "eslint"],
+    "discouragedWith": ["react", "vue"]
 }

@@ -6,1067 +6,865 @@
 import { PageConfig, PlatformConfig, Preset, MetaInformation } from '@shared/models';
 
 export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
-  "agents": {
-    "id": "agents",
-    "label": "Agents",
-    "icon": "@tui.bot",
-    "title": "Agents Configuration",
-    "description": "Select skills, technologies, and tooling for your AI agents.",
-    "wrapperType": "skill",
-    "categories": [
-      {
-        "id": "conventions",
-        "title": "Core Architecture",
-        "icon": "@tui.shield-check",
-        "type": "checkbox",
-        "order": 1,
-        "items": [
-          {
-            "id": "clean-architecture",
-            "label": "Clean Architecture",
-            "filePath": "assets/pages/agents/conventions/clean-architecture.json",
-            "recommendedWith": [
-              "solid",
-              "strict-typing"
-            ]
-          },
-          {
-            "id": "solid",
-            "label": "Solid",
-            "filePath": "assets/pages/agents/conventions/solid.json",
-            "recommendedWith": [
-              "clean-architecture",
-              "strict-typing"
-            ]
-          }
-        ]
-      },
-      {
-        "id": "frontend",
-        "title": "Client-Side Ecosystem",
-        "icon": "@tui.layout",
-        "type": "checkbox",
-        "order": 2,
-        "items": [
-          {
-            "id": "angular",
-            "label": "Angular",
-            "filePath": "assets/pages/agents/frontend/angular.json",
-            "recommendedWith": [
-              "typescript",
-              "jest",
-              "eslint"
-            ],
-            "discouragedWith": [
-              "react",
-              "vue"
-            ]
-          },
-          {
-            "id": "javascript",
-            "label": "Javascript",
-            "filePath": "assets/pages/agents/frontend/javascript.json",
-            "recommendedWith": [
-              "eslint"
-            ],
-            "discouragedWith": [
-              "strict-typing"
-            ]
-          },
-          {
-            "id": "react",
-            "label": "React",
-            "filePath": "assets/pages/agents/frontend/react.json",
-            "recommendedWith": [
-              "typescript",
-              "javascript",
-              "jest"
-            ],
-            "discouragedWith": [
-              "angular",
-              "vue"
-            ]
-          },
-          {
-            "id": "typescript",
-            "label": "Typescript",
-            "filePath": "assets/pages/agents/frontend/typescript.json",
-            "recommendedWith": [
-              "eslint",
-              "strict-typing"
-            ]
-          },
-          {
-            "id": "vue",
-            "label": "Vue",
-            "filePath": "assets/pages/agents/frontend/vue.json",
-            "recommendedWith": [
-              "typescript",
-              "javascript",
-              "vitest"
-            ],
-            "discouragedWith": [
-              "angular",
-              "react"
-            ]
-          }
-        ]
-      },
-      {
-        "id": "backend",
-        "title": "Server-Side Ecosystem",
-        "icon": "@tui.server",
-        "type": "checkbox",
-        "order": 3,
-        "items": [
-          {
-            "id": "express",
-            "label": "Express",
-            "filePath": "assets/pages/agents/backend/express.json",
-            "recommendedWith": [
-              "javascript",
-              "typescript",
-              "mongodb"
-            ],
-            "discouragedWith": [
-              "nestjs",
-              "spring-boot",
-              "php"
-            ]
-          },
-          {
-            "id": "nestjs",
-            "label": "Nestjs",
-            "filePath": "assets/pages/agents/backend/nestjs.json",
-            "recommendedWith": [
-              "typescript",
-              "postgresql",
-              "docker"
-            ],
-            "discouragedWith": [
-              "spring-boot",
-              "php",
-              "express"
-            ]
-          },
-          {
-            "id": "php",
-            "label": "Php",
-            "filePath": "assets/pages/agents/backend/php.json",
-            "recommendedWith": [
-              "mongodb",
-              "redis"
-            ],
-            "discouragedWith": [
-              "nestjs",
-              "spring-boot",
-              "express"
-            ]
-          },
-          {
-            "id": "spring-boot",
-            "label": "Spring Boot",
-            "filePath": "assets/pages/agents/backend/spring-boot.json",
-            "recommendedWith": [
-              "postgresql",
-              "docker"
-            ],
-            "discouragedWith": [
-              "nestjs",
-              "express",
-              "php"
-            ]
-          }
-        ]
-      },
-      {
-        "id": "database",
-        "title": "Data Layer",
-        "icon": "@tui.database",
-        "type": "checkbox",
-        "order": 4,
-        "items": [
-          {
-            "id": "mongodb",
-            "label": "Mongodb",
-            "filePath": "assets/pages/agents/database/mongodb.json",
-            "recommendedWith": [
-              "express",
-              "javascript"
-            ]
-          },
-          {
-            "id": "postgresql",
-            "label": "Postgresql",
-            "filePath": "assets/pages/agents/database/postgresql.json",
-            "recommendedWith": [
-              "nestjs",
-              "spring-boot",
-              "strict-typing"
-            ]
-          },
-          {
-            "id": "redis",
-            "label": "Redis",
-            "filePath": "assets/pages/agents/database/redis.json",
-            "recommendedWith": [
-              "nestjs",
-              "docker"
-            ]
-          }
-        ]
-      },
-      {
-        "id": "mobile",
-        "title": "Mobile Development",
-        "icon": "@tui.smartphone",
-        "type": "checkbox",
-        "order": 5,
-        "items": [
-          {
-            "id": "flutter",
-            "label": "Flutter",
-            "filePath": "assets/pages/agents/mobile/flutter.json",
-            "recommendedWith": [
-              "docker"
-            ],
-            "discouragedWith": [
-              "react-native",
-              "swift"
-            ]
-          },
-          {
-            "id": "react-native",
-            "label": "React Native",
-            "filePath": "assets/pages/agents/mobile/react-native.json",
-            "recommendedWith": [
-              "react",
-              "typescript",
-              "jest"
-            ],
-            "discouragedWith": [
-              "flutter",
-              "swift"
-            ]
-          },
-          {
-            "id": "swift",
-            "label": "Swift",
-            "filePath": "assets/pages/agents/mobile/swift.json",
-            "discouragedWith": [
-              "flutter",
-              "react-native"
-            ]
-          }
-        ]
-      },
-      {
-        "id": "tooling",
-        "title": "Tooling & Quality",
-        "icon": "@tui.wrench",
-        "type": "checkbox",
-        "order": 6,
-        "items": [
-          {
-            "id": "docker",
-            "label": "Docker",
-            "filePath": "assets/pages/agents/tooling/docker.json",
-            "recommendedWith": [
-              "github-actions",
-              "nestjs"
-            ]
-          },
-          {
-            "id": "github-actions",
-            "label": "Github Actions",
-            "filePath": "assets/pages/agents/tooling/github-actions.json",
-            "recommendedWith": [
-              "docker",
-              "eslint"
-            ]
-          },
-          {
-            "id": "jest",
-            "label": "Jest",
-            "filePath": "assets/pages/agents/tooling/jest.json",
-            "recommendedWith": [
-              "typescript",
-              "eslint"
-            ],
-            "discouragedWith": [
-              "vitest"
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  "hooks": {
-    "id": "hooks",
-    "label": "Hooks",
-    "icon": "@tui.webhook",
-    "title": "Lifecycle Hooks",
-    "description": "Configure shell commands that execute at specific points in the AI agent lifecycle.",
-    "wrapperType": "hook",
-    "categories": [
-      {
-        "id": "session-start",
-        "title": "Session Start",
-        "icon": "@tui.play",
-        "type": "checkbox",
-        "order": 1,
-        "events": {
-          "antigravity": "SessionStart",
-          "claude": "SessionStart"
-        },
-        "description": "Fires immediately when the AI session or project starts.",
-        "items": [
-          {
-            "id": "direnv-load",
-            "label": "Direnv Load",
-            "filePath": "assets/pages/hooks/session-start/direnv-load.json"
-          },
-          {
-            "id": "git-context",
-            "label": "Git Context",
-            "filePath": "assets/pages/hooks/session-start/git-context.json"
-          }
-        ]
-      },
-      {
-        "id": "before-tool",
-        "title": "Before Tool Execution",
-        "icon": "@tui.shield",
-        "type": "checkbox",
-        "order": 7,
-        "events": {
-          "antigravity": "BeforeTool",
-          "claude": "PreToolUse"
-        },
-        "description": "Fires every time the AI is about to execute a tool or shell command.",
-        "items": [
-          {
-            "id": "env-guard",
-            "label": "Env Guard",
-            "filePath": "assets/pages/hooks/before-tool/env-guard.json"
-          },
-          {
-            "id": "lockfile-guard",
-            "label": "Lockfile Guard",
-            "filePath": "assets/pages/hooks/before-tool/lockfile-guard.json"
-          }
-        ]
-      },
-      {
-        "id": "after-tool",
-        "title": "After Tool Execution",
-        "icon": "@tui.check-circle",
-        "type": "checkbox",
-        "order": 8,
-        "events": {
-          "antigravity": "AfterTool",
-          "claude": "PostToolUse"
-        },
-        "description": "Fires immediately after a tool or shell command has finished execution.",
-        "items": [
-          {
-            "id": "auto-eslint",
-            "label": "Auto Eslint",
-            "filePath": "assets/pages/hooks/after-tool/auto-eslint.json"
-          },
-          {
-            "id": "auto-prettier",
-            "label": "Auto Prettier",
-            "filePath": "assets/pages/hooks/after-tool/auto-prettier.json"
-          }
-        ]
-      },
-      {
-        "id": "notification",
-        "title": "Notification",
-        "icon": "@tui.bell",
-        "type": "checkbox",
-        "order": 9,
-        "events": {
-          "antigravity": "Notification",
-          "claude": "Notification"
-        },
-        "description": "Fires when the AI triggers a system notification or alert.",
-        "items": [
-          {
-            "id": "desktop-alert",
-            "label": "Desktop Alert",
-            "filePath": "assets/pages/hooks/notification/desktop-alert.json"
-          }
-        ]
-      },
-      {
-        "id": "pre-compress",
-        "title": "Pre Compress / Compact",
-        "icon": "@tui.archive",
-        "type": "checkbox",
-        "order": 10,
-        "events": {
-          "antigravity": "PreCompress",
-          "claude": "PreCompact"
-        },
-        "description": "Fires before the AI attempts to compress or compact its context history.",
-        "items": [
-          {
-            "id": "context-save-reminder",
-            "label": "Context Save Reminder",
-            "filePath": "assets/pages/hooks/pre-compress/context-save-reminder.json"
-          }
-        ]
-      },
-      {
-        "id": "stop",
-        "title": "Stop",
-        "icon": "@tui.square",
-        "type": "checkbox",
-        "order": 27,
-        "events": {
-          "claude": "Stop"
-        },
-        "description": "Fires when the AI session is explicitly stopped or finished.",
-        "items": [
-          {
-            "id": "git-status-check",
-            "label": "Git Status Check",
-            "filePath": "assets/pages/hooks/stop/git-status-check.json"
-          }
-        ]
-      }
-    ]
-  },
-  "rules": {
-    "id": "rules",
-    "label": "Rules",
-    "icon": "@tui.shield-check",
-    "title": "Project Rules",
-    "description": "Configure standard engineering rules and constraints.",
-    "wrapperType": "rule",
-    "categories": [
-      {
-        "id": "conventions",
-        "title": "Core Architecture",
-        "icon": "@tui.shield-check",
-        "type": "checkbox",
-        "order": 1,
-        "items": [
-          {
-            "id": "clean-code",
-            "label": "Clean Code",
-            "filePath": "assets/pages/rules/conventions/clean-code.json",
-            "recommendedWith": [
-              "solid",
-              "eslint"
-            ]
-          },
-          {
-            "id": "ddd",
-            "label": "Ddd",
-            "filePath": "assets/pages/rules/conventions/ddd.json",
-            "recommendedWith": [
-              "clean-architecture"
-            ]
-          },
-          {
-            "id": "fsd",
-            "label": "Fsd",
-            "filePath": "assets/pages/rules/conventions/fsd.json",
-            "discouragedWith": [
-              "hexagonal"
-            ]
-          },
-          {
-            "id": "hexagonal",
-            "label": "Hexagonal",
-            "filePath": "assets/pages/rules/conventions/hexagonal.json",
-            "recommendedWith": [
-              "clean-architecture"
-            ],
-            "discouragedWith": [
-              "fsd"
-            ]
-          },
-          {
-            "id": "mvc",
-            "label": "Mvc",
-            "filePath": "assets/pages/rules/conventions/mvc.json"
-          }
-        ]
-      },
-      {
-        "id": "code-quality",
-        "title": "Code Quality Rules",
-        "icon": "@tui.check-circle",
-        "type": "checkbox",
-        "order": 2,
-        "items": [
-          {
-            "id": "strict-typing",
-            "label": "Strict Typing",
-            "filePath": "assets/pages/rules/code-quality/strict-typing.json",
-            "recommendedWith": [
-              "typescript",
-              "eslint"
-            ]
-          },
-          {
-            "id": "zero-literals",
-            "label": "Zero Literals",
-            "filePath": "assets/pages/rules/code-quality/zero-literals.json",
-            "recommendedWith": [
-              "strict-typing"
-            ]
-          }
-        ]
-      },
-      {
-        "id": "security",
-        "title": "Security Rules",
-        "icon": "@tui.lock",
-        "type": "checkbox",
-        "order": 3,
-        "items": [
-          {
-            "id": "auth-guards",
-            "label": "Auth Guards",
-            "filePath": "assets/pages/rules/security/auth-guards.json",
-            "recommendedWith": [
-              "xss-protection"
-            ]
-          },
-          {
-            "id": "xss-protection",
-            "label": "Xss Protection",
-            "filePath": "assets/pages/rules/security/xss-protection.json",
-            "recommendedWith": [
-              "auth-guards"
-            ]
-          }
-        ]
-      },
-      {
-        "id": "tooling",
-        "title": "Tooling & Quality",
-        "icon": "@tui.wrench",
-        "type": "checkbox",
-        "order": 4,
-        "items": [
-          {
-            "id": "eslint",
-            "label": "Eslint",
-            "filePath": "assets/pages/rules/tooling/eslint.json",
-            "recommendedWith": [
-              "prettier",
-              "typescript"
-            ]
-          },
-          {
-            "id": "husky",
-            "label": "Husky",
-            "filePath": "assets/pages/rules/tooling/husky.json",
-            "recommendedWith": [
-              "eslint",
-              "prettier"
-            ]
-          },
-          {
-            "id": "jest",
-            "label": "Jest",
-            "filePath": "assets/pages/rules/tooling/jest.json",
-            "recommendedWith": [
-              "typescript",
-              "eslint"
-            ],
-            "discouragedWith": [
-              "vitest"
-            ]
-          },
-          {
-            "id": "prettier",
-            "label": "Prettier",
-            "filePath": "assets/pages/rules/tooling/prettier.json",
-            "recommendedWith": [
-              "eslint",
-              "husky"
-            ]
-          },
-          {
-            "id": "vitest",
-            "label": "Vitest",
-            "filePath": "assets/pages/rules/tooling/vitest.json",
-            "recommendedWith": [
-              "vue",
-              "typescript"
-            ],
-            "discouragedWith": [
-              "jest"
-            ]
-          }
-        ]
-      },
-      {
-        "id": "basic",
-        "title": "Basic Rules",
-        "icon": "@tui.shield",
-        "type": "checkbox",
-        "order": 100,
-        "default": true,
-        "description": "Foundational coding standards and constraints recommended for every project.",
-        "items": [
-          {
-            "id": "code-readability",
-            "label": "Code Readability",
-            "filePath": "assets/pages/rules/basic/code-readability.json"
-          },
-          {
-            "id": "error-handling",
-            "label": "Error Handling",
-            "filePath": "assets/pages/rules/basic/error-handling.json"
-          },
-          {
-            "id": "naming-conventions",
-            "label": "Naming Conventions",
-            "filePath": "assets/pages/rules/basic/naming-conventions.json"
-          }
-        ]
-      }
-    ]
-  },
-  "workflows": {
-    "id": "workflows",
-    "label": "Workflows",
-    "icon": "@tui.git-merge",
-    "title": "Workflows",
-    "description": "Select standard operational workflows for your team.",
-    "wrapperType": "workflow",
-    "categories": [
-      {
-        "id": "development",
-        "title": "Development Workflows",
-        "icon": "@tui.git-merge",
-        "type": "checkbox",
-        "order": 1,
-        "items": [
-          {
-            "id": "gitflow",
-            "label": "Gitflow",
-            "filePath": "assets/pages/workflows/development/gitflow.json",
-            "discouragedWith": [
-              "trunk-based"
-            ]
-          },
-          {
-            "id": "trunk-based",
-            "label": "Trunk Based",
-            "filePath": "assets/pages/workflows/development/trunk-based.json",
-            "discouragedWith": [
-              "gitflow"
-            ]
-          }
-        ]
-      },
-      {
-        "id": "basic",
-        "title": "Basic Workflows",
-        "icon": "@tui.zap",
-        "type": "checkbox",
-        "order": 100,
-        "default": true,
-        "description": "Essential AI agent workflows recommended for every project.",
-        "items": [
-          {
-            "id": "brainstorm",
-            "label": "Brainstorm",
-            "filePath": "assets/pages/workflows/basic/brainstorm.json"
-          },
-          {
-            "id": "init-agent",
-            "label": "Init Agent",
-            "filePath": "assets/pages/workflows/basic/init-agent.json"
-          },
-          {
-            "id": "orchestrator",
-            "label": "Orchestrator",
-            "filePath": "assets/pages/workflows/basic/orchestrator.json"
-          },
-          {
-            "id": "planning",
-            "label": "Planning",
-            "filePath": "assets/pages/workflows/basic/planning.json"
-          }
-        ]
-      }
-    ]
-  }
+    agents: {
+        id: 'agents',
+        label: 'Agents',
+        icon: '@tui.bot',
+        title: 'Agents Configuration',
+        description: 'Select skills, technologies, and tooling for your AI agents.',
+        wrapperType: 'skill',
+        categories: [
+            {
+                id: 'conventions',
+                title: 'Core Architecture',
+                icon: '@tui.shield-check',
+                type: 'checkbox',
+                order: 1,
+                items: [
+                    {
+                        id: 'clean-architecture',
+                        label: 'Clean Architecture',
+                        filePath: 'assets/pages/agents/conventions/clean-architecture.json',
+                        recommendedWith: ['solid', 'strict-typing'],
+                    },
+                    {
+                        id: 'solid',
+                        label: 'Solid',
+                        filePath: 'assets/pages/agents/conventions/solid.json',
+                        recommendedWith: ['clean-architecture', 'strict-typing'],
+                    },
+                ],
+            },
+            {
+                id: 'frontend',
+                title: 'Client-Side Ecosystem',
+                icon: '@tui.layout',
+                type: 'checkbox',
+                order: 2,
+                items: [
+                    {
+                        id: 'angular',
+                        label: 'Angular',
+                        filePath: 'assets/pages/agents/frontend/angular.json',
+                        recommendedWith: ['typescript', 'jest', 'eslint'],
+                        discouragedWith: ['react', 'vue'],
+                    },
+                    {
+                        id: 'javascript',
+                        label: 'Javascript',
+                        filePath: 'assets/pages/agents/frontend/javascript.json',
+                        recommendedWith: ['eslint'],
+                        discouragedWith: ['strict-typing'],
+                    },
+                    {
+                        id: 'react',
+                        label: 'React',
+                        filePath: 'assets/pages/agents/frontend/react.json',
+                        recommendedWith: ['typescript', 'javascript', 'jest'],
+                        discouragedWith: ['angular', 'vue'],
+                    },
+                    {
+                        id: 'typescript',
+                        label: 'Typescript',
+                        filePath: 'assets/pages/agents/frontend/typescript.json',
+                        recommendedWith: ['eslint', 'strict-typing'],
+                    },
+                    {
+                        id: 'vue',
+                        label: 'Vue',
+                        filePath: 'assets/pages/agents/frontend/vue.json',
+                        recommendedWith: ['typescript', 'javascript', 'vitest'],
+                        discouragedWith: ['angular', 'react'],
+                    },
+                ],
+            },
+            {
+                id: 'backend',
+                title: 'Server-Side Ecosystem',
+                icon: '@tui.server',
+                type: 'checkbox',
+                order: 3,
+                items: [
+                    {
+                        id: 'express',
+                        label: 'Express',
+                        filePath: 'assets/pages/agents/backend/express.json',
+                        recommendedWith: ['javascript', 'typescript', 'mongodb'],
+                        discouragedWith: ['nestjs', 'spring-boot', 'php'],
+                    },
+                    {
+                        id: 'nestjs',
+                        label: 'Nestjs',
+                        filePath: 'assets/pages/agents/backend/nestjs.json',
+                        recommendedWith: ['typescript', 'postgresql', 'docker'],
+                        discouragedWith: ['spring-boot', 'php', 'express'],
+                    },
+                    {
+                        id: 'php',
+                        label: 'Php',
+                        filePath: 'assets/pages/agents/backend/php.json',
+                        recommendedWith: ['mongodb', 'redis'],
+                        discouragedWith: ['nestjs', 'spring-boot', 'express'],
+                    },
+                    {
+                        id: 'spring-boot',
+                        label: 'Spring Boot',
+                        filePath: 'assets/pages/agents/backend/spring-boot.json',
+                        recommendedWith: ['postgresql', 'docker'],
+                        discouragedWith: ['nestjs', 'express', 'php'],
+                    },
+                ],
+            },
+            {
+                id: 'database',
+                title: 'Data Layer',
+                icon: '@tui.database',
+                type: 'checkbox',
+                order: 4,
+                items: [
+                    {
+                        id: 'mongodb',
+                        label: 'Mongodb',
+                        filePath: 'assets/pages/agents/database/mongodb.json',
+                        recommendedWith: ['express', 'javascript'],
+                    },
+                    {
+                        id: 'postgresql',
+                        label: 'Postgresql',
+                        filePath: 'assets/pages/agents/database/postgresql.json',
+                        recommendedWith: ['nestjs', 'spring-boot', 'strict-typing'],
+                    },
+                    {
+                        id: 'redis',
+                        label: 'Redis',
+                        filePath: 'assets/pages/agents/database/redis.json',
+                        recommendedWith: ['nestjs', 'docker'],
+                    },
+                ],
+            },
+            {
+                id: 'mobile',
+                title: 'Mobile Development',
+                icon: '@tui.smartphone',
+                type: 'checkbox',
+                order: 5,
+                items: [
+                    {
+                        id: 'flutter',
+                        label: 'Flutter',
+                        filePath: 'assets/pages/agents/mobile/flutter.json',
+                        recommendedWith: ['docker'],
+                        discouragedWith: ['react-native', 'swift'],
+                    },
+                    {
+                        id: 'react-native',
+                        label: 'React Native',
+                        filePath: 'assets/pages/agents/mobile/react-native.json',
+                        recommendedWith: ['react', 'typescript', 'jest'],
+                        discouragedWith: ['flutter', 'swift'],
+                    },
+                    {
+                        id: 'swift',
+                        label: 'Swift',
+                        filePath: 'assets/pages/agents/mobile/swift.json',
+                        discouragedWith: ['flutter', 'react-native'],
+                    },
+                ],
+            },
+            {
+                id: 'tooling',
+                title: 'Tooling & Quality',
+                icon: '@tui.wrench',
+                type: 'checkbox',
+                order: 6,
+                items: [
+                    {
+                        id: 'docker',
+                        label: 'Docker',
+                        filePath: 'assets/pages/agents/tooling/docker.json',
+                        recommendedWith: ['github-actions', 'nestjs'],
+                    },
+                    {
+                        id: 'github-actions',
+                        label: 'Github Actions',
+                        filePath: 'assets/pages/agents/tooling/github-actions.json',
+                        recommendedWith: ['docker', 'eslint'],
+                    },
+                    {
+                        id: 'jest',
+                        label: 'Jest',
+                        filePath: 'assets/pages/agents/tooling/jest.json',
+                        recommendedWith: ['typescript', 'eslint'],
+                        discouragedWith: ['vitest'],
+                    },
+                ],
+            },
+        ],
+    },
+    hooks: {
+        id: 'hooks',
+        label: 'Hooks',
+        icon: '@tui.webhook',
+        title: 'Lifecycle Hooks',
+        description: 'Configure shell commands that execute at specific points in the AI agent lifecycle.',
+        wrapperType: 'hook',
+        categories: [
+            {
+                id: 'session-start',
+                title: 'Session Start',
+                icon: '@tui.play',
+                type: 'checkbox',
+                order: 1,
+                events: {
+                    antigravity: 'SessionStart',
+                    claude: 'SessionStart',
+                },
+                description: 'Fires immediately when the AI session or project starts.',
+                items: [
+                    {
+                        id: 'direnv-load',
+                        label: 'Direnv Load',
+                        filePath: 'assets/pages/hooks/session-start/direnv-load.json',
+                    },
+                    {
+                        id: 'git-context',
+                        label: 'Git Context',
+                        filePath: 'assets/pages/hooks/session-start/git-context.json',
+                    },
+                ],
+            },
+            {
+                id: 'before-tool',
+                title: 'Before Tool Execution',
+                icon: '@tui.shield',
+                type: 'checkbox',
+                order: 7,
+                events: {
+                    antigravity: 'BeforeTool',
+                    claude: 'PreToolUse',
+                },
+                description: 'Fires every time the AI is about to execute a tool or shell command.',
+                items: [
+                    {
+                        id: 'env-guard',
+                        label: 'Env Guard',
+                        filePath: 'assets/pages/hooks/before-tool/env-guard.json',
+                    },
+                    {
+                        id: 'lockfile-guard',
+                        label: 'Lockfile Guard',
+                        filePath: 'assets/pages/hooks/before-tool/lockfile-guard.json',
+                    },
+                ],
+            },
+            {
+                id: 'after-tool',
+                title: 'After Tool Execution',
+                icon: '@tui.check-circle',
+                type: 'checkbox',
+                order: 8,
+                events: {
+                    antigravity: 'AfterTool',
+                    claude: 'PostToolUse',
+                },
+                description: 'Fires immediately after a tool or shell command has finished execution.',
+                items: [
+                    {
+                        id: 'auto-eslint',
+                        label: 'Auto Eslint',
+                        filePath: 'assets/pages/hooks/after-tool/auto-eslint.json',
+                    },
+                    {
+                        id: 'auto-prettier',
+                        label: 'Auto Prettier',
+                        filePath: 'assets/pages/hooks/after-tool/auto-prettier.json',
+                    },
+                ],
+            },
+            {
+                id: 'notification',
+                title: 'Notification',
+                icon: '@tui.bell',
+                type: 'checkbox',
+                order: 9,
+                events: {
+                    antigravity: 'Notification',
+                    claude: 'Notification',
+                },
+                description: 'Fires when the AI triggers a system notification or alert.',
+                items: [
+                    {
+                        id: 'desktop-alert',
+                        label: 'Desktop Alert',
+                        filePath: 'assets/pages/hooks/notification/desktop-alert.json',
+                    },
+                ],
+            },
+            {
+                id: 'pre-compress',
+                title: 'Pre Compress / Compact',
+                icon: '@tui.archive',
+                type: 'checkbox',
+                order: 10,
+                events: {
+                    antigravity: 'PreCompress',
+                    claude: 'PreCompact',
+                },
+                description: 'Fires before the AI attempts to compress or compact its context history.',
+                items: [
+                    {
+                        id: 'context-save-reminder',
+                        label: 'Context Save Reminder',
+                        filePath: 'assets/pages/hooks/pre-compress/context-save-reminder.json',
+                    },
+                ],
+            },
+            {
+                id: 'stop',
+                title: 'Stop',
+                icon: '@tui.square',
+                type: 'checkbox',
+                order: 27,
+                events: {
+                    claude: 'Stop',
+                },
+                description: 'Fires when the AI session is explicitly stopped or finished.',
+                items: [
+                    {
+                        id: 'git-status-check',
+                        label: 'Git Status Check',
+                        filePath: 'assets/pages/hooks/stop/git-status-check.json',
+                    },
+                ],
+            },
+        ],
+    },
+    rules: {
+        id: 'rules',
+        label: 'Rules',
+        icon: '@tui.shield-check',
+        title: 'Project Rules',
+        description: 'Configure standard engineering rules and constraints.',
+        wrapperType: 'rule',
+        categories: [
+            {
+                id: 'conventions',
+                title: 'Core Architecture',
+                icon: '@tui.shield-check',
+                type: 'checkbox',
+                order: 1,
+                items: [
+                    {
+                        id: 'clean-code',
+                        label: 'Clean Code',
+                        filePath: 'assets/pages/rules/conventions/clean-code.json',
+                        recommendedWith: ['solid', 'eslint'],
+                    },
+                    {
+                        id: 'ddd',
+                        label: 'Ddd',
+                        filePath: 'assets/pages/rules/conventions/ddd.json',
+                        recommendedWith: ['clean-architecture'],
+                    },
+                    {
+                        id: 'fsd',
+                        label: 'Fsd',
+                        filePath: 'assets/pages/rules/conventions/fsd.json',
+                        discouragedWith: ['hexagonal'],
+                    },
+                    {
+                        id: 'hexagonal',
+                        label: 'Hexagonal',
+                        filePath: 'assets/pages/rules/conventions/hexagonal.json',
+                        recommendedWith: ['clean-architecture'],
+                        discouragedWith: ['fsd'],
+                    },
+                    {
+                        id: 'mvc',
+                        label: 'Mvc',
+                        filePath: 'assets/pages/rules/conventions/mvc.json',
+                    },
+                ],
+            },
+            {
+                id: 'code-quality',
+                title: 'Code Quality Rules',
+                icon: '@tui.check-circle',
+                type: 'checkbox',
+                order: 2,
+                items: [
+                    {
+                        id: 'strict-typing',
+                        label: 'Strict Typing',
+                        filePath: 'assets/pages/rules/code-quality/strict-typing.json',
+                        recommendedWith: ['typescript', 'eslint'],
+                    },
+                    {
+                        id: 'zero-literals',
+                        label: 'Zero Literals',
+                        filePath: 'assets/pages/rules/code-quality/zero-literals.json',
+                        recommendedWith: ['strict-typing'],
+                    },
+                ],
+            },
+            {
+                id: 'security',
+                title: 'Security Rules',
+                icon: '@tui.lock',
+                type: 'checkbox',
+                order: 3,
+                items: [
+                    {
+                        id: 'auth-guards',
+                        label: 'Auth Guards',
+                        filePath: 'assets/pages/rules/security/auth-guards.json',
+                        recommendedWith: ['xss-protection'],
+                    },
+                    {
+                        id: 'xss-protection',
+                        label: 'Xss Protection',
+                        filePath: 'assets/pages/rules/security/xss-protection.json',
+                        recommendedWith: ['auth-guards'],
+                    },
+                ],
+            },
+            {
+                id: 'tooling',
+                title: 'Tooling & Quality',
+                icon: '@tui.wrench',
+                type: 'checkbox',
+                order: 4,
+                items: [
+                    {
+                        id: 'eslint',
+                        label: 'Eslint',
+                        filePath: 'assets/pages/rules/tooling/eslint.json',
+                        recommendedWith: ['prettier', 'typescript'],
+                    },
+                    {
+                        id: 'husky',
+                        label: 'Husky',
+                        filePath: 'assets/pages/rules/tooling/husky.json',
+                        recommendedWith: ['eslint', 'prettier'],
+                    },
+                    {
+                        id: 'jest',
+                        label: 'Jest',
+                        filePath: 'assets/pages/rules/tooling/jest.json',
+                        recommendedWith: ['typescript', 'eslint'],
+                        discouragedWith: ['vitest'],
+                    },
+                    {
+                        id: 'prettier',
+                        label: 'Prettier',
+                        filePath: 'assets/pages/rules/tooling/prettier.json',
+                        recommendedWith: ['eslint', 'husky'],
+                    },
+                    {
+                        id: 'vitest',
+                        label: 'Vitest',
+                        filePath: 'assets/pages/rules/tooling/vitest.json',
+                        recommendedWith: ['vue', 'typescript'],
+                        discouragedWith: ['jest'],
+                    },
+                ],
+            },
+            {
+                id: 'basic',
+                title: 'Basic Rules',
+                icon: '@tui.shield',
+                type: 'checkbox',
+                order: 100,
+                default: true,
+                description: 'Foundational coding standards and constraints recommended for every project.',
+                items: [
+                    {
+                        id: 'code-readability',
+                        label: 'Code Readability',
+                        filePath: 'assets/pages/rules/basic/code-readability.json',
+                    },
+                    {
+                        id: 'error-handling',
+                        label: 'Error Handling',
+                        filePath: 'assets/pages/rules/basic/error-handling.json',
+                    },
+                    {
+                        id: 'naming-conventions',
+                        label: 'Naming Conventions',
+                        filePath: 'assets/pages/rules/basic/naming-conventions.json',
+                    },
+                ],
+            },
+        ],
+    },
+    workflows: {
+        id: 'workflows',
+        label: 'Workflows',
+        icon: '@tui.git-merge',
+        title: 'Workflows',
+        description: 'Select standard operational workflows for your team.',
+        wrapperType: 'workflow',
+        categories: [
+            {
+                id: 'development',
+                title: 'Development Workflows',
+                icon: '@tui.git-merge',
+                type: 'checkbox',
+                order: 1,
+                items: [
+                    {
+                        id: 'gitflow',
+                        label: 'Gitflow',
+                        filePath: 'assets/pages/workflows/development/gitflow.json',
+                        discouragedWith: ['trunk-based'],
+                    },
+                    {
+                        id: 'trunk-based',
+                        label: 'Trunk Based',
+                        filePath: 'assets/pages/workflows/development/trunk-based.json',
+                        discouragedWith: ['gitflow'],
+                    },
+                ],
+            },
+            {
+                id: 'basic',
+                title: 'Basic Workflows',
+                icon: '@tui.zap',
+                type: 'checkbox',
+                order: 100,
+                default: true,
+                description: 'Essential AI agent workflows recommended for every project.',
+                items: [
+                    {
+                        id: 'brainstorm',
+                        label: 'Brainstorm',
+                        filePath: 'assets/pages/workflows/basic/brainstorm.json',
+                    },
+                    {
+                        id: 'init-agent',
+                        label: 'Init Agent',
+                        filePath: 'assets/pages/workflows/basic/init-agent.json',
+                    },
+                    {
+                        id: 'orchestrator',
+                        label: 'Orchestrator',
+                        filePath: 'assets/pages/workflows/basic/orchestrator.json',
+                    },
+                    {
+                        id: 'planning',
+                        label: 'Planning',
+                        filePath: 'assets/pages/workflows/basic/planning.json',
+                    },
+                ],
+            },
+        ],
+    },
 };
 
 export const GENERATED_PLATFORMS_CONFIG: Record<string, PlatformConfig> = {
-  "antigravity": {
-    "id": "antigravity",
-    "label": "Antigravity",
-    "content": "# {{ name }} Agent System Rules & Context\n\nYou are an expert AI assistant working on the **{{ name }}** project.\n\n## Project Context\n{{ description }}\n\n## Business Domains\nThis project operates in the following domains: {{ domains }}\n\n## Core Documentation Rules\nDo NOT guess architectural decisions or tech stack configurations. Instead, read the highly specific documentation in the `.agents/` folder depending on your current task:\n- **Skills**: Check `.agents/skills/` for specific engineering standards and architecture.\n- **Rules**: Check `.agents/rules/` for conventions, guidelines, and tooling.\n- **Workflows**: Check `.agents/workflows/` for step-by-step operational processes.\n\n## Documentation Update Policy (IMPORTANT)\nWhen the user tells you to \"commit\", \"save progress\", or \"update docs\" at the end of a session/task:\n1. You MUST update the central context file if one exists.\n2. If fundamental architectural rules or roadmap steps changed, update the corresponding skill or rule files to keep the global context perfectly synced.",
-    "templates": {
-      "skill": "---\nname: {{ name }}\ndescription: {{ description }}\n---\n\n# {{ name }}\n\n{{ content }}",
-      "rule": "---\ntrigger: {{ trigger }}\ndescription: {{ description }}\n---\n\n{{ content }}",
-      "workflow": "---\ndescription: {{ description }}\n---\n\n{{ content }}"
+    antigravity: {
+        id: 'antigravity',
+        label: 'Antigravity',
+        content:
+            '# {{ name }} Agent System Rules & Context\n\nYou are an expert AI assistant working on the **{{ name }}** project.\n\n## Project Context\n{{ description }}\n\n## Business Domains\nThis project operates in the following domains: {{ domains }}\n\n## Core Documentation Rules\nDo NOT guess architectural decisions or tech stack configurations. Instead, read the highly specific documentation in the `.agents/` folder depending on your current task:\n- **Skills**: Check `.agents/skills/` for specific engineering standards and architecture.\n- **Rules**: Check `.agents/rules/` for conventions, guidelines, and tooling.\n- **Workflows**: Check `.agents/workflows/` for step-by-step operational processes.\n\n## Documentation Update Policy (IMPORTANT)\nWhen the user tells you to "commit", "save progress", or "update docs" at the end of a session/task:\n1. You MUST update the central context file if one exists.\n2. If fundamental architectural rules or roadmap steps changed, update the corresponding skill or rule files to keep the global context perfectly synced.',
+        templates: {
+            skill: '---\nname: {{ name }}\ndescription: {{ description }}\n---\n\n# {{ name }}\n\n{{ content }}',
+            rule: '---\ntrigger: {{ trigger }}\ndescription: {{ description }}\n---\n\n{{ content }}',
+            workflow: '---\ndescription: {{ description }}\n---\n\n{{ content }}',
+        },
+        defaults: {
+            trigger: 'always',
+            skillDescription: 'Standard engineering skills and patterns for {{category}}.',
+            ruleDescription: 'Standard rules and conventions for {{category}}.',
+            workflowDescription: 'Standard operational workflow for {{item}}.',
+        },
     },
-    "defaults": {
-      "trigger": "always",
-      "skillDescription": "Standard engineering skills and patterns for {{category}}.",
-      "ruleDescription": "Standard rules and conventions for {{category}}.",
-      "workflowDescription": "Standard operational workflow for {{item}}."
-    }
-  },
-  "claude": {
-    "id": "claude",
-    "label": "Claude",
-    "content": "# {{ name }} - Claude Project Instructions\n\nYou are Claude, an expert AI coding assistant assigned to the **{{ name }}** project.\n\n## Project Context\n{{ description }}\n\n## Business Domains\n{{ domains }}\n\n## Instructions & Knowledge Base\nThis project uses a structured knowledge base located in the `.claude/` directory:\n- **Skills**: Look in `.claude/skills/` for technical instructions and strict engineering standards.\n- **Rules**: Look in `.claude/rules/` for project conventions and structural constraints.\n- **Workflows**: Look in `.claude/workflows/` for specific tasks and operational procedures.\n\nBefore answering questions or writing code, ALWAYS review the relevant skills and rules to ensure architectural compliance. Do not hallucinate stack configurations.",
-    "templates": {
-      "skill": "---\nname: {{ name }}\ndescription: {{ description }}\n---\n\n# {{ name }}\n\n{{ content }}",
-      "rule": "---\ntrigger: {{ trigger }}\ndescription: {{ description }}\n---\n\n{{ content }}",
-      "workflow": "---\ndescription: {{ description }}\n---\n\n{{ content }}"
+    claude: {
+        id: 'claude',
+        label: 'Claude',
+        content:
+            '# {{ name }} - Claude Project Instructions\n\nYou are Claude, an expert AI coding assistant assigned to the **{{ name }}** project.\n\n## Project Context\n{{ description }}\n\n## Business Domains\n{{ domains }}\n\n## Instructions & Knowledge Base\nThis project uses a structured knowledge base located in the `.claude/` directory:\n- **Skills**: Look in `.claude/skills/` for technical instructions and strict engineering standards.\n- **Rules**: Look in `.claude/rules/` for project conventions and structural constraints.\n- **Workflows**: Look in `.claude/workflows/` for specific tasks and operational procedures.\n\nBefore answering questions or writing code, ALWAYS review the relevant skills and rules to ensure architectural compliance. Do not hallucinate stack configurations.',
+        templates: {
+            skill: '---\nname: {{ name }}\ndescription: {{ description }}\n---\n\n# {{ name }}\n\n{{ content }}',
+            rule: '---\ntrigger: {{ trigger }}\ndescription: {{ description }}\n---\n\n{{ content }}',
+            workflow: '---\ndescription: {{ description }}\n---\n\n{{ content }}',
+        },
+        defaults: {
+            trigger: 'always',
+            skillDescription: 'Standard engineering skills and patterns for {{category}}.',
+            ruleDescription: 'Standard rules and conventions for {{category}}.',
+            workflowDescription: 'Standard operational workflow for {{item}}.',
+        },
     },
-    "defaults": {
-      "trigger": "always",
-      "skillDescription": "Standard engineering skills and patterns for {{category}}.",
-      "ruleDescription": "Standard rules and conventions for {{category}}.",
-      "workflowDescription": "Standard operational workflow for {{item}}."
-    }
-  },
-  "cursor": {
-    "id": "cursor",
-    "label": "Cursor",
-    "content": "You are an expert AI coding assistant for Cursor, working on the **{{ name }}** project.\n\n## Project Context\n{{ description }}\n**Business Domains**: {{ domains }}\n\n## Cursor Rules System\nThis project utilizes Cursor's `.mdc` rules system.\nAll architectural rules, skills, and workflows are located in the `.cursor/rules/` directory.\n\n- When generating or analyzing code, automatically apply the relevant rules based on their `globs` and descriptions.\n- Strictly adhere to the project's specific conventions as defined in the `.mdc` files.\n- Do not hallucinate architectural patterns. If a rule exists for a specific framework or domain, follow it exactly.",
-    "templates": {
-      "skill": "---\nname: {{ name }}\ndescription: {{ description }}\nglobs: {{ globs }}\n---\n\n# {{ name }}\n\n{{ content }}",
-      "rule": "---\ndescription: {{ description }}\nglobs: {{ globs }}\n---\n\n{{ content }}",
-      "workflow": "---\ndescription: {{ description }}\nglobs: *\n---\n\n{{ content }}"
+    cursor: {
+        id: 'cursor',
+        label: 'Cursor',
+        content:
+            "You are an expert AI coding assistant for Cursor, working on the **{{ name }}** project.\n\n## Project Context\n{{ description }}\n**Business Domains**: {{ domains }}\n\n## Cursor Rules System\nThis project utilizes Cursor's `.mdc` rules system.\nAll architectural rules, skills, and workflows are located in the `.cursor/rules/` directory.\n\n- When generating or analyzing code, automatically apply the relevant rules based on their `globs` and descriptions.\n- Strictly adhere to the project's specific conventions as defined in the `.mdc` files.\n- Do not hallucinate architectural patterns. If a rule exists for a specific framework or domain, follow it exactly.",
+        templates: {
+            skill: '---\nname: {{ name }}\ndescription: {{ description }}\nglobs: {{ globs }}\n---\n\n# {{ name }}\n\n{{ content }}',
+            rule: '---\ndescription: {{ description }}\nglobs: {{ globs }}\n---\n\n{{ content }}',
+            workflow: '---\ndescription: {{ description }}\nglobs: *\n---\n\n{{ content }}',
+        },
+        defaults: {
+            trigger: 'always',
+            globs: '*',
+            skillDescription: 'Standard engineering skills and patterns for {{category}}.',
+            ruleDescription: 'Standard rules and conventions for {{category}}.',
+            workflowDescription: 'Standard operational workflow for {{item}}.',
+        },
     },
-    "defaults": {
-      "trigger": "always",
-      "globs": "*",
-      "skillDescription": "Standard engineering skills and patterns for {{category}}.",
-      "ruleDescription": "Standard rules and conventions for {{category}}.",
-      "workflowDescription": "Standard operational workflow for {{item}}."
-    }
-  }
 };
 
 export const GENERATED_PAGE_CATEGORIES: Record<string, string[]> = {
-  "agents": [
-    "conventions",
-    "frontend",
-    "backend",
-    "database",
-    "mobile",
-    "tooling"
-  ],
-  "hooks": [
-    "session-start",
-    "before-tool",
-    "after-tool",
-    "notification",
-    "pre-compress",
-    "stop"
-  ],
-  "rules": [
-    "conventions",
-    "code-quality",
-    "security",
-    "tooling",
-    "basic"
-  ],
-  "workflows": [
-    "development",
-    "basic"
-  ]
+    agents: ['conventions', 'frontend', 'backend', 'database', 'mobile', 'tooling'],
+    hooks: ['session-start', 'before-tool', 'after-tool', 'notification', 'pre-compress', 'stop'],
+    rules: ['conventions', 'code-quality', 'security', 'tooling', 'basic'],
+    workflows: ['development', 'basic'],
 };
 
 export const GENERATED_AI_ENVIRONMENTS: { id: string; label: string }[] = [
-  {
-    "id": "antigravity",
-    "label": "Antigravity"
-  },
-  {
-    "id": "claude",
-    "label": "Claude"
-  },
-  {
-    "id": "cursor",
-    "label": "Cursor"
-  }
+    {
+        id: 'antigravity',
+        label: 'Antigravity',
+    },
+    {
+        id: 'claude',
+        label: 'Claude',
+    },
+    {
+        id: 'cursor',
+        label: 'Cursor',
+    },
 ];
 
 export const ASSET_FILE_PATHS: Record<string, string> = {
-  "express": "assets/pages/agents/backend/express.json",
-  "nestjs": "assets/pages/agents/backend/nestjs.json",
-  "php": "assets/pages/agents/backend/php.json",
-  "spring-boot": "assets/pages/agents/backend/spring-boot.json",
-  "clean-architecture": "assets/pages/agents/conventions/clean-architecture.json",
-  "solid": "assets/pages/agents/conventions/solid.json",
-  "mongodb": "assets/pages/agents/database/mongodb.json",
-  "postgresql": "assets/pages/agents/database/postgresql.json",
-  "redis": "assets/pages/agents/database/redis.json",
-  "angular": "assets/pages/agents/frontend/angular.json",
-  "javascript": "assets/pages/agents/frontend/javascript.json",
-  "react": "assets/pages/agents/frontend/react.json",
-  "typescript": "assets/pages/agents/frontend/typescript.json",
-  "vue": "assets/pages/agents/frontend/vue.json",
-  "flutter": "assets/pages/agents/mobile/flutter.json",
-  "react-native": "assets/pages/agents/mobile/react-native.json",
-  "swift": "assets/pages/agents/mobile/swift.json",
-  "docker": "assets/pages/agents/tooling/docker.json",
-  "github-actions": "assets/pages/agents/tooling/github-actions.json",
-  "jest": "assets/pages/rules/tooling/jest.json",
-  "auto-eslint": "assets/pages/hooks/after-tool/auto-eslint.json",
-  "auto-prettier": "assets/pages/hooks/after-tool/auto-prettier.json",
-  "env-guard": "assets/pages/hooks/before-tool/env-guard.json",
-  "lockfile-guard": "assets/pages/hooks/before-tool/lockfile-guard.json",
-  "desktop-alert": "assets/pages/hooks/notification/desktop-alert.json",
-  "context-save-reminder": "assets/pages/hooks/pre-compress/context-save-reminder.json",
-  "direnv-load": "assets/pages/hooks/session-start/direnv-load.json",
-  "git-context": "assets/pages/hooks/session-start/git-context.json",
-  "git-status-check": "assets/pages/hooks/stop/git-status-check.json",
-  "code-readability": "assets/pages/rules/basic/code-readability.json",
-  "error-handling": "assets/pages/rules/basic/error-handling.json",
-  "naming-conventions": "assets/pages/rules/basic/naming-conventions.json",
-  "strict-typing": "assets/pages/rules/code-quality/strict-typing.json",
-  "zero-literals": "assets/pages/rules/code-quality/zero-literals.json",
-  "clean-code": "assets/pages/rules/conventions/clean-code.json",
-  "ddd": "assets/pages/rules/conventions/ddd.json",
-  "fsd": "assets/pages/rules/conventions/fsd.json",
-  "hexagonal": "assets/pages/rules/conventions/hexagonal.json",
-  "mvc": "assets/pages/rules/conventions/mvc.json",
-  "auth-guards": "assets/pages/rules/security/auth-guards.json",
-  "xss-protection": "assets/pages/rules/security/xss-protection.json",
-  "eslint": "assets/pages/rules/tooling/eslint.json",
-  "husky": "assets/pages/rules/tooling/husky.json",
-  "prettier": "assets/pages/rules/tooling/prettier.json",
-  "vitest": "assets/pages/rules/tooling/vitest.json",
-  "brainstorm": "assets/pages/workflows/basic/brainstorm.json",
-  "init-agent": "assets/pages/workflows/basic/init-agent.json",
-  "orchestrator": "assets/pages/workflows/basic/orchestrator.json",
-  "planning": "assets/pages/workflows/basic/planning.json",
-  "gitflow": "assets/pages/workflows/development/gitflow.json",
-  "trunk-based": "assets/pages/workflows/development/trunk-based.json"
+    express: 'assets/pages/agents/backend/express.json',
+    nestjs: 'assets/pages/agents/backend/nestjs.json',
+    php: 'assets/pages/agents/backend/php.json',
+    'spring-boot': 'assets/pages/agents/backend/spring-boot.json',
+    'clean-architecture': 'assets/pages/agents/conventions/clean-architecture.json',
+    solid: 'assets/pages/agents/conventions/solid.json',
+    mongodb: 'assets/pages/agents/database/mongodb.json',
+    postgresql: 'assets/pages/agents/database/postgresql.json',
+    redis: 'assets/pages/agents/database/redis.json',
+    angular: 'assets/pages/agents/frontend/angular.json',
+    javascript: 'assets/pages/agents/frontend/javascript.json',
+    react: 'assets/pages/agents/frontend/react.json',
+    typescript: 'assets/pages/agents/frontend/typescript.json',
+    vue: 'assets/pages/agents/frontend/vue.json',
+    flutter: 'assets/pages/agents/mobile/flutter.json',
+    'react-native': 'assets/pages/agents/mobile/react-native.json',
+    swift: 'assets/pages/agents/mobile/swift.json',
+    docker: 'assets/pages/agents/tooling/docker.json',
+    'github-actions': 'assets/pages/agents/tooling/github-actions.json',
+    jest: 'assets/pages/rules/tooling/jest.json',
+    'auto-eslint': 'assets/pages/hooks/after-tool/auto-eslint.json',
+    'auto-prettier': 'assets/pages/hooks/after-tool/auto-prettier.json',
+    'env-guard': 'assets/pages/hooks/before-tool/env-guard.json',
+    'lockfile-guard': 'assets/pages/hooks/before-tool/lockfile-guard.json',
+    'desktop-alert': 'assets/pages/hooks/notification/desktop-alert.json',
+    'context-save-reminder': 'assets/pages/hooks/pre-compress/context-save-reminder.json',
+    'direnv-load': 'assets/pages/hooks/session-start/direnv-load.json',
+    'git-context': 'assets/pages/hooks/session-start/git-context.json',
+    'git-status-check': 'assets/pages/hooks/stop/git-status-check.json',
+    'code-readability': 'assets/pages/rules/basic/code-readability.json',
+    'error-handling': 'assets/pages/rules/basic/error-handling.json',
+    'naming-conventions': 'assets/pages/rules/basic/naming-conventions.json',
+    'strict-typing': 'assets/pages/rules/code-quality/strict-typing.json',
+    'zero-literals': 'assets/pages/rules/code-quality/zero-literals.json',
+    'clean-code': 'assets/pages/rules/conventions/clean-code.json',
+    ddd: 'assets/pages/rules/conventions/ddd.json',
+    fsd: 'assets/pages/rules/conventions/fsd.json',
+    hexagonal: 'assets/pages/rules/conventions/hexagonal.json',
+    mvc: 'assets/pages/rules/conventions/mvc.json',
+    'auth-guards': 'assets/pages/rules/security/auth-guards.json',
+    'xss-protection': 'assets/pages/rules/security/xss-protection.json',
+    eslint: 'assets/pages/rules/tooling/eslint.json',
+    husky: 'assets/pages/rules/tooling/husky.json',
+    prettier: 'assets/pages/rules/tooling/prettier.json',
+    vitest: 'assets/pages/rules/tooling/vitest.json',
+    brainstorm: 'assets/pages/workflows/basic/brainstorm.json',
+    'init-agent': 'assets/pages/workflows/basic/init-agent.json',
+    orchestrator: 'assets/pages/workflows/basic/orchestrator.json',
+    planning: 'assets/pages/workflows/basic/planning.json',
+    gitflow: 'assets/pages/workflows/development/gitflow.json',
+    'trunk-based': 'assets/pages/workflows/development/trunk-based.json',
 };
 
 export const MAIN: Record<string, string> = {
-  "antigravity": "assets/platforms/antigravity.json",
-  "claude": "assets/platforms/claude.json",
-  "cursor": "assets/platforms/cursor.json"
+    antigravity: 'assets/platforms/antigravity.json',
+    claude: 'assets/platforms/claude.json',
+    cursor: 'assets/platforms/cursor.json',
 };
 
 export const TEMPLATES: Record<string, string> = {
-  "skill": "assets/platforms/cursor.json",
-  "rule": "assets/platforms/cursor.json",
-  "workflow": "assets/platforms/cursor.json"
+    skill: 'assets/platforms/cursor.json',
+    rule: 'assets/platforms/cursor.json',
+    workflow: 'assets/platforms/cursor.json',
 };
 
 export const GENERATED_PRESETS: Preset[] = [
-  {
-    "name": "Enterprise Admin",
-    "createdAt": 0,
-    "isSystem": true,
-    "state": {
-      "description": {},
-      "review": {},
-      "agents": {
-        "frontend": [
-          "vue",
-          "tailwind"
-        ],
-        "backend": [
-          "spring-boot"
-        ],
-        "database": [
-          "mysql",
-          "hibernate"
-        ]
-      }
+    {
+        name: 'Enterprise Admin',
+        createdAt: 0,
+        isSystem: true,
+        state: {
+            description: {},
+            review: {},
+            agents: {
+                frontend: ['vue', 'tailwind'],
+                backend: ['spring-boot'],
+                database: ['mysql', 'hibernate'],
+            },
+        },
+        id: 'system-admin',
     },
-    "id": "system-admin"
-  },
-  {
-    "name": "Android Application",
-    "createdAt": 0,
-    "isSystem": true,
-    "state": {
-      "description": {},
-      "review": {},
-      "agents": {
-        "frontend": [
-          "kotlin"
-        ],
-        "backend": [
-          "spring-boot"
-        ],
-        "database": [
-          "postgresql"
-        ]
-      }
+    {
+        name: 'Android Application',
+        createdAt: 0,
+        isSystem: true,
+        state: {
+            description: {},
+            review: {},
+            agents: {
+                frontend: ['kotlin'],
+                backend: ['spring-boot'],
+                database: ['postgresql'],
+            },
+        },
+        id: 'system-android',
     },
-    "id": "system-android"
-  },
-  {
-    "name": "Admin Dashboard",
-    "createdAt": 0,
-    "isSystem": true,
-    "state": {
-      "description": {},
-      "review": {},
-      "agents": {
-        "frontend": [
-          "react",
-          "tailwind"
-        ],
-        "backend": [
-          "express"
-        ],
-        "database": [
-          "mongodb",
-          "mongoose"
-        ]
-      }
+    {
+        name: 'Admin Dashboard',
+        createdAt: 0,
+        isSystem: true,
+        state: {
+            description: {},
+            review: {},
+            agents: {
+                frontend: ['react', 'tailwind'],
+                backend: ['express'],
+                database: ['mongodb', 'mongoose'],
+            },
+        },
+        id: 'system-dashboard',
     },
-    "id": "system-dashboard"
-  },
-  {
-    "name": "iOS Application",
-    "createdAt": 0,
-    "isSystem": true,
-    "state": {
-      "description": {},
-      "review": {},
-      "agents": {
-        "frontend": [
-          "swift"
-        ],
-        "backend": [
-          "nest"
-        ],
-        "database": [
-          "postgresql"
-        ]
-      }
+    {
+        name: 'iOS Application',
+        createdAt: 0,
+        isSystem: true,
+        state: {
+            description: {},
+            review: {},
+            agents: {
+                frontend: ['swift'],
+                backend: ['nest'],
+                database: ['postgresql'],
+            },
+        },
+        id: 'system-ios',
     },
-    "id": "system-ios"
-  },
-  {
-    "name": "Mobile Application",
-    "createdAt": 0,
-    "isSystem": true,
-    "state": {
-      "description": {},
-      "review": {},
-      "agents": {
-        "frontend": [
-          "react-native"
-        ],
-        "backend": [
-          "firebase"
-        ],
-        "database": [
-          "firestore"
-        ]
-      }
+    {
+        name: 'Mobile Application',
+        createdAt: 0,
+        isSystem: true,
+        state: {
+            description: {},
+            review: {},
+            agents: {
+                frontend: ['react-native'],
+                backend: ['firebase'],
+                database: ['firestore'],
+            },
+        },
+        id: 'system-mobile',
     },
-    "id": "system-mobile"
-  },
-  {
-    "name": "MVP Startup",
-    "createdAt": 0,
-    "isSystem": true,
-    "state": {
-      "description": {},
-      "review": {},
-      "agents": {
-        "frontend": [
-          "angular",
-          "taiga-ui"
-        ],
-        "backend": [
-          "nestjs"
-        ],
-        "database": [
-          "postgresql",
-          "prisma"
-        ]
-      }
+    {
+        name: 'MVP Startup',
+        createdAt: 0,
+        isSystem: true,
+        state: {
+            description: {},
+            review: {},
+            agents: {
+                frontend: ['angular', 'taiga-ui'],
+                backend: ['nestjs'],
+                database: ['postgresql', 'prisma'],
+            },
+        },
+        id: 'system-mvp',
     },
-    "id": "system-mvp"
-  },
-  {
-    "name": "Telegram Mini App",
-    "createdAt": 0,
-    "isSystem": true,
-    "state": {
-      "description": {},
-      "review": {},
-      "agents": {
-        "frontend": [
-          "react"
-        ],
-        "backend": [
-          "express"
-        ],
-        "database": [
-          "postgresql"
-        ]
-      }
+    {
+        name: 'Telegram Mini App',
+        createdAt: 0,
+        isSystem: true,
+        state: {
+            description: {},
+            review: {},
+            agents: {
+                frontend: ['react'],
+                backend: ['express'],
+                database: ['postgresql'],
+            },
+        },
+        id: 'system-telegram-mini-app',
     },
-    "id": "system-telegram-mini-app"
-  }
 ];
 
 export const GENERATED_PROJECT_META: MetaInformation[] = [
-  {
-    "label": "AI Assistant & Bot",
-    "description": "This project focuses on artificial intelligence features, integrating LLMs, chatbot interfaces, automated workflows, and smart data processing capabilities.",
-    "id": "ai-assistant"
-  },
-  {
-    "label": "E-commerce",
-    "description": "This project is designed for e-commerce, supporting scalable product catalogs, shopping carts, and secure payment processing. It includes features optimized for high-conversion retail operations.",
-    "id": "ecommerce"
-  },
-  {
-    "label": "Edtech",
-    "description": "An educational technology platform featuring interactive learning modules, student progress tracking, and multimedia content delivery. Optimized for accessibility and engaging user experiences.",
-    "id": "edtech"
-  },
-  {
-    "label": "Fintech",
-    "description": "A financial technology application that requires high security, transaction integrity, and regulatory compliance. Built to handle sensitive financial data and real-time processing.",
-    "id": "fintech"
-  },
-  {
-    "label": "Healthtech",
-    "description": "A healthcare technology solution prioritizing HIPAA/GDPR compliance, patient data privacy, and secure telecommunication. Suitable for telemedicine and electronic health records.",
-    "id": "healthtech"
-  },
-  {
-    "label": "Marketplace",
-    "description": "A multi-vendor marketplace connecting buyers and sellers with advanced search, escrow payments, and rating systems. It handles complex multi-party transactions and dispute resolution.",
-    "id": "marketplace"
-  },
-  {
-    "label": "Real Estate",
-    "description": "This project is designed for the real estate domain, supporting property listings, search filters, interactive maps, and agent scheduling tools.",
-    "id": "real-estate"
-  },
-  {
-    "label": "SaaS",
-    "description": "A multi-tenant Software-as-a-Service architecture designed for cloud scalability and subscription management. It features robust user authentication, tiered access control, and analytics.",
-    "id": "saas"
-  },
-  {
-    "label": "Social Network",
-    "description": "A community-driven platform built for high concurrency, real-time messaging, and dynamic content feeds. Designed to handle large volumes of user-generated content and social graphs.",
-    "id": "social"
-  }
+    {
+        label: 'AI Assistant & Bot',
+        description:
+            'This project focuses on artificial intelligence features, integrating LLMs, chatbot interfaces, automated workflows, and smart data processing capabilities.',
+        id: 'ai-assistant',
+    },
+    {
+        label: 'E-commerce',
+        description:
+            'This project is designed for e-commerce, supporting scalable product catalogs, shopping carts, and secure payment processing. It includes features optimized for high-conversion retail operations.',
+        id: 'ecommerce',
+    },
+    {
+        label: 'Edtech',
+        description:
+            'An educational technology platform featuring interactive learning modules, student progress tracking, and multimedia content delivery. Optimized for accessibility and engaging user experiences.',
+        id: 'edtech',
+    },
+    {
+        label: 'Fintech',
+        description:
+            'A financial technology application that requires high security, transaction integrity, and regulatory compliance. Built to handle sensitive financial data and real-time processing.',
+        id: 'fintech',
+    },
+    {
+        label: 'Healthtech',
+        description:
+            'A healthcare technology solution prioritizing HIPAA/GDPR compliance, patient data privacy, and secure telecommunication. Suitable for telemedicine and electronic health records.',
+        id: 'healthtech',
+    },
+    {
+        label: 'Marketplace',
+        description:
+            'A multi-vendor marketplace connecting buyers and sellers with advanced search, escrow payments, and rating systems. It handles complex multi-party transactions and dispute resolution.',
+        id: 'marketplace',
+    },
+    {
+        label: 'Real Estate',
+        description:
+            'This project is designed for the real estate domain, supporting property listings, search filters, interactive maps, and agent scheduling tools.',
+        id: 'real-estate',
+    },
+    {
+        label: 'SaaS',
+        description:
+            'A multi-tenant Software-as-a-Service architecture designed for cloud scalability and subscription management. It features robust user authentication, tiered access control, and analytics.',
+        id: 'saas',
+    },
+    {
+        label: 'Social Network',
+        description:
+            'A community-driven platform built for high concurrency, real-time messaging, and dynamic content feeds. Designed to handle large volumes of user-generated content and social graphs.',
+        id: 'social',
+    },
 ];

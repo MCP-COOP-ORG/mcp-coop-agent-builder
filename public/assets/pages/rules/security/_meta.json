@@ -1,6 +1,6 @@
 {
-  "title": "Security Rules",
-  "icon": "@tui.lock",
-  "type": "checkbox",
-  "order": 3
+    "title": "Security Rules",
+    "icon": "@tui.lock",
+    "type": "checkbox",
+    "order": 3
 }

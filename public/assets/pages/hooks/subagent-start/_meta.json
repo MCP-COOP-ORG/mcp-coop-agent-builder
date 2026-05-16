@@ -1,10 +1,10 @@
 {
-  "title": "Subagent Start",
-  "icon": "@tui.git-branch",
-  "type": "checkbox",
-  "order": 25,
-  "events": {
-    "claude": "SubagentStart"
-  },
-  "description": "Fires when a specialized sub-agent is spawned to handle a sub-task."
+    "title": "Subagent Start",
+    "icon": "@tui.git-branch",
+    "type": "checkbox",
+    "order": 25,
+    "events": {
+        "claude": "SubagentStart"
+    },
+    "description": "Fires when a specialized sub-agent is spawned to handle a sub-task."
 }

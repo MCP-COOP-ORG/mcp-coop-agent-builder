@@ -1,7 +1,7 @@
 {
-  "label": "Agents",
-  "icon": "@tui.bot",
-  "title": "Agents Configuration",
-  "description": "Select skills, technologies, and tooling for your AI agents.",
-  "wrapperType": "skill"
+    "label": "Agents",
+    "icon": "@tui.bot",
+    "title": "Agents Configuration",
+    "description": "Select skills, technologies, and tooling for your AI agents.",
+    "wrapperType": "skill"
 }

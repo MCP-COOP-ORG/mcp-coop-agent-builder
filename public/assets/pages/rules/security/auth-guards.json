@@ -1,10 +1,10 @@
 {
-  "description": {
-    "default": "This is a placeholder content for auth-guards.",
-    "claude": "This is a placeholder content for auth-guards.",
-    "cursor": "This is a placeholder content for auth-guards.",
-    "antigravity": "This is a placeholder content for auth-guards."
-  },
-  "recommendedWith": ["xss-protection"],
-  "discouragedWith": []
+    "description": {
+        "default": "This is a placeholder content for auth-guards.",
+        "claude": "This is a placeholder content for auth-guards.",
+        "cursor": "This is a placeholder content for auth-guards.",
+        "antigravity": "This is a placeholder content for auth-guards."
+    },
+    "recommendedWith": ["xss-protection"],
+    "discouragedWith": []
 }

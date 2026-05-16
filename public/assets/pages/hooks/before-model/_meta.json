@@ -1,10 +1,10 @@
 {
-  "title": "Before Model Call",
-  "icon": "@tui.brain",
-  "type": "checkbox",
-  "order": 5,
-  "events": {
-    "antigravity": "BeforeModel"
-  },
-  "description": "Fires before a request is sent to the LLM."
+    "title": "Before Model Call",
+    "icon": "@tui.brain",
+    "type": "checkbox",
+    "order": 5,
+    "events": {
+        "antigravity": "BeforeModel"
+    },
+    "description": "Fires before a request is sent to the LLM."
 }

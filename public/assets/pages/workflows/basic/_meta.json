@@ -1,8 +1,8 @@
 {
-  "title": "Basic Workflows",
-  "icon": "@tui.zap",
-  "type": "checkbox",
-  "order": 100,
-  "default": true,
-  "description": "Essential AI agent workflows recommended for every project."
+    "title": "Basic Workflows",
+    "icon": "@tui.zap",
+    "type": "checkbox",
+    "order": 100,
+    "default": true,
+    "description": "Essential AI agent workflows recommended for every project."
 }

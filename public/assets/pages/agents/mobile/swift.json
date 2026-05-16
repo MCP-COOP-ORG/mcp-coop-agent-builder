@@ -1,10 +1,10 @@
 {
-  "description": {
-    "default": "This is a placeholder content for swift.",
-    "claude": "This is a placeholder content for swift.",
-    "cursor": "This is a placeholder content for swift.",
-    "antigravity": "This is a placeholder content for swift."
-  },
-  "recommendedWith": [],
-  "discouragedWith": ["flutter", "react-native"]
+    "description": {
+        "default": "This is a placeholder content for swift.",
+        "claude": "This is a placeholder content for swift.",
+        "cursor": "This is a placeholder content for swift.",
+        "antigravity": "This is a placeholder content for swift."
+    },
+    "recommendedWith": [],
+    "discouragedWith": ["flutter", "react-native"]
 }

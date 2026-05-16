@@ -7,15 +7,15 @@ import { routes } from './app.routes';
 import { GlobalErrorHandler } from './services/global-error-handler';
 
 export const appConfig: ApplicationConfig = {
-  providers: [
-    provideBrowserGlobalErrorListeners(),
-    provideRouter(routes),
-    provideTaiga(),
-    { provide: ErrorHandler, useClass: GlobalErrorHandler },
-    provideServiceWorker('ngsw-worker.js', {
-      // TODO: Enable PWA when app releases become stable/infrequent
-      enabled: false, // !isDevMode(),
-      registrationStrategy: 'registerWhenStable:30000'
-    })
-  ],
+    providers: [
+        provideBrowserGlobalErrorListeners(),
+        provideRouter(routes),
+        provideTaiga(),
+        { provide: ErrorHandler, useClass: GlobalErrorHandler },
+        provideServiceWorker('ngsw-worker.js', {
+            // TODO: Enable PWA when app releases become stable/infrequent
+            enabled: false, // !isDevMode(),
+            registrationStrategy: 'registerWhenStable:30000',
+        }),
+    ],
 };

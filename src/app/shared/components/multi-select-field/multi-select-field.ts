@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef, inject, input, signal, computed } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    forwardRef,
+    inject,
+    input,
+    signal,
+    computed,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { TuiTextfield, TuiLabel, TuiDataList, TuiIcon } from '@taiga-ui/core';
 import { TuiInputChip, TuiChevron, TuiMultiSelect } from '@taiga-ui/kit';
@@ -7,10 +16,10 @@ import { TemplateInterpolator, BuilderState } from '@services';
 import { BUILDER_DICTIONARY } from '@shared/constants';
 
 export interface MultiSelectOption {
-  id: string;
-  label: string;
-  filePath?: string;
-  description?: string;
+    id: string;
+    label: string;
+    filePath?: string;
+    description?: string;
 }
 
 /**
@@ -19,122 +28,110 @@ export interface MultiSelectOption {
  * Wraps Taiga UI's tuiInputChip and tui-data-list.
  */
 @Component({
-  selector: 'app-multi-select-field',
-  imports: [
-    FormsModule, 
-    TuiTextfield, 
-    TuiLabel, 
-    TuiDataList, 
-    TuiInputChip, 
-    TuiChevron, 
-    TuiMultiSelect,
-    TuiIcon
-  ],
-  templateUrl: './multi-select-field.html',
-  styleUrl: './multi-select-field.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => MultiSelectField),
-      multi: true
-    }
-  ]
+    selector: 'app-multi-select-field',
+    imports: [FormsModule, TuiTextfield, TuiLabel, TuiDataList, TuiInputChip, TuiChevron, TuiMultiSelect, TuiIcon],
+    templateUrl: './multi-select-field.html',
+    styleUrl: './multi-select-field.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => MultiSelectField),
+            multi: true,
+        },
+    ],
 })
 export class MultiSelectField implements ControlValueAccessor {
-  private readonly cdr = inject(ChangeDetectorRef);
-  private readonly dialogManager = inject(DialogManager);
-  private readonly interpolator = inject(TemplateInterpolator);
-  private readonly builderState = inject(BuilderState);
+    private readonly cdr = inject(ChangeDetectorRef);
+    private readonly dialogManager = inject(DialogManager);
+    private readonly interpolator = inject(TemplateInterpolator);
+    private readonly builderState = inject(BuilderState);
 
-  /** The floating label for the field */
-  label = input.required<string>();
-  
-  /** Placeholder text when nothing is selected */
-  placeholder = input<string>('');
-  
-  /** Array of objects to populate the dropdown */
-  options = input<MultiSelectOption[]>([]);
+    /** The floating label for the field */
+    label = input.required<string>();
 
-  /** Internal value bound to the native input */
-  value: string[] = [];
-  
-  /** Tracks the disabled state for Reactive Forms */
-  disabled = false;
-  search = signal<string>('');
+    /** Placeholder text when nothing is selected */
+    placeholder = input<string>('');
 
-  private static nextId = 0;
-  protected readonly fieldId = `multi-select-field-${MultiSelectField.nextId++}`;
+    /** Array of objects to populate the dropdown */
+    options = input<MultiSelectOption[]>([]);
 
-  private onChange: (value: string[]) => void = () => undefined;
-  private onTouched: () => void = () => undefined;
+    /** Internal value bound to the native input */
+    value: string[] = [];
 
-  /** Converts the selected ID back to the display label for the chips */
-  readonly stringify = (id: string): string => {
-    return this.options().find(opt => opt.id === id)?.label || id;
-  };
+    /** Tracks the disabled state for Reactive Forms */
+    disabled = false;
+    search = signal<string>('');
 
-  readonly filteredOptions = computed(() => {
-    const s = this.search().toLowerCase();
-    const all = this.options();
-    
-    const minLength = BUILDER_DICTIONARY.limits.dropdownSearchMinLength;
-    
-    const filtered = s.length >= minLength 
-      ? all.filter(o => o.label.toLowerCase().includes(s))
-      : all;
-      
-    return filtered;
-  });
+    private static nextId = 0;
+    protected readonly fieldId = `multi-select-field-${MultiSelectField.nextId++}`;
 
-  onSearch(event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
-    this.search.set(inputElement.value);
-  }
+    private onChange: (value: string[]) => void = () => undefined;
+    private onTouched: () => void = () => undefined;
 
-  showInfo(event: Event, option: MultiSelectOption): void {
-    event.preventDefault();
-    event.stopPropagation();
+    /** Converts the selected ID back to the display label for the chips */
+    readonly stringify = (id: string): string => {
+        return this.options().find((opt) => opt.id === id)?.label || id;
+    };
 
-    if (option.description) {
-      this.dialogManager.openInfoDialog(option.label, option.description).subscribe();
-      return;
+    readonly filteredOptions = computed(() => {
+        const s = this.search().toLowerCase();
+        const all = this.options();
+
+        const minLength = BUILDER_DICTIONARY.limits.dropdownSearchMinLength;
+
+        const filtered = s.length >= minLength ? all.filter((o) => o.label.toLowerCase().includes(s)) : all;
+
+        return filtered;
+    });
+
+    onSearch(event: Event): void {
+        const inputElement = event.target as HTMLInputElement;
+        this.search.set(inputElement.value);
     }
 
-    if (!option.filePath) return;
+    showInfo(event: Event, option: MultiSelectOption): void {
+        event.preventDefault();
+        event.stopPropagation();
 
-    this.interpolator.fetchJson<{ description: Record<string, string> }>(option.filePath)
-      .then(json => {
-        if (!json?.description) return;
-        const review = this.builderState.reviewData();
-        const agent = (review['aiAgent'] as string) || 'default';
-        const content = json.description[agent] ?? json.description['default'] ?? '';
-        this.dialogManager.openInfoDialog(option.label, content).subscribe();
-      });
-  }
+        if (option.description) {
+            this.dialogManager.openInfoDialog(option.label, option.description).subscribe();
+            return;
+        }
 
-  writeValue(val: string[]): void {
-    this.value = Array.isArray(val) ? val : [];
-    this.search.set(''); // reset search when form changes value
-    this.cdr.markForCheck();
-  }
+        if (!option.filePath) return;
 
-  registerOnChange(fn: (value: string[]) => void): void {
-    this.onChange = fn;
-  }
+        this.interpolator.fetchJson<{ description: Record<string, string> }>(option.filePath).then((json) => {
+            if (!json?.description) return;
+            const review = this.builderState.reviewData();
+            const agent = (review['aiAgent'] as string) || 'default';
+            const content = json.description[agent] ?? json.description['default'] ?? '';
+            this.dialogManager.openInfoDialog(option.label, content).subscribe();
+        });
+    }
 
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
-  }
+    writeValue(val: string[]): void {
+        this.value = Array.isArray(val) ? val : [];
+        this.search.set(''); // reset search when form changes value
+        this.cdr.markForCheck();
+    }
 
-  setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
+    registerOnChange(fn: (value: string[]) => void): void {
+        this.onChange = fn;
+    }
 
-  onModelChange(val: string[]) {
-    this.value = val;
-    this.search.set(''); // reset input on selection
-    this.onChange(val);
-    this.onTouched();
-  }
+    registerOnTouched(fn: () => void): void {
+        this.onTouched = fn;
+    }
+
+    setDisabledState(isDisabled: boolean): void {
+        this.disabled = isDisabled;
+    }
+
+    onModelChange(val: string[]) {
+        this.value = val;
+        this.search.set(''); // reset input on selection
+        this.onChange(val);
+        this.onTouched();
+    }
 }

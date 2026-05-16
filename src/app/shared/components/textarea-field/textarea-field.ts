@@ -9,63 +9,63 @@ import { TuiTextfield, TuiLabel } from '@taiga-ui/core';
  * Wraps Taiga UI's tuiTextarea and tuiTextfield.
  */
 @Component({
-  selector: 'app-textarea-field',
-  imports: [FormsModule, TuiTextarea, TuiTextfield, TuiLabel],
-  templateUrl: './textarea-field.html',
-  styleUrl: './textarea-field.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => TextareaField),
-      multi: true
-    }
-  ]
+    selector: 'app-textarea-field',
+    imports: [FormsModule, TuiTextarea, TuiTextfield, TuiLabel],
+    templateUrl: './textarea-field.html',
+    styleUrl: './textarea-field.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => TextareaField),
+            multi: true,
+        },
+    ],
 })
 export class TextareaField implements ControlValueAccessor {
-  private readonly cdr = inject(ChangeDetectorRef);
-  
-  /** The floating label for the text field, supplied by the dictionary */
-  label = input.required<string>();
-  
-  /** Optional placeholder text */
-  placeholder = input<string>('');
-  
-  /** Maximum number of characters allowed in the textarea */
-  limit = input<number>(300);
-  
-  /** Optional Taiga UI icon to display at the start of the field */
-  iconStart = input<string>('');
+    private readonly cdr = inject(ChangeDetectorRef);
 
-  /** Internal value bound to the native textarea */
-  value = '';
-  
-  /** Tracks the disabled state for Reactive Forms */
-  disabled = false;
+    /** The floating label for the text field, supplied by the dictionary */
+    label = input.required<string>();
 
-  private onChange: (value: string) => void = () => undefined;
-  private onTouched: () => void = () => undefined;
+    /** Optional placeholder text */
+    placeholder = input<string>('');
 
-  writeValue(val: string): void {
-    this.value = val || '';
-    this.cdr.markForCheck();
-  }
+    /** Maximum number of characters allowed in the textarea */
+    limit = input<number>(300);
 
-  registerOnChange(fn: (value: string) => void): void {
-    this.onChange = fn;
-  }
+    /** Optional Taiga UI icon to display at the start of the field */
+    iconStart = input<string>('');
 
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
-  }
+    /** Internal value bound to the native textarea */
+    value = '';
 
-  setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
+    /** Tracks the disabled state for Reactive Forms */
+    disabled = false;
 
-  onModelChange(val: string) {
-    this.value = val;
-    this.onChange(val);
-    this.onTouched();
-  }
+    private onChange: (value: string) => void = () => undefined;
+    private onTouched: () => void = () => undefined;
+
+    writeValue(val: string): void {
+        this.value = val || '';
+        this.cdr.markForCheck();
+    }
+
+    registerOnChange(fn: (value: string) => void): void {
+        this.onChange = fn;
+    }
+
+    registerOnTouched(fn: () => void): void {
+        this.onTouched = fn;
+    }
+
+    setDisabledState(isDisabled: boolean): void {
+        this.disabled = isDisabled;
+    }
+
+    onModelChange(val: string) {
+        this.value = val;
+        this.onChange(val);
+        this.onTouched();
+    }
 }

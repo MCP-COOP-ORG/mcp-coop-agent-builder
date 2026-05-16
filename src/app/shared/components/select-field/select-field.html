@@ -1,32 +1,24 @@
 <tui-textfield tuiChevron [stringify]="stringify">
-  <label tuiLabel [for]="fieldId">{{ label() }}</label>
-  <input
-    [id]="fieldId"
-    tuiComboBox
-    [strict]="true"
-    [placeholder]="placeholder()"
-    [ngModel]="value"
-    (ngModelChange)="onModelChange($event)"
-    (input)="onSearch($event)"
-    [disabled]="disabled"
-  />
-  <tui-data-list *tuiDropdown>
-    @for (item of filteredOptions(); track item.id) {
-      <button tuiOption type="button" [value]="item.id" class="option-row">
-        <span>{{ item.label }}</span>
-        @if (item.filePath) {
-          <tui-icon
-            icon="@tui.info"
-            class="info-icon"
-            (click)="showInfo($event, item)"
-          />
+    <label tuiLabel [for]="fieldId">{{ label() }}</label>
+    <input
+        [id]="fieldId"
+        tuiComboBox
+        [strict]="true"
+        [placeholder]="placeholder()"
+        [ngModel]="value"
+        (ngModelChange)="onModelChange($event)"
+        (input)="onSearch($event)"
+        [disabled]="disabled" />
+    <tui-data-list *tuiDropdown>
+        @for (item of filteredOptions(); track item.id) {
+        <button tuiOption type="button" [value]="item.id" class="option-row">
+            <span>{{ item.label }}</span>
+            @if (item.filePath) {
+            <tui-icon icon="@tui.info" class="info-icon" (click)="showInfo($event, item)" />
+            }
+        </button>
+        } @empty {
+        <button tuiOption type="button" [disabled]="true">No options found</button>
         }
-      </button>
-    }
-    @empty {
-      <button tuiOption type="button" [disabled]="true">
-        No options found
-      </button>
-    }
-  </tui-data-list>
+    </tui-data-list>
 </tui-textfield>

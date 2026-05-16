@@ -1,32 +1,22 @@
-<tui-textfield 
-  multi 
-  tuiChevron 
-  tuiTextfieldSize="l"
-  [stringify]="stringify"
->
-  <label tuiLabel [for]="fieldId">{{ label() }}</label>
-  <input 
-    [id]="fieldId"
-    tuiInputChip 
-    [placeholder]="value.length ? '' : placeholder()" 
-    [ngModel]="value"
-    (ngModelChange)="onModelChange($event)"
-    (input)="onSearch($event)"
-    [disabled]="disabled"
-  />
-  <tui-input-chip *tuiItem />
-  <tui-data-list *tuiDropdown tuiMultiSelectGroup>
-    @for (option of filteredOptions(); track option.id) {
-      <button tuiOption type="button" [value]="option.id" class="option-row">
-        <span>{{ option.label }}</span>
-        @if (option.filePath) {
-          <tui-icon
-            icon="@tui.info"
-            class="info-icon"
-            (click)="showInfo($event, option)"
-          />
+<tui-textfield multi tuiChevron tuiTextfieldSize="l" [stringify]="stringify">
+    <label tuiLabel [for]="fieldId">{{ label() }}</label>
+    <input
+        [id]="fieldId"
+        tuiInputChip
+        [placeholder]="value.length ? '' : placeholder()"
+        [ngModel]="value"
+        (ngModelChange)="onModelChange($event)"
+        (input)="onSearch($event)"
+        [disabled]="disabled" />
+    <tui-input-chip *tuiItem />
+    <tui-data-list *tuiDropdown tuiMultiSelectGroup>
+        @for (option of filteredOptions(); track option.id) {
+        <button tuiOption type="button" [value]="option.id" class="option-row">
+            <span>{{ option.label }}</span>
+            @if (option.filePath) {
+            <tui-icon icon="@tui.info" class="info-icon" (click)="showInfo($event, option)" />
+            }
+        </button>
         }
-      </button>
-    }
-  </tui-data-list>
+    </tui-data-list>
 </tui-textfield>

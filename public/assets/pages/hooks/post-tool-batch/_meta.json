@@ -1,10 +1,10 @@
 {
-  "title": "Post Tool Batch",
-  "icon": "@tui.layers",
-  "type": "checkbox",
-  "order": 24,
-  "events": {
-    "claude": "PostToolBatch"
-  },
-  "description": "Fires after a batch of tools or commands has been executed."
+    "title": "Post Tool Batch",
+    "icon": "@tui.layers",
+    "type": "checkbox",
+    "order": 24,
+    "events": {
+        "claude": "PostToolBatch"
+    },
+    "description": "Fires after a batch of tools or commands has been executed."
 }

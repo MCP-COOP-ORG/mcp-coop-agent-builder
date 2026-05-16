@@ -1,10 +1,10 @@
 {
-  "description": {
-    "default": "This is a placeholder content for eslint.",
-    "claude": "This is a placeholder content for eslint.",
-    "cursor": "This is a placeholder content for eslint.",
-    "antigravity": "This is a placeholder content for eslint."
-  },
-  "recommendedWith": ["prettier", "typescript"],
-  "discouragedWith": []
+    "description": {
+        "default": "This is a placeholder content for eslint.",
+        "claude": "This is a placeholder content for eslint.",
+        "cursor": "This is a placeholder content for eslint.",
+        "antigravity": "This is a placeholder content for eslint."
+    },
+    "recommendedWith": ["prettier", "typescript"],
+    "discouragedWith": []
 }

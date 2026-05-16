@@ -1,10 +1,10 @@
 {
-  "description": {
-    "default": "This is a placeholder content for xss-protection.",
-    "claude": "This is a placeholder content for xss-protection.",
-    "cursor": "This is a placeholder content for xss-protection.",
-    "antigravity": "This is a placeholder content for xss-protection."
-  },
-  "recommendedWith": ["auth-guards"],
-  "discouragedWith": []
+    "description": {
+        "default": "This is a placeholder content for xss-protection.",
+        "claude": "This is a placeholder content for xss-protection.",
+        "cursor": "This is a placeholder content for xss-protection.",
+        "antigravity": "This is a placeholder content for xss-protection."
+    },
+    "recommendedWith": ["auth-guards"],
+    "discouragedWith": []
 }

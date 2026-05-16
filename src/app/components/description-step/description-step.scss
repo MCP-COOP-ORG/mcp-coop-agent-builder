@@ -1,25 +1,25 @@
 .composite-layout {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    width: 100%;
 
-  .composite-field {
-    flex-shrink: 0;
-    flex-grow: 1;
-    min-width: 0;
-    max-width: 100%;
+    .composite-field {
+        flex-shrink: 0;
+        flex-grow: 1;
+        min-width: 0;
+        max-width: 100%;
 
-    &.layout-full {
-      flex-basis: 100%;
+        &.layout-full {
+            flex-basis: 100%;
+        }
+
+        &.layout-half {
+            flex-basis: calc(50% - 0.5rem);
+        }
+
+        &.layout-third {
+            flex-basis: calc(33.333% - 0.66rem);
+        }
     }
-
-    &.layout-half {
-      flex-basis: calc(50% - 0.5rem);
-    }
-
-    &.layout-third {
-      flex-basis: calc(33.333% - 0.66rem);
-    }
-  }
 }

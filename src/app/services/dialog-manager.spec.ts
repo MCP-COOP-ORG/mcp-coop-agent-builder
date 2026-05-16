@@ -5,35 +5,35 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { of } from 'rxjs';
 
 describe('DialogManager', () => {
-  let service: DialogManager;
-  let dialogService: TuiDialogService;
+    let service: DialogManager;
+    let dialogService: TuiDialogService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        DialogManager,
-        {
-          provide: TuiDialogService,
-          useValue: { open: vi.fn().mockReturnValue(of({})) }
-        }
-      ]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            providers: [
+                DialogManager,
+                {
+                    provide: TuiDialogService,
+                    useValue: { open: vi.fn().mockReturnValue(of({})) },
+                },
+            ],
+        });
+
+        service = TestBed.inject(DialogManager);
+        dialogService = TestBed.inject(TuiDialogService);
     });
 
-    service = TestBed.inject(DialogManager);
-    dialogService = TestBed.inject(TuiDialogService);
-  });
-
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-
-  it('should open preset dialog', async () => {
-    vi.spyOn(dialogService, 'open').mockReturnValue(of({}));
-    const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined);
-    service.openPresetDialog();
-    await vi.waitFor(() => {
-      expect(dialogService.open).toHaveBeenCalled();
+    it('should be created', () => {
+        expect(service).toBeTruthy();
     });
-    consoleSpy.mockRestore();
-  });
+
+    it('should open preset dialog', async () => {
+        vi.spyOn(dialogService, 'open').mockReturnValue(of({}));
+        const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined);
+        service.openPresetDialog();
+        await vi.waitFor(() => {
+            expect(dialogService.open).toHaveBeenCalled();
+        });
+        consoleSpy.mockRestore();
+    });
 });

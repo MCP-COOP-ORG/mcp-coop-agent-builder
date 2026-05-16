@@ -1,11 +1,11 @@
 {
-  "title": "Session End",
-  "icon": "@tui.circle-stop",
-  "type": "checkbox",
-  "order": 2,
-  "events": {
-    "antigravity": "SessionEnd",
-    "claude": "SessionEnd"
-  },
-  "description": "Fires when the AI session or project is explicitly terminated."
+    "title": "Session End",
+    "icon": "@tui.circle-stop",
+    "type": "checkbox",
+    "order": 2,
+    "events": {
+        "antigravity": "SessionEnd",
+        "claude": "SessionEnd"
+    },
+    "description": "Fires when the AI session or project is explicitly terminated."
 }

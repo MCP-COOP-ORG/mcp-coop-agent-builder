@@ -1,10 +1,10 @@
 {
-  "description": {
-    "default": "This is a placeholder content for redis.",
-    "claude": "This is a placeholder content for redis.",
-    "cursor": "This is a placeholder content for redis.",
-    "antigravity": "This is a placeholder content for redis."
-  },
-  "recommendedWith": ["nestjs", "docker"],
-  "discouragedWith": []
+    "description": {
+        "default": "This is a placeholder content for redis.",
+        "claude": "This is a placeholder content for redis.",
+        "cursor": "This is a placeholder content for redis.",
+        "antigravity": "This is a placeholder content for redis."
+    },
+    "recommendedWith": ["nestjs", "docker"],
+    "discouragedWith": []
 }

@@ -1,29 +1,29 @@
 :host {
-  display: block;
-  width: 100%;
+    display: block;
+    width: 100%;
 }
 
 tui-data-list {
-  max-height: 250px;
-  overflow-y: auto;
+    max-height: 250px;
+    overflow-y: auto;
 }
 
 .option-row {
-  display: flex;
-  align-items: center;
-  width: 100%;
+    display: flex;
+    align-items: center;
+    width: 100%;
 
-  span {
-    margin-right: auto;
-  }
+    span {
+        margin-right: auto;
+    }
 }
 
 .info-icon {
-  color: var(--tui-text-secondary);
-  cursor: pointer;
-  transition: color 0.2s;
+    color: var(--tui-text-secondary);
+    cursor: pointer;
+    transition: color 0.2s;
 
-  &:hover {
-    color: var(--tui-text-primary);
-  }
+    &:hover {
+        color: var(--tui-text-primary);
+    }
 }

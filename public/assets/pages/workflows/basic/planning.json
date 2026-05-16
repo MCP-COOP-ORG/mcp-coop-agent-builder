@@ -1,5 +1,5 @@
 {
-  "description": {
-    "default": "## Planning & Task Decomposition\n\nBefore starting implementation:\n1. Break the task into small, verifiable sub-tasks.\n2. Identify dependencies between sub-tasks and establish execution order.\n3. Assess the blast radius — trace all call sites and components affected by the change.\n4. For each sub-task, define clear success criteria and verification steps.\n5. Present the plan to the developer for review before proceeding."
-  }
+    "description": {
+        "default": "## Planning & Task Decomposition\n\nBefore starting implementation:\n1. Break the task into small, verifiable sub-tasks.\n2. Identify dependencies between sub-tasks and establish execution order.\n3. Assess the blast radius — trace all call sites and components affected by the change.\n4. For each sub-task, define clear success criteria and verification steps.\n5. Present the plan to the developer for review before proceeding."
+    }
 }

@@ -1,10 +1,10 @@
 {
-  "description": {
-    "default": "This is a placeholder content for express.",
-    "claude": "This is a placeholder content for express.",
-    "cursor": "This is a placeholder content for express.",
-    "antigravity": "This is a placeholder content for express."
-  },
-  "recommendedWith": ["javascript", "typescript", "mongodb"],
-  "discouragedWith": ["nestjs", "spring-boot", "php"]
+    "description": {
+        "default": "This is a placeholder content for express.",
+        "claude": "This is a placeholder content for express.",
+        "cursor": "This is a placeholder content for express.",
+        "antigravity": "This is a placeholder content for express."
+    },
+    "recommendedWith": ["javascript", "typescript", "mongodb"],
+    "discouragedWith": ["nestjs", "spring-boot", "php"]
 }

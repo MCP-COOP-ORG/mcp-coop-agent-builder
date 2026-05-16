@@ -1,11 +1,11 @@
 {
-  "title": "Pre Compress / Compact",
-  "icon": "@tui.archive",
-  "type": "checkbox",
-  "order": 10,
-  "events": {
-    "antigravity": "PreCompress",
-    "claude": "PreCompact"
-  },
-  "description": "Fires before the AI attempts to compress or compact its context history."
+    "title": "Pre Compress / Compact",
+    "icon": "@tui.archive",
+    "type": "checkbox",
+    "order": 10,
+    "events": {
+        "antigravity": "PreCompress",
+        "claude": "PreCompact"
+    },
+    "description": "Fires before the AI attempts to compress or compact its context history."
 }

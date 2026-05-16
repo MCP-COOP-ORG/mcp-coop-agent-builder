@@ -1,5 +1,5 @@
 {
-  "description": {
-    "default": "## Project Context Loading\n\nAt the start of every session:\n1. Read the project's documentation files (README, ARCHITECTURE, CONTRIBUTING) to understand the codebase structure.\n2. Identify the tech stack, frameworks, and package versions from configuration files.\n3. Check for existing coding conventions, linting configs, and formatting rules.\n4. Understand the directory structure and module boundaries before making changes.\n5. Never assume — always verify the current state of the code."
-  }
+    "description": {
+        "default": "## Project Context Loading\n\nAt the start of every session:\n1. Read the project's documentation files (README, ARCHITECTURE, CONTRIBUTING) to understand the codebase structure.\n2. Identify the tech stack, frameworks, and package versions from configuration files.\n3. Check for existing coding conventions, linting configs, and formatting rules.\n4. Understand the directory structure and module boundaries before making changes.\n5. Never assume — always verify the current state of the code."
+    }
 }

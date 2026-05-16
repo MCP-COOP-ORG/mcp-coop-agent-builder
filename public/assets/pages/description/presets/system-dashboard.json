@@ -1,22 +1,14 @@
 {
-  "name": "Admin Dashboard",
-  "createdAt": 0,
-  "isSystem": true,
-  "state": {
-    "description": {},
-    "review": {},
-    "agents": {
-      "frontend": [
-        "react",
-        "tailwind"
-      ],
-      "backend": [
-        "express"
-      ],
-      "database": [
-        "mongodb",
-        "mongoose"
-      ]
+    "name": "Admin Dashboard",
+    "createdAt": 0,
+    "isSystem": true,
+    "state": {
+        "description": {},
+        "review": {},
+        "agents": {
+            "frontend": ["react", "tailwind"],
+            "backend": ["express"],
+            "database": ["mongodb", "mongoose"]
+        }
     }
-  }
 }

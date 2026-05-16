@@ -1,10 +1,10 @@
 {
-  "title": "Permission Denied",
-  "icon": "@tui.lock-keyhole",
-  "type": "checkbox",
-  "order": 22,
-  "events": {
-    "claude": "PermissionDenied"
-  },
-  "description": "Fires when a requested action or tool execution is denied by the user."
+    "title": "Permission Denied",
+    "icon": "@tui.lock-keyhole",
+    "type": "checkbox",
+    "order": 22,
+    "events": {
+        "claude": "PermissionDenied"
+    },
+    "description": "Fires when a requested action or tool execution is denied by the user."
 }

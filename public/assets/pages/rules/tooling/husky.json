@@ -1,10 +1,10 @@
 {
-  "description": {
-    "default": "This is a placeholder content for husky.",
-    "claude": "This is a placeholder content for husky.",
-    "cursor": "This is a placeholder content for husky.",
-    "antigravity": "This is a placeholder content for husky."
-  },
-  "recommendedWith": ["eslint", "prettier"],
-  "discouragedWith": []
+    "description": {
+        "default": "This is a placeholder content for husky.",
+        "claude": "This is a placeholder content for husky.",
+        "cursor": "This is a placeholder content for husky.",
+        "antigravity": "This is a placeholder content for husky."
+    },
+    "recommendedWith": ["eslint", "prettier"],
+    "discouragedWith": []
 }

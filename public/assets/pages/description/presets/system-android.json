@@ -1,20 +1,14 @@
 {
-  "name": "Android Application",
-  "createdAt": 0,
-  "isSystem": true,
-  "state": {
-    "description": {},
-    "review": {},
-    "agents": {
-      "frontend": [
-        "kotlin"
-      ],
-      "backend": [
-        "spring-boot"
-      ],
-      "database": [
-        "postgresql"
-      ]
+    "name": "Android Application",
+    "createdAt": 0,
+    "isSystem": true,
+    "state": {
+        "description": {},
+        "review": {},
+        "agents": {
+            "frontend": ["kotlin"],
+            "backend": ["spring-boot"],
+            "database": ["postgresql"]
+        }
     }
-  }
 }

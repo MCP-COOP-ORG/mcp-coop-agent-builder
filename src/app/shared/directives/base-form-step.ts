@@ -7,70 +7,70 @@ import { debounceTime } from 'rxjs';
 
 @Directive()
 export abstract class BaseFormStep implements OnInit {
-  protected readonly builderState = inject(BuilderState);
-  protected readonly destroyRef = inject(DestroyRef);
+    protected readonly builderState = inject(BuilderState);
+    protected readonly destroyRef = inject(DestroyRef);
 
-  abstract readonly view: { blocksArray: BuilderBlockConfig[]; [key: string]: unknown };
-  
-  form!: FormGroup;
+    abstract readonly view: { blocksArray: BuilderBlockConfig[]; [key: string]: unknown };
 
-  // Each child step must define which signal it binds to
-  protected abstract get stateSignal(): WritableSignal<Record<string, unknown>>;
+    form!: FormGroup;
 
-  constructor() {
-    effect(() => {
-      const state = this.stateSignal();
-      // Form might not be initialized when the effect first runs
-      if (!this.form) return;
-      
-      // Prevent cursor jumping by only patching if the state actually differs from the form
-      const currentState = this.form.getRawValue();
-      if (JSON.stringify(currentState) !== JSON.stringify(state)) {
-        this.form.patchValue(state, { emitEvent: false });
-      }
-    });
-  }
+    // Each child step must define which signal it binds to
+    protected abstract get stateSignal(): WritableSignal<Record<string, unknown>>;
 
-  ngOnInit() {
-    this.form = new FormGroup(
-      this.view.blocksArray.reduce((acc, block) => {
-        if (block.type === 'composite' && block.fields) {
-          const nestedGroup: Record<string, FormControl> = {};
-          block.fields.forEach(field => {
-            const isArray = field.type === 'checkbox' || field.type === 'multi-select';
-            let defaultValue: string | string[] | null = isArray ? [] : '';
-            if (field.type === 'select' || field.type === 'radio') {
-              defaultValue = null;
+    constructor() {
+        effect(() => {
+            const state = this.stateSignal();
+            // Form might not be initialized when the effect first runs
+            if (!this.form) return;
+
+            // Prevent cursor jumping by only patching if the state actually differs from the form
+            const currentState = this.form.getRawValue();
+            if (JSON.stringify(currentState) !== JSON.stringify(state)) {
+                this.form.patchValue(state, { emitEvent: false });
             }
-            const validators = field.validators?.includes('required') ? [Validators.required] : [];
-            nestedGroup[field.id] = new FormControl(defaultValue, validators);
-          });
-          acc[block.id] = new FormGroup(nestedGroup);
-        } else {
-          let defaultValue: string | string[] | null;
-          if (block.type === 'checkbox') {
-            defaultValue = block.default && block.options ? block.options.map(o => o.id) : [];
-          } else {
-            defaultValue = block.defaultOptionId || (block.type === 'textarea' ? '' : null);
-          }
-          acc[block.id] = new FormControl(defaultValue);
-        }
-        return acc;
-      }, {} as Record<string, FormControl | FormGroup>)
-    );
-
-    const initialData = this.stateSignal();
-    if (Object.keys(initialData).length > 0) {
-      this.form.patchValue(initialData);
-    } else {
-      this.stateSignal.set(this.form.getRawValue() as Record<string, unknown>);
+        });
     }
 
-    this.form.valueChanges.pipe(
-      debounceTime(300),
-      takeUntilDestroyed(this.destroyRef)
-    ).subscribe(() => {
-      this.stateSignal.set(this.form.getRawValue() as Record<string, unknown>);
-    });
-  }
+    ngOnInit() {
+        this.form = new FormGroup(
+            this.view.blocksArray.reduce(
+                (acc, block) => {
+                    if (block.type === 'composite' && block.fields) {
+                        const nestedGroup: Record<string, FormControl> = {};
+                        block.fields.forEach((field) => {
+                            const isArray = field.type === 'checkbox' || field.type === 'multi-select';
+                            let defaultValue: string | string[] | null = isArray ? [] : '';
+                            if (field.type === 'select' || field.type === 'radio') {
+                                defaultValue = null;
+                            }
+                            const validators = field.validators?.includes('required') ? [Validators.required] : [];
+                            nestedGroup[field.id] = new FormControl(defaultValue, validators);
+                        });
+                        acc[block.id] = new FormGroup(nestedGroup);
+                    } else {
+                        let defaultValue: string | string[] | null;
+                        if (block.type === 'checkbox') {
+                            defaultValue = block.default && block.options ? block.options.map((o) => o.id) : [];
+                        } else {
+                            defaultValue = block.defaultOptionId || (block.type === 'textarea' ? '' : null);
+                        }
+                        acc[block.id] = new FormControl(defaultValue);
+                    }
+                    return acc;
+                },
+                {} as Record<string, FormControl | FormGroup>,
+            ),
+        );
+
+        const initialData = this.stateSignal();
+        if (Object.keys(initialData).length > 0) {
+            this.form.patchValue(initialData);
+        } else {
+            this.stateSignal.set(this.form.getRawValue() as Record<string, unknown>);
+        }
+
+        this.form.valueChanges.pipe(debounceTime(300), takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+            this.stateSignal.set(this.form.getRawValue() as Record<string, unknown>);
+        });
+    }
 }

@@ -1,11 +1,11 @@
 {
-  "title": "Session Start",
-  "icon": "@tui.play",
-  "type": "checkbox",
-  "order": 1,
-  "events": {
-    "antigravity": "SessionStart",
-    "claude": "SessionStart"
-  },
-  "description": "Fires immediately when the AI session or project starts."
+    "title": "Session Start",
+    "icon": "@tui.play",
+    "type": "checkbox",
+    "order": 1,
+    "events": {
+        "antigravity": "SessionStart",
+        "claude": "SessionStart"
+    },
+    "description": "Fires immediately when the AI session or project starts."
 }

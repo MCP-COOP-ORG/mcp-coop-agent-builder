@@ -1,6 +1,6 @@
 {
-  "title": "Server-Side Ecosystem",
-  "icon": "@tui.server",
-  "type": "checkbox",
-  "order": 3
+    "title": "Server-Side Ecosystem",
+    "icon": "@tui.server",
+    "type": "checkbox",
+    "order": 3
 }

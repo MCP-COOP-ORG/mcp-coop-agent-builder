@@ -1,10 +1,10 @@
 {
-  "description": {
-    "default": "This is a placeholder content for zero-literals.",
-    "claude": "This is a placeholder content for zero-literals.",
-    "cursor": "This is a placeholder content for zero-literals.",
-    "antigravity": "This is a placeholder content for zero-literals."
-  },
-  "recommendedWith": ["strict-typing"],
-  "discouragedWith": []
+    "description": {
+        "default": "This is a placeholder content for zero-literals.",
+        "claude": "This is a placeholder content for zero-literals.",
+        "cursor": "This is a placeholder content for zero-literals.",
+        "antigravity": "This is a placeholder content for zero-literals."
+    },
+    "recommendedWith": ["strict-typing"],
+    "discouragedWith": []
 }

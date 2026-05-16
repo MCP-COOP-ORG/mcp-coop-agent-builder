@@ -1,6 +1,6 @@
 {
-  "title": "Code Quality Rules",
-  "icon": "@tui.check-circle",
-  "type": "checkbox",
-  "order": 2
+    "title": "Code Quality Rules",
+    "icon": "@tui.check-circle",
+    "type": "checkbox",
+    "order": 2
 }

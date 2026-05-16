@@ -1,10 +1,10 @@
 {
-  "title": "Post Tool Failure",
-  "icon": "@tui.triangle-alert",
-  "type": "checkbox",
-  "order": 23,
-  "events": {
-    "claude": "PostToolUseFailure"
-  },
-  "description": "Fires when a tool or command execution fails or returns an error."
+    "title": "Post Tool Failure",
+    "icon": "@tui.triangle-alert",
+    "type": "checkbox",
+    "order": 23,
+    "events": {
+        "claude": "PostToolUseFailure"
+    },
+    "description": "Fires when a tool or command execution fails or returns an error."
 }

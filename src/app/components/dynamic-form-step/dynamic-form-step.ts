@@ -12,31 +12,31 @@ import { WritableSignal } from '@angular/core';
  * A universal component that dynamically renders any form step based on the provided route data.
  */
 @Component({
-  selector: 'app-dynamic-form-step',
-  imports: [StepLayout, RadioGroup, CheckboxGroup, TextareaField, ReactiveFormsModule],
-  templateUrl: './dynamic-form-step.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-dynamic-form-step',
+    imports: [StepLayout, RadioGroup, CheckboxGroup, TextareaField, ReactiveFormsModule],
+    templateUrl: './dynamic-form-step.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DynamicFormStep extends BaseFormStep implements OnInit {
-  private readonly route = inject(ActivatedRoute);
+    private readonly route = inject(ActivatedRoute);
 
-  // The stepId is injected via route data
-  private stepId = this.route.snapshot.data['stepId'] as string;
+    // The stepId is injected via route data
+    private stepId = this.route.snapshot.data['stepId'] as string;
 
-  /**
-   * View Model containing all data from the generated file-system based configuration.
-   */
-  readonly view = {
-    step: GENERATED_PAGES_CONFIG[this.stepId],
-    blocksArray: GENERATED_PAGES_CONFIG[this.stepId].categories.map((cat: ConfigCategory) => ({
-      ...cat,
-      options: cat.items,
-      ...(cat.default ? { default: cat.default } : {})
-    }))
-  };
+    /**
+     * View Model containing all data from the generated file-system based configuration.
+     */
+    readonly view = {
+        step: GENERATED_PAGES_CONFIG[this.stepId],
+        blocksArray: GENERATED_PAGES_CONFIG[this.stepId].categories.map((cat: ConfigCategory) => ({
+            ...cat,
+            options: cat.items,
+            ...(cat.default ? { default: cat.default } : {}),
+        })),
+    };
 
-  protected override get stateSignal(): WritableSignal<Record<string, unknown>> {
-    // Return the specific dynamically pre-initialized signal for this step
-    return this.builderState.dynamicData[this.stepId];
-  }
+    protected override get stateSignal(): WritableSignal<Record<string, unknown>> {
+        // Return the specific dynamically pre-initialized signal for this step
+        return this.builderState.dynamicData[this.stepId];
+    }
 }

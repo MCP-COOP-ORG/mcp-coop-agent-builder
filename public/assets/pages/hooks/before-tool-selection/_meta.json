@@ -1,10 +1,10 @@
 {
-  "title": "Before Tool Selection",
-  "icon": "@tui.list-filter",
-  "type": "checkbox",
-  "order": 11,
-  "events": {
-    "antigravity": "BeforeToolSelection"
-  },
-  "description": "Fires when the AI is deciding which tool or command to use next."
+    "title": "Before Tool Selection",
+    "icon": "@tui.list-filter",
+    "type": "checkbox",
+    "order": 11,
+    "events": {
+        "antigravity": "BeforeToolSelection"
+    },
+    "description": "Fires when the AI is deciding which tool or command to use next."
 }

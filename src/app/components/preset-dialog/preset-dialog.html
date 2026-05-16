@@ -1,44 +1,54 @@
 <h2 tuiTitle>
-  {{ dictionary.dialogTitle }}
-  <span tuiSubtitle>{{ dictionary.dialogDescription }}</span>
+    {{ dictionary.dialogTitle }}
+    <span tuiSubtitle>{{ dictionary.dialogDescription }}</span>
 </h2>
 <form [formGroup]="presetForm" class="preset-dialog__form" (ngSubmit)="savePreset()">
-  <tui-textfield>
-    <label tuiLabel for="preset-name">{{ dictionary.inputLabel }}</label>
-    <input tuiInput id="preset-name" [placeholder]="dictionary.inputPlaceholder" formControlName="name" />
-  </tui-textfield>
+    <tui-textfield>
+        <label tuiLabel for="preset-name">{{ dictionary.inputLabel }}</label>
+        <input tuiInput id="preset-name" [placeholder]="dictionary.inputPlaceholder" formControlName="name" />
+    </tui-textfield>
 
-  <tui-accordion class="preset-dialog__accordion" [closeOthers]="true">
-    <button tuiAccordion type="button">
-      {{ dictionary.existingPresetsLabel }} ({{ presetManager.userPresets().length }}/10)
-    </button>
-    <tui-expand>
-      @for (preset of presetManager.userPresets(); track preset.id) {
-      <div class="preset-dialog__item" tabindex="0" (click)="selectPreset(preset.name)" (keyup.enter)="selectPreset(preset.name)" (keyup.space)="selectPreset(preset.name)">
-        <span class="preset-dialog__name">
-          {{ preset.name }}
-        </span>
-        <div class="preset-dialog__meta">
-          <span class="tui-text_body-s tui-text_normal preset-date">{{ preset.createdAt | date:'d MMM yyyy' }}</span>
-          <button tuiButton appearance="flat-destructive" iconStart="@tui.trash" type="button" size="s"
-            [title]="dictionary.deleteBtn" (click)="deletePreset(preset.id, $event)">
-            <span style="display: none;">{{ dictionary.deleteBtn }}</span>
-          </button>
-        </div>
-      </div>
-      }
-      @empty {
-      <div class="preset-dialog__empty">{{ dictionary.empty }}</div>
-      }
-    </tui-expand>
-  </tui-accordion>
+    <tui-accordion class="preset-dialog__accordion" [closeOthers]="true">
+        <button tuiAccordion type="button">
+            {{ dictionary.existingPresetsLabel }} ({{ presetManager.userPresets().length }}/10)
+        </button>
+        <tui-expand>
+            @for (preset of presetManager.userPresets(); track preset.id) {
+            <div
+                class="preset-dialog__item"
+                tabindex="0"
+                (click)="selectPreset(preset.name)"
+                (keyup.enter)="selectPreset(preset.name)"
+                (keyup.space)="selectPreset(preset.name)">
+                <span class="preset-dialog__name"> {{ preset.name }} </span>
+                <div class="preset-dialog__meta">
+                    <span class="tui-text_body-s tui-text_normal preset-date"
+                        >{{ preset.createdAt | date:'d MMM yyyy' }}</span
+                    >
+                    <button
+                        tuiButton
+                        appearance="flat-destructive"
+                        iconStart="@tui.trash"
+                        type="button"
+                        size="s"
+                        [title]="dictionary.deleteBtn"
+                        (click)="deletePreset(preset.id, $event)">
+                        <span style="display: none">{{ dictionary.deleteBtn }}</span>
+                    </button>
+                </div>
+            </div>
+            } @empty {
+            <div class="preset-dialog__empty">{{ dictionary.empty }}</div>
+            }
+        </tui-expand>
+    </tui-accordion>
 
-  <div class="preset-dialog__actions">
-    <button tuiButton type="button" appearance="secondary" (click)="cancel()">
-      {{ dictionary.downloadOnlyBtn }}
-    </button>
-    <button tuiButton type="submit" [disabled]="presetForm.invalid || presetManager.userPresets().length >= 10">
-      {{ dictionary.saveAndDownloadBtn }}
-    </button>
-  </div>
+    <div class="preset-dialog__actions">
+        <button tuiButton type="button" appearance="secondary" (click)="cancel()">
+            {{ dictionary.downloadOnlyBtn }}
+        </button>
+        <button tuiButton type="submit" [disabled]="presetForm.invalid || presetManager.userPresets().length >= 10">
+            {{ dictionary.saveAndDownloadBtn }}
+        </button>
+    </div>
 </form>

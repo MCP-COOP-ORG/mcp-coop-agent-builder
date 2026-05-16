@@ -1,4 +1,4 @@
 {
-  "label": "SaaS",
-  "description": "A multi-tenant Software-as-a-Service architecture designed for cloud scalability and subscription management. It features robust user authentication, tiered access control, and analytics."
+    "label": "SaaS",
+    "description": "A multi-tenant Software-as-a-Service architecture designed for cloud scalability and subscription management. It features robust user authentication, tiered access control, and analytics."
 }

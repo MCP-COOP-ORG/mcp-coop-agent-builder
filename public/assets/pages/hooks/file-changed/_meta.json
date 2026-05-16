@@ -1,10 +1,10 @@
 {
-  "title": "File Changed",
-  "icon": "@tui.file-pen",
-  "type": "checkbox",
-  "order": 28,
-  "events": {
-    "claude": "FileChanged"
-  },
-  "description": "Fires whenever a file in the workspace is modified by the AI."
+    "title": "File Changed",
+    "icon": "@tui.file-pen",
+    "type": "checkbox",
+    "order": 28,
+    "events": {
+        "claude": "FileChanged"
+    },
+    "description": "Fires whenever a file in the workspace is modified by the AI."
 }

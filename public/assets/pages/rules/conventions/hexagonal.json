@@ -1,10 +1,10 @@
 {
-  "description": {
-    "default": "This is a placeholder content for hexagonal.",
-    "claude": "This is a placeholder content for hexagonal.",
-    "cursor": "This is a placeholder content for hexagonal.",
-    "antigravity": "This is a placeholder content for hexagonal."
-  },
-  "recommendedWith": ["clean-architecture"],
-  "discouragedWith": ["fsd"]
+    "description": {
+        "default": "This is a placeholder content for hexagonal.",
+        "claude": "This is a placeholder content for hexagonal.",
+        "cursor": "This is a placeholder content for hexagonal.",
+        "antigravity": "This is a placeholder content for hexagonal."
+    },
+    "recommendedWith": ["clean-architecture"],
+    "discouragedWith": ["fsd"]
 }

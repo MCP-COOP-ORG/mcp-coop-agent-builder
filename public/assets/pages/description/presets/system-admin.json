@@ -1,22 +1,14 @@
 {
-  "name": "Enterprise Admin",
-  "createdAt": 0,
-  "isSystem": true,
-  "state": {
-    "description": {},
-    "review": {},
-    "agents": {
-      "frontend": [
-        "vue",
-        "tailwind"
-      ],
-      "backend": [
-        "spring-boot"
-      ],
-      "database": [
-        "mysql",
-        "hibernate"
-      ]
+    "name": "Enterprise Admin",
+    "createdAt": 0,
+    "isSystem": true,
+    "state": {
+        "description": {},
+        "review": {},
+        "agents": {
+            "frontend": ["vue", "tailwind"],
+            "backend": ["spring-boot"],
+            "database": ["mysql", "hibernate"]
+        }
     }
-  }
 }

@@ -1,10 +1,10 @@
 {
-  "title": "Permission Request",
-  "icon": "@tui.lock",
-  "type": "checkbox",
-  "order": 21,
-  "events": {
-    "claude": "PermissionRequest"
-  },
-  "description": "Fires when the AI asks for explicit permission to execute a tool."
+    "title": "Permission Request",
+    "icon": "@tui.lock",
+    "type": "checkbox",
+    "order": 21,
+    "events": {
+        "claude": "PermissionRequest"
+    },
+    "description": "Fires when the AI asks for explicit permission to execute a tool."
 }

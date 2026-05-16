@@ -1,10 +1,10 @@
 {
-  "description": {
-    "default": "This is a placeholder content for clean-code.",
-    "claude": "This is a placeholder content for clean-code.",
-    "cursor": "This is a placeholder content for clean-code.",
-    "antigravity": "This is a placeholder content for clean-code."
-  },
-  "recommendedWith": ["solid", "eslint"],
-  "discouragedWith": []
+    "description": {
+        "default": "This is a placeholder content for clean-code.",
+        "claude": "This is a placeholder content for clean-code.",
+        "cursor": "This is a placeholder content for clean-code.",
+        "antigravity": "This is a placeholder content for clean-code."
+    },
+    "recommendedWith": ["solid", "eslint"],
+    "discouragedWith": []
 }

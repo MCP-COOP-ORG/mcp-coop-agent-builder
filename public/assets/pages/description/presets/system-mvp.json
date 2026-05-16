@@ -1,22 +1,14 @@
 {
-  "name": "MVP Startup",
-  "createdAt": 0,
-  "isSystem": true,
-  "state": {
-    "description": {},
-    "review": {},
-    "agents": {
-      "frontend": [
-        "angular",
-        "taiga-ui"
-      ],
-      "backend": [
-        "nestjs"
-      ],
-      "database": [
-        "postgresql",
-        "prisma"
-      ]
+    "name": "MVP Startup",
+    "createdAt": 0,
+    "isSystem": true,
+    "state": {
+        "description": {},
+        "review": {},
+        "agents": {
+            "frontend": ["angular", "taiga-ui"],
+            "backend": ["nestjs"],
+            "database": ["postgresql", "prisma"]
+        }
     }
-  }
 }

@@ -1,10 +1,10 @@
 {
-  "description": {
-    "default": "This is a placeholder content for prettier.",
-    "claude": "This is a placeholder content for prettier.",
-    "cursor": "This is a placeholder content for prettier.",
-    "antigravity": "This is a placeholder content for prettier."
-  },
-  "recommendedWith": ["eslint", "husky"],
-  "discouragedWith": []
+    "description": {
+        "default": "This is a placeholder content for prettier.",
+        "claude": "This is a placeholder content for prettier.",
+        "cursor": "This is a placeholder content for prettier.",
+        "antigravity": "This is a placeholder content for prettier."
+    },
+    "recommendedWith": ["eslint", "husky"],
+    "discouragedWith": []
 }

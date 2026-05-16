@@ -1,6 +1,6 @@
 {
-  "title": "Tooling & Quality",
-  "icon": "@tui.wrench",
-  "type": "checkbox",
-  "order": 6
+    "title": "Tooling & Quality",
+    "icon": "@tui.wrench",
+    "type": "checkbox",
+    "order": 6
 }

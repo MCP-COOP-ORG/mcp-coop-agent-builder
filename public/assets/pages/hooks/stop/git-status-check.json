@@ -1,12 +1,12 @@
 {
-  "description": {
-    "default": "Run git status check when the agent completes a task to show uncommitted changes."
-  },
-  "hook": {
-    "claude": {
-      "matcher": "*",
-      "type": "command",
-      "command": "git status --porcelain 2>/dev/null | head -20"
+    "description": {
+        "default": "Run git status check when the agent completes a task to show uncommitted changes."
+    },
+    "hook": {
+        "claude": {
+            "matcher": "*",
+            "type": "command",
+            "command": "git status --porcelain 2>/dev/null | head -20"
+        }
     }
-  }
 }

@@ -1,76 +1,76 @@
 :host {
-  display: block;
+    display: block;
 }
 
 .checkbox-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .checkbox-card {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1rem;
-  border: 1px solid var(--tui-border-normal);
-  border-radius: var(--tui-radius-l);
-  cursor: pointer;
-  background: var(--tui-background-base);
-  transition: all 0.2s ease-in-out;
-  flex-shrink: 0;
-
-  &:hover {
-    border-color: var(--tui-border-hover);
-    background: var(--tui-background-base-alt);
-  }
-
-  &--active {
-    border-color: var(--tui-background-accent-1);
-    background: color-mix(in srgb, var(--tui-background-accent-1) 8%, var(--tui-background-base));
-  }
-
-  &--recommended {
-    border-color: var(--tui-status-positive);
-    background: color-mix(in srgb, var(--tui-status-positive) 8%, var(--tui-background-base));
-
-    &:hover {
-      border-color: var(--tui-status-positive);
-      background: color-mix(in srgb, var(--tui-status-positive) 14%, var(--tui-background-base));
-    }
-  }
-
-  &--discouraged {
-    border-color: var(--tui-status-negative);
-    background: color-mix(in srgb, var(--tui-status-negative) 8%, var(--tui-background-base));
-
-    &:hover {
-      border-color: var(--tui-status-negative);
-      background: color-mix(in srgb, var(--tui-status-negative) 14%, var(--tui-background-base));
-    }
-  }
-
-  &__label {
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--tui-text-primary);
-    white-space: nowrap;
-  }
-
-  &__info {
     display: flex;
     align-items: center;
-    justify-content: center;
-    background: none;
-    border: none;
+    gap: 0.75rem;
+    padding: 1rem;
+    border: 1px solid var(--tui-border-normal);
+    border-radius: var(--tui-radius-l);
     cursor: pointer;
-    color: var(--tui-status-info);
-    padding: 0;
-    margin-inline-start: auto;
-    transition: color 0.2s;
+    background: var(--tui-background-base);
+    transition: all 0.2s ease-in-out;
+    flex-shrink: 0;
 
     &:hover {
-      color: var(--tui-text-primary);
+        border-color: var(--tui-border-hover);
+        background: var(--tui-background-base-alt);
     }
-  }
+
+    &--active {
+        border-color: var(--tui-background-accent-1);
+        background: color-mix(in srgb, var(--tui-background-accent-1) 8%, var(--tui-background-base));
+    }
+
+    &--recommended {
+        border-color: var(--tui-status-positive);
+        background: color-mix(in srgb, var(--tui-status-positive) 8%, var(--tui-background-base));
+
+        &:hover {
+            border-color: var(--tui-status-positive);
+            background: color-mix(in srgb, var(--tui-status-positive) 14%, var(--tui-background-base));
+        }
+    }
+
+    &--discouraged {
+        border-color: var(--tui-status-negative);
+        background: color-mix(in srgb, var(--tui-status-negative) 8%, var(--tui-background-base));
+
+        &:hover {
+            border-color: var(--tui-status-negative);
+            background: color-mix(in srgb, var(--tui-status-negative) 14%, var(--tui-background-base));
+        }
+    }
+
+    &__label {
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--tui-text-primary);
+        white-space: nowrap;
+    }
+
+    &__info {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--tui-status-info);
+        padding: 0;
+        margin-inline-start: auto;
+        transition: color 0.2s;
+
+        &:hover {
+            color: var(--tui-text-primary);
+        }
+    }
 }

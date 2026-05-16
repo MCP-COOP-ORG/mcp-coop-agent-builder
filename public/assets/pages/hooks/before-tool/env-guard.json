@@ -1,17 +1,17 @@
 {
-  "description": {
-    "default": "Block modifications to .env files and other sensitive environment configurations."
-  },
-  "hook": {
-    "antigravity": {
-      "matcher": "write_file|replace",
-      "type": "command",
-      "command": "jq -r '.toolInput.path // empty' | grep -qE '\\.env' && echo '{\"decision\":\"deny\",\"message\":\"Blocked: .env files are protected\"}' || echo '{\"decision\":\"allow\"}'"
+    "description": {
+        "default": "Block modifications to .env files and other sensitive environment configurations."
     },
-    "claude": {
-      "matcher": "Edit|Write",
-      "type": "command",
-      "command": "jq -r '.tool_input.file_path // empty' | grep -qE '\\.env' && exit 2 || exit 0"
+    "hook": {
+        "antigravity": {
+            "matcher": "write_file|replace",
+            "type": "command",
+            "command": "jq -r '.toolInput.path // empty' | grep -qE '\\.env' && echo '{\"decision\":\"deny\",\"message\":\"Blocked: .env files are protected\"}' || echo '{\"decision\":\"allow\"}'"
+        },
+        "claude": {
+            "matcher": "Edit|Write",
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // empty' | grep -qE '\\.env' && exit 2 || exit 0"
+        }
     }
-  }
 }

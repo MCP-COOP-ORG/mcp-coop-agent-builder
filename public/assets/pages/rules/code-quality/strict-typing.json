@@ -1,10 +1,10 @@
 {
-  "description": {
-    "default": "This is a placeholder content for strict-typing.",
-    "claude": "This is a placeholder content for strict-typing.",
-    "cursor": "This is a placeholder content for strict-typing.",
-    "antigravity": "This is a placeholder content for strict-typing."
-  },
-  "recommendedWith": ["typescript", "eslint"],
-  "discouragedWith": []
+    "description": {
+        "default": "This is a placeholder content for strict-typing.",
+        "claude": "This is a placeholder content for strict-typing.",
+        "cursor": "This is a placeholder content for strict-typing.",
+        "antigravity": "This is a placeholder content for strict-typing."
+    },
+    "recommendedWith": ["typescript", "eslint"],
+    "discouragedWith": []
 }

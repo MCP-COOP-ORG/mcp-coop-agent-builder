@@ -1,14 +1,13 @@
 <tui-textfield [iconStart]="iconStart() || null" [style.margin-bottom.rem]="1">
-  <label tuiLabel for="textarea-field-input">{{ label() }}</label>
-  <textarea 
-    id="textarea-field-input"
-    tuiTextarea 
-    [placeholder]="placeholder()"
-    [limit]="limit()"
-    [max]="6"
-    [min]="3"
-    [disabled]="disabled"
-    [ngModel]="value"
-    (ngModelChange)="onModelChange($event)"
-  ></textarea>
+    <label tuiLabel for="textarea-field-input">{{ label() }}</label>
+    <textarea
+        id="textarea-field-input"
+        tuiTextarea
+        [placeholder]="placeholder()"
+        [limit]="limit()"
+        [max]="6"
+        [min]="3"
+        [disabled]="disabled"
+        [ngModel]="value"
+        (ngModelChange)="onModelChange($event)"></textarea>
 </tui-textfield>

@@ -1,61 +1,61 @@
 .preset-dialog {
-  &__form {
-    display: flex;
-    flex-direction: column;
-    gap: var(--tui-spacing-4);
-    margin-top: var(--tui-spacing-4);
-  }
-
-  &__accordion {
-    margin-top: var(--tui-spacing-2);
-  }
-
-  &__item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--tui-spacing-2) var(--tui-spacing-2);
-    margin: 0 calc(-1 * var(--tui-spacing-2));
-    border-bottom: 1px solid var(--tui-border-normal);
-    cursor: pointer;
-    transition: background-color 0.2s;
-
-    &:hover {
-      background-color: var(--tui-background-elevation-1);
+    &__form {
+        display: flex;
+        flex-direction: column;
+        gap: var(--tui-spacing-4);
+        margin-top: var(--tui-spacing-4);
     }
 
-    &:last-child {
-      border-bottom: none;
+    &__accordion {
+        margin-top: var(--tui-spacing-2);
     }
-  }
 
-  &__name {
-    font: var(--tui-font-text-m);
-    color: var(--tui-text-primary);
-  }
+    &__item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--tui-spacing-2) var(--tui-spacing-2);
+        margin: 0 calc(-1 * var(--tui-spacing-2));
+        border-bottom: 1px solid var(--tui-border-normal);
+        cursor: pointer;
+        transition: background-color 0.2s;
 
-  &__meta {
-    display: flex;
-    align-items: center;
-    gap: var(--tui-spacing-2);
+        &:hover {
+            background-color: var(--tui-background-elevation-1);
+        }
 
-    .preset-date {
-      color: var(--tui-text-tertiary);
-      font: var(--tui-font-text-s);
+        &:last-child {
+            border-bottom: none;
+        }
     }
-  }
 
-  &__empty {
-    padding: var(--tui-spacing-4) 0;
-    color: var(--tui-text-secondary);
-    font: var(--tui-font-text-s);
-    text-align: center;
-  }
+    &__name {
+        font: var(--tui-font-text-m);
+        color: var(--tui-text-primary);
+    }
 
-  &__actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: var(--tui-spacing-2);
-    margin-top: var(--tui-spacing-2);
-  }
+    &__meta {
+        display: flex;
+        align-items: center;
+        gap: var(--tui-spacing-2);
+
+        .preset-date {
+            color: var(--tui-text-tertiary);
+            font: var(--tui-font-text-s);
+        }
+    }
+
+    &__empty {
+        padding: var(--tui-spacing-4) 0;
+        color: var(--tui-text-secondary);
+        font: var(--tui-font-text-s);
+        text-align: center;
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: var(--tui-spacing-2);
+        margin-top: var(--tui-spacing-2);
+    }
 }

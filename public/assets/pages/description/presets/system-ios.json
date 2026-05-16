@@ -1,20 +1,14 @@
 {
-  "name": "iOS Application",
-  "createdAt": 0,
-  "isSystem": true,
-  "state": {
-    "description": {},
-    "review": {},
-    "agents": {
-      "frontend": [
-        "swift"
-      ],
-      "backend": [
-        "nest"
-      ],
-      "database": [
-        "postgresql"
-      ]
+    "name": "iOS Application",
+    "createdAt": 0,
+    "isSystem": true,
+    "state": {
+        "description": {},
+        "review": {},
+        "agents": {
+            "frontend": ["swift"],
+            "backend": ["nest"],
+            "database": ["postgresql"]
+        }
     }
-  }
 }

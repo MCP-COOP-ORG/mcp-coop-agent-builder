@@ -6,107 +6,114 @@ import { GENERATED_PLATFORMS_CONFIG, GENERATED_PROJECT_META } from '@shared/conf
 import { ArchivePattern } from '@shared/models';
 import { BuilderState } from './builder-state';
 import { TemplateInterpolator } from './template-interpolator';
-import { triggerDownload, ArchiveStrategy, StaticFileStrategy, DynamicCategoryStrategy, DynamicItemStrategy, DynamicHookStrategy } from '@shared/utils';
+import {
+    triggerDownload,
+    ArchiveStrategy,
+    StaticFileStrategy,
+    DynamicCategoryStrategy,
+    DynamicItemStrategy,
+    DynamicHookStrategy,
+} from '@shared/utils';
 
 // -----------------------------------------------------------------------------
 // Factory & Registry (GoF)
 // -----------------------------------------------------------------------------
 const SCHEMA_MAP: Record<string, ArchivePattern[]> = {
-  claude: CLAUDE,
-  cursor: CURSOR,
-  antigravity: ANTIGRAVITY
+    claude: CLAUDE,
+    cursor: CURSOR,
+    antigravity: ANTIGRAVITY,
 };
 
 // -----------------------------------------------------------------------------
 // Generator Engine
 // -----------------------------------------------------------------------------
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class ArchiveGenerator {
-  private readonly builderState = inject(BuilderState);
-  private readonly interpolator = inject(TemplateInterpolator);
+    private readonly builderState = inject(BuilderState);
+    private readonly interpolator = inject(TemplateInterpolator);
 
-  private readonly strategies: Record<string, ArchiveStrategy<ArchivePattern>> = {
-    'static': new StaticFileStrategy(),
-    'dynamic-category': new DynamicCategoryStrategy(),
-    'dynamic-item': new DynamicItemStrategy(),
-    'dynamic-hook': new DynamicHookStrategy()
-  };
-
-  /** In-memory cache of generated files — populated by generatePreview(), consumed by downloadArchive() */
-  readonly previewFiles = signal<GeneratedFile[]>([]);
-
-  async generatePreview(): Promise<GeneratedFile[]> {
-    const desc = this.builderState.descriptionData();
-    const review = this.builderState.reviewData();
-    
-    const agent = (review['aiAgent'] as string) || 'antigravity';
-    const schema = SCHEMA_MAP[agent] ?? ANTIGRAVITY;
-    const platformConfig = GENERATED_PLATFORMS_CONFIG[agent as keyof typeof GENERATED_PLATFORMS_CONFIG];
-    
-    let dynamicContext = {};
-    Object.keys(this.builderState.dynamicData).forEach(key => {
-      dynamicContext = { ...dynamicContext, ...this.builderState.dynamicData[key]() };
-    });
-
-    const projectIdentity = (desc['projectIdentity'] as Record<string, unknown>) || {};
-    let combinedDescription = (projectIdentity['description'] as string) || '';
-    
-    const domains = projectIdentity['domains'] as string[];
-    if (Array.isArray(domains)) {
-      const domainDescriptions = domains.map(dId => 
-        GENERATED_PROJECT_META.find(meta => meta.id === dId)?.description
-      ).filter(Boolean);
-      
-      if (domainDescriptions.length > 0) {
-        const joined = domainDescriptions.join('\n\n');
-        combinedDescription = combinedDescription ? `${joined}\n\n${combinedDescription}` : joined;
-      }
-    }
-
-    const context: Record<string, unknown> = {
-      ...desc,
-      ...projectIdentity,
-      description: combinedDescription,
-      ...dynamicContext
+    private readonly strategies: Record<string, ArchiveStrategy<ArchivePattern>> = {
+        static: new StaticFileStrategy(),
+        'dynamic-category': new DynamicCategoryStrategy(),
+        'dynamic-item': new DynamicItemStrategy(),
+        'dynamic-hook': new DynamicHookStrategy(),
     };
-    
-    const files: GeneratedFile[] = [];
 
-    for (const pattern of schema) {
-      const strategy = this.strategies[pattern.type];
-      if (strategy) {
-        const generated = await strategy.generate(pattern, context, agent, platformConfig, this.interpolator);
-        files.push(...generated);
-      }
+    /** In-memory cache of generated files — populated by generatePreview(), consumed by downloadArchive() */
+    readonly previewFiles = signal<GeneratedFile[]>([]);
+
+    async generatePreview(): Promise<GeneratedFile[]> {
+        const desc = this.builderState.descriptionData();
+        const review = this.builderState.reviewData();
+
+        const agent = (review['aiAgent'] as string) || 'antigravity';
+        const schema = SCHEMA_MAP[agent] ?? ANTIGRAVITY;
+        const platformConfig = GENERATED_PLATFORMS_CONFIG[agent as keyof typeof GENERATED_PLATFORMS_CONFIG];
+
+        let dynamicContext = {};
+        Object.keys(this.builderState.dynamicData).forEach((key) => {
+            dynamicContext = { ...dynamicContext, ...this.builderState.dynamicData[key]() };
+        });
+
+        const projectIdentity = (desc['projectIdentity'] as Record<string, unknown>) || {};
+        let combinedDescription = (projectIdentity['description'] as string) || '';
+
+        const domains = projectIdentity['domains'] as string[];
+        if (Array.isArray(domains)) {
+            const domainDescriptions = domains
+                .map((dId) => GENERATED_PROJECT_META.find((meta) => meta.id === dId)?.description)
+                .filter(Boolean);
+
+            if (domainDescriptions.length > 0) {
+                const joined = domainDescriptions.join('\n\n');
+                combinedDescription = combinedDescription ? `${joined}\n\n${combinedDescription}` : joined;
+            }
+        }
+
+        const context: Record<string, unknown> = {
+            ...desc,
+            ...projectIdentity,
+            description: combinedDescription,
+            ...dynamicContext,
+        };
+
+        const files: GeneratedFile[] = [];
+
+        for (const pattern of schema) {
+            const strategy = this.strategies[pattern.type];
+            if (strategy) {
+                const generated = await strategy.generate(pattern, context, agent, platformConfig, this.interpolator);
+                files.push(...generated);
+            }
+        }
+
+        const edits = this.builderState.editedFiles();
+
+        // Apply any manual edits that the user saved in the ReviewStep
+        const finalFiles = files.map((f) => {
+            if (f.type === 'file' && edits[f.path]) {
+                return { ...f, content: edits[f.path] };
+            }
+            return f;
+        });
+
+        this.previewFiles.set(finalFiles);
+        return finalFiles;
     }
 
-    const edits = this.builderState.editedFiles();
-    
-    // Apply any manual edits that the user saved in the ReviewStep
-    const finalFiles = files.map(f => {
-      if (f.type === 'file' && edits[f.path]) {
-        return { ...f, content: edits[f.path] };
-      }
-      return f;
-    });
+    async downloadArchive(files?: GeneratedFile[]): Promise<void> {
+        let sourceFiles = files ?? this.previewFiles();
+        if (sourceFiles.length === 0) sourceFiles = await this.generatePreview();
 
-    this.previewFiles.set(finalFiles);
-    return finalFiles;
-  }
+        const zipData: Record<string, Uint8Array> = {};
+        for (const file of sourceFiles) {
+            if (file.type === 'file') zipData[file.path] = strToU8(file.content);
+        }
 
-  async downloadArchive(files?: GeneratedFile[]): Promise<void> {
-    let sourceFiles = files ?? this.previewFiles();
-    if (sourceFiles.length === 0) sourceFiles = await this.generatePreview();
-
-    const zipData: Record<string, Uint8Array> = {};
-    for (const file of sourceFiles) {
-      if (file.type === 'file') zipData[file.path] = strToU8(file.content);
+        const zipped = zipSync(zipData);
+        const blob = new Blob([zipped.buffer as ArrayBuffer], { type: 'application/zip' });
+        triggerDownload(blob, 'ai-context.zip');
     }
-
-    const zipped = zipSync(zipData);
-    const blob = new Blob([zipped.buffer as ArrayBuffer], { type: 'application/zip' });
-    triggerDownload(blob, 'ai-context.zip');
-  }
 }

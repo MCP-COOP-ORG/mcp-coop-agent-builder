@@ -1,10 +1,10 @@
 {
-  "description": {
-    "default": "This is a placeholder content for fsd.",
-    "claude": "This is a placeholder content for fsd.",
-    "cursor": "This is a placeholder content for fsd.",
-    "antigravity": "This is a placeholder content for fsd."
-  },
-  "recommendedWith": [],
-  "discouragedWith": ["hexagonal"]
+    "description": {
+        "default": "This is a placeholder content for fsd.",
+        "claude": "This is a placeholder content for fsd.",
+        "cursor": "This is a placeholder content for fsd.",
+        "antigravity": "This is a placeholder content for fsd."
+    },
+    "recommendedWith": [],
+    "discouragedWith": ["hexagonal"]
 }

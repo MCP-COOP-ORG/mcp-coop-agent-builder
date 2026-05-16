@@ -1,33 +1,33 @@
 :host {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  flex: 1;
-  overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    flex: 1;
+    overflow: hidden;
 }
 
 .code-editor {
-  &__container {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    min-height: 0;
-    overflow: hidden;
+    &__container {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
 
-    // CM6 root element fills the container
-    ::ng-deep .cm-editor {
-      height: 100%;
-      outline: none;
+        // CM6 root element fills the container
+        ::ng-deep .cm-editor {
+            height: 100%;
+            outline: none;
 
-      &.cm-focused {
-        outline: none;
-      }
+            &.cm-focused {
+                outline: none;
+            }
+        }
+
+        ::ng-deep .cm-scroller {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8125rem;
+            line-height: 1.6;
+        }
     }
-
-    ::ng-deep .cm-scroller {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8125rem;
-      line-height: 1.6;
-    }
-  }
 }

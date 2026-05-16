@@ -1,10 +1,10 @@
 {
-  "description": {
-    "default": "This is a placeholder content for flutter.",
-    "claude": "This is a placeholder content for flutter.",
-    "cursor": "This is a placeholder content for flutter.",
-    "antigravity": "This is a placeholder content for flutter."
-  },
-  "recommendedWith": ["docker"],
-  "discouragedWith": ["react-native", "swift"]
+    "description": {
+        "default": "This is a placeholder content for flutter.",
+        "claude": "This is a placeholder content for flutter.",
+        "cursor": "This is a placeholder content for flutter.",
+        "antigravity": "This is a placeholder content for flutter."
+    },
+    "recommendedWith": ["docker"],
+    "discouragedWith": ["react-native", "swift"]
 }

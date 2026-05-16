@@ -8,132 +8,136 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { ConfigItem } from '@shared/models';
 
 const MOCK_OPTIONS: ConfigItem[] = [
-  { id: 'opt1', label: 'Option 1', filePath: 'assets/pages/agents/frontend/opt1.json' },
-  { id: 'opt2', label: 'Option 2', filePath: 'assets/pages/agents/frontend/opt2.json', recommendedWith: ['opt1'] },
-  { id: 'opt3', label: 'Option 3', filePath: 'assets/pages/agents/backend/opt3.json', discouragedWith: ['opt1'] }
+    { id: 'opt1', label: 'Option 1', filePath: 'assets/pages/agents/frontend/opt1.json' },
+    { id: 'opt2', label: 'Option 2', filePath: 'assets/pages/agents/frontend/opt2.json', recommendedWith: ['opt1'] },
+    { id: 'opt3', label: 'Option 3', filePath: 'assets/pages/agents/backend/opt3.json', discouragedWith: ['opt1'] },
 ];
 
 describe('CheckboxGroup', () => {
-  let component: CheckboxGroup;
-  let fixture: ComponentFixture<CheckboxGroup>;
-  let mockRecommendationEngine: { getStatus: ReturnType<typeof vi.fn> };
-  let mockDialogService: { open: ReturnType<typeof vi.fn> };
-  let mockInterpolator: { fetchJson: ReturnType<typeof vi.fn> };
+    let component: CheckboxGroup;
+    let fixture: ComponentFixture<CheckboxGroup>;
+    let mockRecommendationEngine: { getStatus: ReturnType<typeof vi.fn> };
+    let mockDialogService: { open: ReturnType<typeof vi.fn> };
+    let mockInterpolator: { fetchJson: ReturnType<typeof vi.fn> };
 
-  beforeEach(async () => {
-    sessionStorage.clear();
-    
-    mockRecommendationEngine = {
-      getStatus: vi.fn().mockReturnValue(undefined)
-    };
+    beforeEach(async () => {
+        sessionStorage.clear();
 
-    mockDialogService = {
-      open: vi.fn().mockReturnValue(of(undefined))
-    };
+        mockRecommendationEngine = {
+            getStatus: vi.fn().mockReturnValue(undefined),
+        };
 
-    mockInterpolator = {
-      fetchJson: vi.fn().mockResolvedValue({
-        description: {
-          default: 'Default description for testing',
-          antigravity: 'Antigravity description for testing'
-        }
-      })
-    };
+        mockDialogService = {
+            open: vi.fn().mockReturnValue(of(undefined)),
+        };
 
-    await TestBed.configureTestingModule({
-      imports: [CheckboxGroup],
-      providers: [
-        BuilderState,
-        { provide: RecommendationEngine, useValue: mockRecommendationEngine },
-        { provide: TuiDialogService, useValue: mockDialogService },
-        { provide: TemplateInterpolator, useValue: mockInterpolator }
-      ]
-    }).compileComponents();
+        mockInterpolator = {
+            fetchJson: vi.fn().mockResolvedValue({
+                description: {
+                    default: 'Default description for testing',
+                    antigravity: 'Antigravity description for testing',
+                },
+            }),
+        };
 
-    fixture = TestBed.createComponent(CheckboxGroup);
-    fixture.componentRef.setInput('options', MOCK_OPTIONS);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        await TestBed.configureTestingModule({
+            imports: [CheckboxGroup],
+            providers: [
+                BuilderState,
+                { provide: RecommendationEngine, useValue: mockRecommendationEngine },
+                { provide: TuiDialogService, useValue: mockDialogService },
+                { provide: TemplateInterpolator, useValue: mockInterpolator },
+            ],
+        }).compileComponents();
 
-  it('should create and execute default callbacks', () => {
-    expect(component).toBeTruthy();
-    expect(() => component['onChange']([])).not.toThrow();
-    expect(() => component['onTouched']()).not.toThrow();
-  });
-
-  it('should correctly map array of string values to object boolean map via writeValue', () => {
-    component.writeValue(['opt2']);
-    expect(component.value['opt1']).toBe(false);
-    expect(component.value['opt2']).toBe(true);
-  });
-
-  it('should emit array of selected IDs on checkbox change', () => {
-    let emittedValue: string[] = [];
-    let touched = false;
-    component.registerOnChange((val) => { emittedValue = val; });
-    component.registerOnTouched(() => { touched = true; });
-
-    // Simulate user checking opt1
-    component.value = { opt1: true, opt2: false, opt3: false };
-    component.onCheckboxChange();
-
-    expect(emittedValue).toEqual(['opt1']);
-    expect(touched).toBe(true);
-  });
-
-  it('should delegate getStatus to RecommendationEngine', () => {
-    mockRecommendationEngine.getStatus.mockReturnValue('recommended');
-    expect(component.getStatus('opt1')).toBe('recommended');
-    expect(mockRecommendationEngine.getStatus).toHaveBeenCalledWith('opt1');
-  });
-
-  it('should return discouraged status from RecommendationEngine', () => {
-    mockRecommendationEngine.getStatus.mockReturnValue('discouraged');
-    expect(component.getStatus('opt3')).toBe('discouraged');
-  });
-
-  it('should return undefined for neutral items', () => {
-    mockRecommendationEngine.getStatus.mockReturnValue(undefined);
-    expect(component.getStatus('opt1')).toBeUndefined();
-  });
-
-  it('should call TuiDialogService.open with correct params on showInfo', async () => {
-    const fakeEvent = { preventDefault: vi.fn(), stopPropagation: vi.fn() } as unknown as Event;
-
-    await component.showInfo(fakeEvent, MOCK_OPTIONS[0]);
-
-    expect(fakeEvent.preventDefault).toHaveBeenCalled();
-    expect(fakeEvent.stopPropagation).toHaveBeenCalled();
-    expect(mockInterpolator.fetchJson).toHaveBeenCalledWith(MOCK_OPTIONS[0].filePath);
-
-    // Wait for the promise to resolve
-    await vi.waitFor(() => {
-      expect(mockDialogService.open).toHaveBeenCalledWith(
-        'Default description for testing',
-        { label: 'Option 1', size: 'm' }
-      );
+        fixture = TestBed.createComponent(CheckboxGroup);
+        fixture.componentRef.setInput('options', MOCK_OPTIONS);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
     });
-  });
 
-  it('should handle writeValue with null or undefined gracefully', () => {
-    component.writeValue(null as unknown as string[]);
-    expect(Object.keys(component.value).length).toBe(MOCK_OPTIONS.length);
-    expect(Object.values(component.value).every(v => v === false)).toBe(true);
-  });
+    it('should create and execute default callbacks', () => {
+        expect(component).toBeTruthy();
+        expect(() => component['onChange']([])).not.toThrow();
+        expect(() => component['onTouched']()).not.toThrow();
+    });
 
-  it('should trigger events from template', async () => {
-    const checkbox = fixture.nativeElement.querySelector('input[tuiCheckbox]');
-    checkbox.click();
-    fixture.detectChanges();
-    expect(component.value['opt1']).toBe(true);
+    it('should correctly map array of string values to object boolean map via writeValue', () => {
+        component.writeValue(['opt2']);
+        expect(component.value['opt1']).toBe(false);
+        expect(component.value['opt2']).toBe(true);
+    });
 
-    const infoBtn = fixture.nativeElement.querySelector('.checkbox-card__info');
-    infoBtn.click();
-    fixture.detectChanges();
-    
-    // showInfo is async, we need to wait for it
-    await fixture.whenStable();
-    expect(mockDialogService.open).toHaveBeenCalled();
-  });
+    it('should emit array of selected IDs on checkbox change', () => {
+        let emittedValue: string[] = [];
+        let touched = false;
+        component.registerOnChange((val) => {
+            emittedValue = val;
+        });
+        component.registerOnTouched(() => {
+            touched = true;
+        });
+
+        // Simulate user checking opt1
+        component.value = { opt1: true, opt2: false, opt3: false };
+        component.onCheckboxChange();
+
+        expect(emittedValue).toEqual(['opt1']);
+        expect(touched).toBe(true);
+    });
+
+    it('should delegate getStatus to RecommendationEngine', () => {
+        mockRecommendationEngine.getStatus.mockReturnValue('recommended');
+        expect(component.getStatus('opt1')).toBe('recommended');
+        expect(mockRecommendationEngine.getStatus).toHaveBeenCalledWith('opt1');
+    });
+
+    it('should return discouraged status from RecommendationEngine', () => {
+        mockRecommendationEngine.getStatus.mockReturnValue('discouraged');
+        expect(component.getStatus('opt3')).toBe('discouraged');
+    });
+
+    it('should return undefined for neutral items', () => {
+        mockRecommendationEngine.getStatus.mockReturnValue(undefined);
+        expect(component.getStatus('opt1')).toBeUndefined();
+    });
+
+    it('should call TuiDialogService.open with correct params on showInfo', async () => {
+        const fakeEvent = { preventDefault: vi.fn(), stopPropagation: vi.fn() } as unknown as Event;
+
+        await component.showInfo(fakeEvent, MOCK_OPTIONS[0]);
+
+        expect(fakeEvent.preventDefault).toHaveBeenCalled();
+        expect(fakeEvent.stopPropagation).toHaveBeenCalled();
+        expect(mockInterpolator.fetchJson).toHaveBeenCalledWith(MOCK_OPTIONS[0].filePath);
+
+        // Wait for the promise to resolve
+        await vi.waitFor(() => {
+            expect(mockDialogService.open).toHaveBeenCalledWith('Default description for testing', {
+                label: 'Option 1',
+                size: 'm',
+            });
+        });
+    });
+
+    it('should handle writeValue with null or undefined gracefully', () => {
+        component.writeValue(null as unknown as string[]);
+        expect(Object.keys(component.value).length).toBe(MOCK_OPTIONS.length);
+        expect(Object.values(component.value).every((v) => v === false)).toBe(true);
+    });
+
+    it('should trigger events from template', async () => {
+        const checkbox = fixture.nativeElement.querySelector('input[tuiCheckbox]');
+        checkbox.click();
+        fixture.detectChanges();
+        expect(component.value['opt1']).toBe(true);
+
+        const infoBtn = fixture.nativeElement.querySelector('.checkbox-card__info');
+        infoBtn.click();
+        fixture.detectChanges();
+
+        // showInfo is async, we need to wait for it
+        await fixture.whenStable();
+        expect(mockDialogService.open).toHaveBeenCalled();
+    });
 });

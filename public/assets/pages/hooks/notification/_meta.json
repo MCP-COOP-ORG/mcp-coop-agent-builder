@@ -1,11 +1,11 @@
 {
-  "title": "Notification",
-  "icon": "@tui.bell",
-  "type": "checkbox",
-  "order": 9,
-  "events": {
-    "antigravity": "Notification",
-    "claude": "Notification"
-  },
-  "description": "Fires when the AI triggers a system notification or alert."
+    "title": "Notification",
+    "icon": "@tui.bell",
+    "type": "checkbox",
+    "order": 9,
+    "events": {
+        "antigravity": "Notification",
+        "claude": "Notification"
+    },
+    "description": "Fires when the AI triggers a system notification or alert."
 }

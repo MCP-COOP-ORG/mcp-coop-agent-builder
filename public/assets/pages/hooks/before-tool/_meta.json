@@ -1,11 +1,11 @@
 {
-  "title": "Before Tool Execution",
-  "icon": "@tui.shield",
-  "type": "checkbox",
-  "order": 7,
-  "events": {
-    "antigravity": "BeforeTool",
-    "claude": "PreToolUse"
-  },
-  "description": "Fires every time the AI is about to execute a tool or shell command."
+    "title": "Before Tool Execution",
+    "icon": "@tui.shield",
+    "type": "checkbox",
+    "order": 7,
+    "events": {
+        "antigravity": "BeforeTool",
+        "claude": "PreToolUse"
+    },
+    "description": "Fires every time the AI is about to execute a tool or shell command."
 }

@@ -1,10 +1,10 @@
 {
-  "description": {
-    "default": "This is a placeholder content for mongodb.",
-    "claude": "This is a placeholder content for mongodb.",
-    "cursor": "This is a placeholder content for mongodb.",
-    "antigravity": "This is a placeholder content for mongodb."
-  },
-  "recommendedWith": ["express", "javascript"],
-  "discouragedWith": []
+    "description": {
+        "default": "This is a placeholder content for mongodb.",
+        "claude": "This is a placeholder content for mongodb.",
+        "cursor": "This is a placeholder content for mongodb.",
+        "antigravity": "This is a placeholder content for mongodb."
+    },
+    "recommendedWith": ["express", "javascript"],
+    "discouragedWith": []
 }

@@ -1,35 +1,120 @@
-# Project Architecture
+# Application Architecture & Technical Guidelines
 
-## Technology Stack
-- **Framework:** Angular 21+
-- **Component Architecture:** Standalone Components (Strictly no NgModules).
-- **State Management:** Angular Signals (Strictly no NgRx or RxJS-based state).
-- **UI Component Library:** Taiga UI 5.x.
+This document serves as the absolute source of truth for the project's architecture, design patterns, and internal mechanisms. It is designed to be read by both human contributors and AI agents to ensure strict adherence to the project's codebase standards.
+
+---
+
+## 1. High-Level Technology Stack
+
+- **Framework:** Angular 21+ (Strictly Standalone Components, no `NgModules`).
+- **State Management:** Angular Signals (Strictly no `NgRx`, no `RxJS` Subjects for state).
+- **UI Library:** Taiga UI 5.x.
 - **Micro-Frontend Architecture:** `@angular-architects/native-federation`.
-- **Styling Architecture:** Strictly enforce BEM (Block, Element, Modifier) methodology combined with SCSS nesting (`&__element`). Loose, generic class names are strictly forbidden.
-- **Component Encapsulation:** Utilize the `:host` selector for all component-level layout boundaries (margins, max-width, display logic) to eliminate redundant HTML wrapper elements.
-## Directory Structure (Technical Role Grouping)
-The architecture explicitly avoids Feature-Sliced Design (FSD) to prevent over-engineering. We use a flat, role-based directory structure within `src/app/`:
+- **Client-Side ZIP Generation:** `fflate`.
+- **Code Editor:** CodeMirror 6.
+- **Testing:** Vitest & JSDOM (Strictly enforced >85% global coverage).
+- **Production Infrastructure:** Docker, Nginx, Google Cloud Workload Identity Federation, PWA.
 
-- `src/app/pages/`: Routable container components (`welcome`, `builder`). These act as the Smart components that tie routing to the layout.
-- `src/app/components/`: UI feature blocks representing the specific steps of the Builder (`setup-step`, `stack-step`, `review-step`). These are Dumb components that focus purely on rendering and user interaction.
-- `src/app/services/`: The core business logic layer.
-  - `builder-state.service.ts`: Manages the state of the form. It uses highly granular Signals (individual signals for each step) to ensure that Angular only re-renders the specific UI components that change, avoiding expensive global re-renders.
-  - `rules-engine.service.ts`: The dependency validation engine. It evaluates user selections against external configurations to filter out incompatible technologies.
-- `src/app/models/`: TypeScript interfaces and type definitions (e.g., config types).
-- `src/app/shared/`: Reusable UI elements, such as the bottom Stepper navigation and Forward/Back buttons.
+---
 
-## Design Patterns & Principles
-- **Configuration-Driven Rules**: The dependencies and logic mappings for the tech stack (e.g., which databases are compatible with Node.js) are strictly decoupled from the `rules-engine` service code. They are stored in static configuration files (like `stack-rules.data.ts`), allowing rules to be easily updated or extended without refactoring the service logic.
-- **Granular Reactivity**: State is not kept in a massive monolithic object. Instead, each Builder step updates its own specific Signal in the `builder-state` service.
-- **Thin Components**: UI Components do not contain complex validation or business logic. They exclusively bind to state Signals and trigger methods on the injected services.
-- **Modern Dependency Injection**: We rely exclusively on the modern `inject()` function for DI, avoiding traditional constructor injection to keep components clean and highly readable.
-- **Zero Literals Policy (SSOT)**: No hardcoded UI strings, dictionary keys, or router paths in components or HTML templates. All static texts, including micro-labels, MUST be exported as constants from `src/app/shared/constants/` and bound via the component's View Model.
-- **Semantic Minimalism**: Prefer clean, generic structural tags (`<div>`) with BEM classes for isolated component blocks over forced semantic tags (`<header>`, `<main>`) that disrupt global document outlines.
-- **Barrels & Path Aliases**: All imports from core directories MUST go through barrel files (`index.ts`). Always use TypeScript path aliases (e.g., `@shared/constants`) instead of deep relative paths.
-- **View Model Pattern**: Do not pollute the component class with scattered variables for the template. Group all UI-bound static data into a single `readonly view = { ... }` object to maximize cohesion.
-- **IDE Component Integration**: For complex UI blocks (like the Code Editor), use a wrapper pattern that encapsulates third-party library initialization (e.g., CodeMirror 6) within `afterNextRender`. Expose critical internal states for testing via strictly-typed private interfaces in specs to avoid `any` and maintain encapsulation.
-- **Test-Driven & Coverage Safety**: Write unit tests (Vitest) immediately after major component refactoring to ensure regression safety. A strict `85%` minimum coverage threshold (Lines, Branches, Functions, Statements) is enforced in the CI/CD and local build pipeline via `vitest.config.ts`. Commits dropping below this threshold will fail the build.
-- **English Comments**: Write all code comments strictly in English to adhere to international Enterprise standards.
-- **Client-Side Processing (CSR)**: The application relies heavily on browser APIs (Blob, JSZip, LocalStorage) and does not utilize Server-Side Rendering (SSR).
-- **Static Asset Management**: In modern Angular 18+ utilizing `@angular/build:application`, NEVER use the legacy `src/assets` folder. All static assets (templates, icons, dictionaries, mock data) MUST be placed inside the root `public/` directory to ensure proper serving and copying during federation builds.
+## 2. Core Architectural Mechanisms (How it Works)
+
+The Builder is a 100% Client-Side Rendered (CSR) application with no backend logic. Its primary mechanism is a **Configuration-Driven Dynamic Form** that generates context files based on JSON assets.
+
+### A. File-System Driven Configuration
+
+We do not hardcode UI steps or options in TypeScript. The entire builder UI is dynamically generated based on the contents of the `public/assets/` directory.
+
+1. The script `scripts/generate-pages-config.ts` runs at build time (`npm run generate:pages`).
+2. It crawls `public/assets/pages/` (agents, rules, workflows, hooks) and `public/assets/platforms/` (cursor, claude, etc.).
+3. It generates a type-safe TypeScript configuration file (`GENERATED_PAGES_CONFIG`).
+4. The application routing and `DynamicFormStep` component iterate over this configuration to render the Stepper, tabs, checkboxes, and radio buttons dynamically.
+
+### B. State Management (`BuilderState`)
+
+Instead of a massive monolithic state object, the application state is completely reactive and dynamic.
+
+- The `BuilderState` service maintains a `dynamicData: Record<string, WritableSignal<string[]>>` map.
+- As the user navigates through dynamically generated pages, the state dynamically allocates Signals for new form controls.
+- This ensures **Granular Reactivity**: changing an option in "Backend" only triggers updates for the "Backend" UI block, not the entire application.
+
+### C. Recommendation Engine (Cross-Page Dependency Tracking)
+
+The `RecommendationEngine` is a reactive service that ensures logical consistency across user selections.
+
+- JSON assets can define `recommendedWith: ["id"]` or `discouragedWith: ["id"]`.
+- Using Angular `computed()` signals, the engine constantly evaluates the `BuilderState`.
+- If a selected Backend agent (e.g., `nestjs`) recommends an Architectural rule (e.g., `hexagonal`), the UI instantly highlights the Hexagonal Architecture option in green (`--tui-status-positive`).
+- **Conflict Resolution Priority:** Discouraged (red) always wins over Recommended (green).
+
+### D. Archive Generation (`ArchiveGenerator` & `TemplateInterpolator`)
+
+When the user clicks "Download" on the Review Step, the application must compile all selected options into a single archive.
+
+1. `ArchiveGenerator` reads the active platform (e.g., `cursor`) from the `BuilderState`.
+2. It loads the platform's specific schema from `public/assets/platforms/cursor.json`.
+3. It iterates over the selected IDs in `BuilderState.dynamicData`.
+4. `TemplateInterpolator` fetches the JSON snippets for each ID, processes platform-specific overrides, and injects the raw markdown strings into the platform's master template using `{{ dynamicCategory }}` tokens.
+5. `fflate` compresses the generated strings into a `.zip` blob in memory and triggers a native browser download.
+
+---
+
+## 3. Strict Development Rules & Design Patterns
+
+### The Zero Literals Policy (SSOT)
+
+Absolutely **NO hardcoded UI strings, dictionary keys, or router paths** are allowed in components, HTML templates, or services.
+
+- All static texts, labels, tooltips, and notification messages MUST be exported as constants from `src/app/shared/constants/builder-dictionary.ts`.
+- Components must bind these constants via the View Model.
+
+### The View Model Pattern
+
+Do not pollute the component TypeScript class with scattered variables used only in the template.
+
+- Group all UI-bound static data into a single `readonly view = { ... }` object to maximize cohesion and keep the class clean.
+
+### Component Encapsulation & BEM
+
+- **CSS Architecture:** Strictly enforce the BEM (Block, Element, Modifier) methodology combined with SCSS nesting (e.g., `&__header`, `&--recommended`). Generic class names are strictly forbidden.
+- **Encapsulation:** Utilize the `:host` selector for all component-level layout boundaries (margins, max-width, flexbox display logic) to eliminate redundant HTML wrapper elements like `<div class="container">`.
+
+### Honest TypeScript & Linting
+
+- **No Linter Hacks:** Absolutely NO `eslint-disable` or `@ts-ignore` comments are allowed.
+- All linting and TypeScript errors MUST be fixed at the root cause.
+- Use `unknown` instead of `any`. Ensure custom form controls strictly implement `ControlValueAccessor`.
+- All code is automatically formatted by **Prettier** (`npm run format`) during the pre-commit hook.
+
+### Dual-Build Strategy
+
+The application has two parallel build targets defined in `angular.json`:
+
+1. **Standalone Mode (`npm run build`):** Uses `@angular/build:application`. This builds the application as an independent, optimized SPA, completely removing Micro-Frontend overhead. This is the **primary production target**.
+2. **Federation Mode (`npm run build:federation`):** Uses `@angular-architects/native-federation`. This builds the application as a remote module that can be seamlessly injected into host platforms.
+
+---
+
+## 4. Directory Structure Map
+
+```text
+src/
+├── app/
+│   ├── pages/               # Routable "Smart" container components (Welcome, Builder, NotFound). They connect the router to the layout.
+│   ├── components/          # "Dumb" UI feature blocks representing specific workflow steps (SetupStep, ReviewStep, DynamicFormStep).
+│   ├── services/            # Core business logic layer (BuilderState, ArchiveGenerator, RecommendationEngine, PresetService).
+│   ├── models/              # TypeScript interfaces and type definitions (e.g., PageConfig, BuilderStep).
+│   ├── shared/              # Reusable UI elements, pipes, custom form controls (RadioGroup, MultiSelect), and constants.
+│   │   ├── constants/       # builder-dictionary.ts, builder-steps.ts (Zero Literals Enforcement).
+│   │   └── utils/           # Helper functions (DOM manipulation, FileTree generation).
+│   ├── app.config.ts        # Global application configuration (Providers, Router, Taiga UI init).
+│   └── app.routes.ts        # Application routing rules.
+├── styles/                  # Global CSS variables, resets, and Taiga UI theme customizations (themes.scss).
+└── index.html               # Main entry point.
+
+public/
+├── assets/
+│   ├── pages/               # JSON snippets defining the steps, categories, and prompt data (agents, rules, workflows, hooks).
+│   ├── platforms/           # JSON files defining the structure and default templates for target IDEs (Cursor, Windsurf).
+│   └── images/              # Static media assets (e.g., hero image).
+```

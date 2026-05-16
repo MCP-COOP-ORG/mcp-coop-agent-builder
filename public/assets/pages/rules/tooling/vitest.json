@@ -1,10 +1,10 @@
 {
-  "description": {
-    "default": "This is a placeholder content for vitest.",
-    "claude": "This is a placeholder content for vitest.",
-    "cursor": "This is a placeholder content for vitest.",
-    "antigravity": "This is a placeholder content for vitest."
-  },
-  "recommendedWith": ["vue", "typescript"],
-  "discouragedWith": ["jest"]
+    "description": {
+        "default": "This is a placeholder content for vitest.",
+        "claude": "This is a placeholder content for vitest.",
+        "cursor": "This is a placeholder content for vitest.",
+        "antigravity": "This is a placeholder content for vitest."
+    },
+    "recommendedWith": ["vue", "typescript"],
+    "discouragedWith": ["jest"]
 }

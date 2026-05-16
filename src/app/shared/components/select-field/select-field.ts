@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef, inject, input, signal, computed } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    forwardRef,
+    inject,
+    input,
+    signal,
+    computed,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { TuiTextfield, TuiLabel, TuiDataList, TuiDropdown, TuiIcon } from '@taiga-ui/core';
 import { TuiChevron, TuiComboBox } from '@taiga-ui/kit';
@@ -8,109 +17,106 @@ import { TemplateInterpolator, BuilderState } from '@services';
 import { BUILDER_DICTIONARY } from '@shared/constants';
 
 export interface SelectOption {
-  id: string;
-  label: string;
-  filePath?: string; // Add filePath to know if it has info
-  description?: string;
+    id: string;
+    label: string;
+    filePath?: string; // Add filePath to know if it has info
+    description?: string;
 }
 
 @Component({
-  selector: 'app-select-field',
-  imports: [FormsModule, TuiTextfield, TuiLabel, TuiChevron, TuiComboBox, TuiDataList, TuiDropdown, TuiIcon],
-  templateUrl: './select-field.html',
-  styleUrl: './select-field.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SelectField),
-      multi: true
-    }
-  ]
+    selector: 'app-select-field',
+    imports: [FormsModule, TuiTextfield, TuiLabel, TuiChevron, TuiComboBox, TuiDataList, TuiDropdown, TuiIcon],
+    templateUrl: './select-field.html',
+    styleUrl: './select-field.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => SelectField),
+            multi: true,
+        },
+    ],
 })
 export class SelectField implements ControlValueAccessor {
-  private readonly cdr = inject(ChangeDetectorRef);
-  private readonly dialogManager = inject(DialogManager);
-  private readonly interpolator = inject(TemplateInterpolator);
-  private readonly builderState = inject(BuilderState);
-  
-  label = input.required<string>();
-  placeholder = input<string>('');
-  options = input<SelectOption[]>([]);
+    private readonly cdr = inject(ChangeDetectorRef);
+    private readonly dialogManager = inject(DialogManager);
+    private readonly interpolator = inject(TemplateInterpolator);
+    private readonly builderState = inject(BuilderState);
 
-  value: string | null = null;
-  disabled = false;
-  search = signal<string>('');
+    label = input.required<string>();
+    placeholder = input<string>('');
+    options = input<SelectOption[]>([]);
 
-  private static nextId = 0;
-  protected readonly fieldId = `select-field-${SelectField.nextId++}`;
+    value: string | null = null;
+    disabled = false;
+    search = signal<string>('');
 
-  private onChange: (value: string | null) => void = () => undefined;
-  private onTouched: () => void = () => undefined;
+    private static nextId = 0;
+    protected readonly fieldId = `select-field-${SelectField.nextId++}`;
 
-  protected readonly stringify: TuiStringHandler<string> = (id) =>
-    this.options().find((item) => item.id === id)?.label ?? '';
+    private onChange: (value: string | null) => void = () => undefined;
+    private onTouched: () => void = () => undefined;
 
-  readonly filteredOptions = computed(() => {
-    const s = this.search().toLowerCase();
-    const all = this.options();
-    
-    const minLength = BUILDER_DICTIONARY.limits.dropdownSearchMinLength;
-    
-    const filtered = s.length >= minLength 
-      ? all.filter(o => o.label.toLowerCase().includes(s))
-      : all;
-      
-    return filtered;
-  });
+    protected readonly stringify: TuiStringHandler<string> = (id) =>
+        this.options().find((item) => item.id === id)?.label ?? '';
 
-  onSearch(event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
-    this.search.set(inputElement.value);
-  }
+    readonly filteredOptions = computed(() => {
+        const s = this.search().toLowerCase();
+        const all = this.options();
 
-  showInfo(event: Event, option: SelectOption): void {
-    event.preventDefault();
-    event.stopPropagation();
+        const minLength = BUILDER_DICTIONARY.limits.dropdownSearchMinLength;
 
-    if (option.description) {
-      this.dialogManager.openInfoDialog(option.label, option.description).subscribe();
-      return;
+        const filtered = s.length >= minLength ? all.filter((o) => o.label.toLowerCase().includes(s)) : all;
+
+        return filtered;
+    });
+
+    onSearch(event: Event): void {
+        const inputElement = event.target as HTMLInputElement;
+        this.search.set(inputElement.value);
     }
 
-    if (!option.filePath) return;
+    showInfo(event: Event, option: SelectOption): void {
+        event.preventDefault();
+        event.stopPropagation();
 
-    this.interpolator.fetchJson<{ description: Record<string, string> }>(option.filePath)
-      .then(json => {
-        if (!json?.description) return;
-        const review = this.builderState.reviewData();
-        const agent = (review['aiAgent'] as string) || 'default';
-        const content = json.description[agent] ?? json.description['default'] ?? '';
-        this.dialogManager.openInfoDialog(option.label, content).subscribe();
-      });
-  }
+        if (option.description) {
+            this.dialogManager.openInfoDialog(option.label, option.description).subscribe();
+            return;
+        }
 
-  writeValue(val: string | null): void {
-    this.value = val;
-    this.search.set(''); // reset search on external value change
-    this.cdr.markForCheck();
-  }
+        if (!option.filePath) return;
 
-  registerOnChange(fn: (value: string | null) => void): void {
-    this.onChange = fn;
-  }
+        this.interpolator.fetchJson<{ description: Record<string, string> }>(option.filePath).then((json) => {
+            if (!json?.description) return;
+            const review = this.builderState.reviewData();
+            const agent = (review['aiAgent'] as string) || 'default';
+            const content = json.description[agent] ?? json.description['default'] ?? '';
+            this.dialogManager.openInfoDialog(option.label, content).subscribe();
+        });
+    }
 
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
-  }
+    writeValue(val: string | null): void {
+        this.value = val;
+        this.search.set(''); // reset search on external value change
+        this.cdr.markForCheck();
+    }
 
-  setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
+    registerOnChange(fn: (value: string | null) => void): void {
+        this.onChange = fn;
+    }
 
-  onModelChange(val: string | null) {
-    this.value = val;
-    this.onChange(val);
-    this.onTouched();
-  }
+    registerOnTouched(fn: () => void): void {
+        this.onTouched = fn;
+    }
+
+    setDisabledState(isDisabled: boolean): void {
+        this.disabled = isDisabled;
+    }
+
+    onModelChange(val: string | null) {
+        this.value = val;
+        this.onChange(val);
+        this.onTouched();
+    }
 }

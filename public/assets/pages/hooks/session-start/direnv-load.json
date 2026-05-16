@@ -1,17 +1,17 @@
 {
-  "description": {
-    "default": "Load direnv environment variables at the start of each session."
-  },
-  "hook": {
-    "antigravity": {
-      "matcher": "*",
-      "type": "command",
-      "command": "direnv export json 2>/dev/null | jq '{\"systemMessage\": \"Environment loaded via direnv\"}'"
+    "description": {
+        "default": "Load direnv environment variables at the start of each session."
     },
-    "claude": {
-      "matcher": "startup",
-      "type": "command",
-      "command": "eval \"$(direnv export bash 2>/dev/null)\""
+    "hook": {
+        "antigravity": {
+            "matcher": "*",
+            "type": "command",
+            "command": "direnv export json 2>/dev/null | jq '{\"systemMessage\": \"Environment loaded via direnv\"}'"
+        },
+        "claude": {
+            "matcher": "startup",
+            "type": "command",
+            "command": "eval \"$(direnv export bash 2>/dev/null)\""
+        }
     }
-  }
 }

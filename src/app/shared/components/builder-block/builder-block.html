@@ -1,28 +1,23 @@
 <div class="builder-block" appearance="floating" tuiCardLarge="normal">
-  <div class="builder-block__header">
-    <tui-icon [icon]="icon()" class="builder-block__icon" />
-    <h3 class="builder-block__title">{{ title() }}</h3>
+    <div class="builder-block__header">
+        <tui-icon [icon]="icon()" class="builder-block__icon" />
+        <h3 class="builder-block__title">{{ title() }}</h3>
 
-    <div class="builder-block__tags">
-      @if (isDefault()) {
-      <span tuiBadge appearance="custom" size="s" class="builder-block__tag builder-block__tag--recommended">
-        recommended
-      </span>
-      }
-      @if (events()) {
-        @for (event of events() | keyvalue; track event.key) {
-        <span tuiBadge appearance="neutral" size="s" class="builder-block__tag">
-          #{{ event.key }}
-        </span>
-        }
-      }
+        <div class="builder-block__tags">
+            @if (isDefault()) {
+            <span tuiBadge appearance="custom" size="s" class="builder-block__tag builder-block__tag--recommended">
+                recommended
+            </span>
+            } @if (events()) { @for (event of events() | keyvalue; track event.key) {
+            <span tuiBadge appearance="neutral" size="s" class="builder-block__tag"> #{{ event.key }} </span>
+            } }
+        </div>
     </div>
-  </div>
 
-  @if (description()) {
-  <p class="builder-block__subtitle tui-text_body-s">{{ description() }}</p>
-  }
-  <section class="tui-space_top-4">
-    <ng-content></ng-content>
-  </section>
+    @if (description()) {
+    <p class="builder-block__subtitle tui-text_body-s">{{ description() }}</p>
+    }
+    <section class="tui-space_top-4">
+        <ng-content></ng-content>
+    </section>
 </div>

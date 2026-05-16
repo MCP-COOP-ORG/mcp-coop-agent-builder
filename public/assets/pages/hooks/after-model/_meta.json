@@ -1,10 +1,10 @@
 {
-  "title": "After Model Call",
-  "icon": "@tui.brain",
-  "type": "checkbox",
-  "order": 6,
-  "events": {
-    "antigravity": "AfterModel"
-  },
-  "description": "Fires immediately after the LLM returns a response."
+    "title": "After Model Call",
+    "icon": "@tui.brain",
+    "type": "checkbox",
+    "order": 6,
+    "events": {
+        "antigravity": "AfterModel"
+    },
+    "description": "Fires immediately after the LLM returns a response."
 }

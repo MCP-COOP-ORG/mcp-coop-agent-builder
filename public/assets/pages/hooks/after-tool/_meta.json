@@ -1,11 +1,11 @@
 {
-  "title": "After Tool Execution",
-  "icon": "@tui.check-circle",
-  "type": "checkbox",
-  "order": 8,
-  "events": {
-    "antigravity": "AfterTool",
-    "claude": "PostToolUse"
-  },
-  "description": "Fires immediately after a tool or shell command has finished execution."
+    "title": "After Tool Execution",
+    "icon": "@tui.check-circle",
+    "type": "checkbox",
+    "order": 8,
+    "events": {
+        "antigravity": "AfterTool",
+        "claude": "PostToolUse"
+    },
+    "description": "Fires immediately after a tool or shell command has finished execution."
 }

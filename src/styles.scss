@@ -8,7 +8,7 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 // 2. Remove default margins/padding from block elements
@@ -26,14 +26,14 @@ dl,
 dd,
 ul,
 ol {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 // 3. Remove list markers
 ul,
 ol {
-  list-style: none;
+    list-style: none;
 }
 
 // 4. Inherit fonts for form elements
@@ -41,7 +41,7 @@ input,
 button,
 textarea,
 select {
-  font: inherit;
+    font: inherit;
 }
 
 // 5. Prevent media from overflowing containers
@@ -50,20 +50,20 @@ picture,
 video,
 canvas,
 svg {
-  display: block;
-  max-width: 100%;
+    display: block;
+    max-width: 100%;
 }
 
 // 6. Full-height base and font smoothing
 html,
 body {
-  height: 100%;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    height: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  line-height: 1.5;
-  background-color: var(--tui-background-base);
-  color: var(--tui-text-primary);
+    line-height: 1.5;
+    background-color: var(--tui-background-base);
+    color: var(--tui-text-primary);
 }

@@ -1,10 +1,10 @@
 {
-  "title": "User Prompt Submit",
-  "icon": "@tui.message-square",
-  "type": "checkbox",
-  "order": 20,
-  "events": {
-    "claude": "UserPromptSubmit"
-  },
-  "description": "Fires every time the user submits a new prompt or message."
+    "title": "User Prompt Submit",
+    "icon": "@tui.message-square",
+    "type": "checkbox",
+    "order": 20,
+    "events": {
+        "claude": "UserPromptSubmit"
+    },
+    "description": "Fires every time the user submits a new prompt or message."
 }

@@ -1,10 +1,10 @@
 {
-  "description": {
-    "default": "This is a placeholder content for react-native.",
-    "claude": "This is a placeholder content for react-native.",
-    "cursor": "This is a placeholder content for react-native.",
-    "antigravity": "This is a placeholder content for react-native."
-  },
-  "recommendedWith": ["react", "typescript", "jest"],
-  "discouragedWith": ["flutter", "swift"]
+    "description": {
+        "default": "This is a placeholder content for react-native.",
+        "claude": "This is a placeholder content for react-native.",
+        "cursor": "This is a placeholder content for react-native.",
+        "antigravity": "This is a placeholder content for react-native."
+    },
+    "recommendedWith": ["react", "typescript", "jest"],
+    "discouragedWith": ["flutter", "swift"]
 }

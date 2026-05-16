@@ -15,6 +15,7 @@ import {
 import { NgTemplateOutlet } from '@angular/common';
 import { TuiTabs } from '@taiga-ui/kit';
 import { BuilderStep, BUILDER_DICTIONARY, BuilderBlockConfig } from '@shared/constants';
+import { TuiTextfield, TuiInput } from '@taiga-ui/core';
 import { StepHeader } from '../step-header/step-header';
 import { BuilderBlock } from '../builder-block/builder-block';
 
@@ -25,7 +26,7 @@ import { BuilderBlock } from '../builder-block/builder-block';
  */
 @Component({
   selector: 'app-step-layout',
-  imports: [StepHeader, BuilderBlock, TuiTabs, NgTemplateOutlet],
+  imports: [StepHeader, BuilderBlock, TuiTabs, NgTemplateOutlet, TuiTextfield, TuiInput],
   templateUrl: './step-layout.html',
   styleUrl: './step-layout.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,7 +34,9 @@ import { BuilderBlock } from '../builder-block/builder-block';
 export class StepLayout {
   /** The view model containing dictionary labels for strict zero-literals compliance */
   readonly view = {
-    labels: BUILDER_DICTIONARY.labels
+    labels: BUILDER_DICTIONARY.labels,
+    sidebar: BUILDER_DICTIONARY.sidebar,
+    limits: BUILDER_DICTIONARY.limits
   };
 
   /** The step configuration (title, description, icon) */
@@ -57,6 +60,9 @@ export class StepLayout {
   /** Tracks the currently active tab index for the right-hand sidebar */
   activeTabIndex = signal(0);
   
+  /** Signal for the search input in the sidebar */
+  searchQuery = signal<string>('');
+
   /** Computed view model for the sidebar tabs based on the blocks input */
   tabs = computed(() => {
     return this.blocks().map(block => ({
@@ -64,6 +70,24 @@ export class StepLayout {
       label: block.title
     }));
   });
+
+  /** Computed view model for the filtered tabs based on search */
+  filteredTabs = computed(() => {
+    const s = this.searchQuery().toLowerCase();
+    const all = this.tabs();
+    
+    const minLength = BUILDER_DICTIONARY.limits.dropdownSearchMinLength;
+    
+    if (s.length >= minLength) {
+      return all.filter(t => t.label.toLowerCase().includes(s));
+    }
+    return all;
+  });
+
+  onSearch(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.searchQuery.set(inputElement.value);
+  }
 
   constructor() {
     // Synchronize sidebar scrolling whenever the active tab index changes
@@ -100,14 +124,19 @@ export class StepLayout {
 
   /**
    * Programmatically scrolls the window to a specific block when a sidebar tab is clicked.
-   * @param index The index of the block in the blocks array
+   * @param filteredIndex The index of the block in the filteredTabs array
    */
-  scrollToBlock(index: number) {
+  scrollToBlock(filteredIndex: number) {
     this.isProgrammaticScroll = true;
     clearTimeout(this.scrollTimeout);
     
-    this.activeTabIndex.set(index);
-    const element = this.blockElements()[index]?.nativeElement;
+    this.activeTabIndex.set(filteredIndex);
+    const tab = this.filteredTabs()[filteredIndex];
+    if (!tab) return;
+    
+    // Find the original index in the blocks array using the ID
+    const originalIndex = this.blocks().findIndex(b => b.id === tab.id);
+    const element = this.blockElements()[originalIndex]?.nativeElement;
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -131,7 +160,7 @@ export class StepLayout {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const id = entry.target.id;
-          const index = this.tabs().findIndex(t => t.id === id);
+          const index = this.filteredTabs().findIndex(t => t.id === id);
           if (index !== -1) {
             this.activeTabIndex.set(index);
           }

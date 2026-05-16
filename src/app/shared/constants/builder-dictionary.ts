@@ -60,9 +60,14 @@ export const BUILDER_DICTIONARY = {
     reviewReadyMessage: 'Your AI context is configured. Click "Download" to save ai-context.zip.',
     autoCloseMs: 1500,
   },
+  sidebar: {
+    searchPlaceholder: 'Search...',
+    empty: 'No items found',
+  },
   limits: {
     textarea: 1000,
     dropdownSearchMinLength: 2,
+    sidebarMaxItems: 10,
   },
   header: {
     toggleThemeAriaLabel: 'Toggle color theme',

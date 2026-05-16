@@ -1,5 +1,5 @@
 import { provideTaiga } from '@taiga-ui/core';
-import { ApplicationConfig, ErrorHandler, provideBrowserGlobalErrorListeners, isDevMode } from '@angular/core';
+import { ApplicationConfig, ErrorHandler, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideServiceWorker } from '@angular/service-worker';
 import { provideRouter } from '@angular/router';
 
@@ -13,7 +13,8 @@ export const appConfig: ApplicationConfig = {
     provideTaiga(),
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
     provideServiceWorker('ngsw-worker.js', {
-      enabled: !isDevMode(),
+      // TODO: Enable PWA when app releases become stable/infrequent
+      enabled: false, // !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000'
     })
   ],

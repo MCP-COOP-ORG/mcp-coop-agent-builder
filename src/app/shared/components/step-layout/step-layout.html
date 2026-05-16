@@ -1,6 +1,6 @@
 <app-step-header [title]="step().title" [description]="step().description"></app-step-header>
 
-<div class="step-layout">
+<div class="step-layout" [class.no-sidebar]="tabs().length <= 1">
   <!-- Main content column -->
   <div class="step-main">
     @for (block of blocks(); track block.id) {
@@ -20,18 +20,33 @@
   </div>
 
   <!-- Right Sidebar Table of Contents -->
-  <aside class="step-sidebar">
+  @if (tabs().length > 1) {
+    <aside class="step-sidebar">
     <div class="sticky-nav" #navContainer>
-      <h3 class="tui-text_body-s-2 nav-title">{{ step().label }}</h3>
+      <h3 class="tui-text_body-s-2 nav-title">{{ step().label }} ({{ tabs().length }})</h3>
+      
+      @if (tabs().length > view.limits.sidebarMaxItems) {
+        <tui-textfield iconStart="@tui.search" class="sidebar-search">
+          <input tuiInput type="text" [placeholder]="view.sidebar.searchPlaceholder" (input)="onSearch($event)" />
+        </tui-textfield>
+      }
+
       <tui-tabs
         vertical="start"
+        [style.--sidebar-max-items]="view.limits.sidebarMaxItems"
         [activeItemIndex]="activeTabIndex()"
         (activeItemIndexChange)="scrollToBlock($event)"
       >
-        @for (tab of tabs(); track tab.id) {
-          <button tuiTab type="button" #tabElement>{{ tab.label }}</button>
+        @for (tab of filteredTabs(); track tab.id) {
+          <button tuiTab type="button" #tabElement>
+            <span class="tab-text" [title]="tab.label">{{ tab.label }}</span>
+          </button>
+        }
+        @empty {
+          <div class="tui-text_body-s tui-text_normal empty-search">{{ view.sidebar.empty }}</div>
         }
       </tui-tabs>
     </div>
-  </aside>
+    </aside>
+  }
 </div>

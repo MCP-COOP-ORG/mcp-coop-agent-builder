@@ -5,6 +5,27 @@ The MCP COOP Agent Builder is a standalone web application built with Angular 21
 
 ## Development History
 
+### Commit (Pending): feat(ui): disable PWA and enhance StepLayout sidebar with search and scroll
+**Status:** Completed
+**Key Features Implemented:**
+- **PWA/Service Worker Disabled**: Disabled the Angular Service Worker via feature flag in `app.config.ts` and removed `ngsw-config.json` from `angular.json` build targets to prevent chunk loading errors on new deployments.
+- **Enhanced Sidebar Layout**: Updated `StepLayout` to include a dynamic search input (min 2 chars) for filtering sidebar tabs, reusing the Zero Literals search logic and minimum length constants from dropdown fields.
+- **Sidebar UX Improvements**: Added a count of items next to the sidebar title. Limited the sidebar height to 10 items with a custom scrollbar (`var(--sidebar-max-items, 10)`).
+- **CSS Formatting**: Implemented `text-overflow: ellipsis` for tab text via a nested `.tab-text` span as an explicit exception to the CSS Hacks rule. Reduced font size to `0.75rem`, adjusted left padding to `0.5rem !important`, and increased sidebar column width to `240px` (originally requested 260px, later adjusted by user) for better readability.
+- **Conditional Sidebar Rendering**: Added logic to completely hide the sidebar and collapse the CSS Grid to 1 column (`no-sidebar` class) if there is only 1 category or fewer.
+
+### Commit `57195ab`: feat: implement default prompts system with preselection and recommended badge
+**Status:** Completed
+**Key Features Implemented:**
+- **Default Prompts Architecture**: Extended `ConfigCategory` and `BuilderBlockConfig` interfaces with an optional `default?: boolean` flag. Categories marked as default automatically preselect all their items in the form on load.
+- **Preselection Logic**: Updated `BaseFormStep.ngOnInit()` to detect `block.default === true` and initialize checkbox `FormControl` values with all option IDs instead of an empty array. Reset functionality restores these defaults.
+- **Recommended Badge UI**: Added an orange `recommended` badge to `BuilderBlock` via a new `isDefault` input signal. Styled with `hsl(30, 100%, 50%)` background using a BEM modifier (`builder-block__tag--recommended`), visually distinct from the blue environment tags.
+- **Generator Propagation**: Updated `generate-pages-config.ts` to read and propagate the `default` flag from `_meta.json` into `GENERATED_PAGES_CONFIG`.
+- **Default Content**: Created two default categories:
+  - `rules/basic` — 3 items: code-readability, error-handling, naming-conventions
+  - `workflows/basic` — 4 items: init-agent, planning, brainstorm, orchestrator
+- **Test Coverage**: Added unit tests for recommended badge rendering (visible when `isDefault=true`, absent otherwise) and default preselection behavior (all items checked on init). Coverage remains above 85% across all metrics.
+
 ### Commit (Pending): perf: implement dual-build strategy and frontend performance optimization
 **Status:** Completed
 **Key Features Implemented:**

@@ -6,6 +6,13 @@ The MCP COOP Agent Builder is a standalone web application built with Angular 21
 
 ## Development History
 
+### Commit (Pending): fix: update html title and meta description for SEO and rebranding
+
+**Status:** Completed
+**Key Features Implemented:**
+
+- **SEO & Branding Update**: Updated `index.html` title to "MCP COOP Agentic Workspace Builder" to align with project rebranding. Rewrote the meta description to a concise, professional, and SEO-friendly format ("Visual builder to configure and generate custom AI Agent rules...").
+
 ### Commit (Pending): feat: standardize AI agent instruction architecture and optimize builder UX
 
 **Status:** Completed

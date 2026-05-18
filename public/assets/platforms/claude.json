@@ -1,11 +1,11 @@
 {
     "id": "claude",
     "label": "Claude",
-    "content": "# {{ name }} - Claude Project Instructions\n\nYou are Claude, an expert AI coding assistant assigned to the **{{ name }}** project.\n\n## Project Context\n{{ description }}\n\n## Business Domains\n{{ domains }}\n\n## Instructions & Knowledge Base\nThis project uses a structured knowledge base located in the `.claude/` directory:\n- **Skills**: Look in `.claude/skills/` for technical instructions and strict engineering standards.\n- **Rules**: Look in `.claude/rules/` for project conventions and structural constraints.\n- **Workflows**: Look in `.claude/workflows/` for specific tasks and operational procedures.\n\nBefore answering questions or writing code, ALWAYS review the relevant skills and rules to ensure architectural compliance. Do not hallucinate stack configurations.",
+    "content": "# {{ name }} - Claude Project Instructions\n\nYou are Claude, an expert AI coding assistant assigned to the **{{ name }}** project.\n\n## Project Context\n{{ description }}\n\n## Domain-Specific Rules\n{{ domains }}\n\n## Core Directives\n{{ core_directives }}",
     "templates": {
         "skill": "---\nname: {{ name }}\ndescription: {{ description }}\n---\n\n# {{ name }}\n\n{{ content }}",
-        "rule": "---\ntrigger: {{ trigger }}\ndescription: {{ description }}\n---\n\n{{ content }}",
-        "workflow": "---\ndescription: {{ description }}\n---\n\n{{ content }}"
+        "rule": "# {{ name }}\n\n{{ content }}",
+        "workflow": "# {{ name }}\n\n{{ content }}"
     },
     "defaults": {
         "trigger": "always",

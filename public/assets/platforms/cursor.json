@@ -1,9 +1,9 @@
 {
     "id": "cursor",
     "label": "Cursor",
-    "content": "You are an expert AI coding assistant for Cursor, working on the **{{ name }}** project.\n\n## Project Context\n{{ description }}\n**Business Domains**: {{ domains }}\n\n## Cursor Rules System\nThis project utilizes Cursor's `.mdc` rules system.\nAll architectural rules, skills, and workflows are located in the `.cursor/rules/` directory.\n\n- When generating or analyzing code, automatically apply the relevant rules based on their `globs` and descriptions.\n- Strictly adhere to the project's specific conventions as defined in the `.mdc` files.\n- Do not hallucinate architectural patterns. If a rule exists for a specific framework or domain, follow it exactly.",
+    "content": "# {{ name }} - Cursor AI Instructions\n\nYou are an expert AI coding assistant for Cursor, working on the **{{ name }}** project.\n\n## Project Context\n{{ description }}\n\n## Domain-Specific Rules\n{{ domains }}\n\n## Core Directives\n{{ core_directives }}",
     "templates": {
-        "skill": "---\nname: {{ name }}\ndescription: {{ description }}\nglobs: {{ globs }}\n---\n\n# {{ name }}\n\n{{ content }}",
+        "skill": "---\nname: {{ name }}\ndescription: {{ description }}\n---\n\n# {{ name }}\n\n{{ content }}",
         "rule": "---\ndescription: {{ description }}\nglobs: {{ globs }}\n---\n\n{{ content }}",
         "workflow": "---\ndescription: {{ description }}\nglobs: *\n---\n\n{{ content }}"
     },

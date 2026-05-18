@@ -6,6 +6,17 @@ The MCP COOP Agent Builder is a standalone web application built with Angular 21
 
 ## Development History
 
+### Commit (Pending): feat: standardize AI agent instruction architecture and optimize builder UX
+
+**Status:** Completed
+**Key Features Implemented:**
+
+- **Core Directives System**: Created `src/app/shared/constants/core-directives.ts` to host a standardized, high-priority "Agent Mindset" instruction block. Injected `core_directives` globally into all generated templates via `ArchiveGenerator`.
+- **Domain Specification Refactoring**: Renamed "Business Domains" to "Domain-Specific Rules" across all UI components, dictionaries, and JSON templates (`claude.json`, `cursor.json`, `antigravity.json`). Updated `ArchiveGenerator` logic to process domain rules as a collection joined by newlines.
+- **Template Normalization**: Standardized the `## Domain-Specific Rules` and `## Core Directives` headers within the platform JSON content blocks, stripping out legacy hardcoded path instructions to rely on platform-native discovery patterns.
+- **Granular Builder Documentation**: Rewrote configuration step descriptions across all builder pages (`agents`, `hooks`, `rules`, `workflows`, `project`, `review`). Each description now provides concise context on its purpose and exactly where its output is injected in the final ZIP bundle.
+- **Description UI Enhancements**: Implemented `white-space: pre-line` formatting in `step-header.scss` to allow CSS to natively respect line breaks. Updated all `_meta.json` descriptions to split sentences with `\n`, drastically improving scannability in the UI without modifying core layout components. Regenerated the `generated-pages-config.ts` schema to lock in these updates.
+
 ### Commit (Pending): feat: v0.1.0 open source readiness, contribution graph, and architecture overhaul
 
 **Status:** Completed

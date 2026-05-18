@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { strToU8, zipSync } from 'fflate';
-import { GeneratedFile } from '@shared/constants';
+import { GeneratedFile, CORE_DIRECTIVES } from '@shared/constants';
 import { CLAUDE, CURSOR, ANTIGRAVITY } from '@shared/schemas';
 import { GENERATED_PLATFORMS_CONFIG, GENERATED_PROJECT_META } from '@shared/configs';
 import { ArchivePattern } from '@shared/models';
@@ -58,8 +58,9 @@ export class ArchiveGenerator {
         });
 
         const projectIdentity = (desc['projectIdentity'] as Record<string, unknown>) || {};
-        let combinedDescription = (projectIdentity['description'] as string) || '';
+        const combinedDescription = (projectIdentity['description'] as string) || '';
 
+        let domainText = '';
         const domains = projectIdentity['domains'] as string[];
         if (Array.isArray(domains)) {
             const domainDescriptions = domains
@@ -67,8 +68,7 @@ export class ArchiveGenerator {
                 .filter(Boolean);
 
             if (domainDescriptions.length > 0) {
-                const joined = domainDescriptions.join('\n\n');
-                combinedDescription = combinedDescription ? `${joined}\n\n${combinedDescription}` : joined;
+                domainText = domainDescriptions.join('\n');
             }
         }
 
@@ -76,6 +76,8 @@ export class ArchiveGenerator {
             ...desc,
             ...projectIdentity,
             description: combinedDescription,
+            domains: domainText,
+            core_directives: CORE_DIRECTIVES,
             ...dynamicContext,
         };
 

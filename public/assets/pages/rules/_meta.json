@@ -2,6 +2,6 @@
     "label": "Rules",
     "icon": "@tui.shield-check",
     "title": "Project Rules",
-    "description": "Configure standard engineering rules and constraints.",
+    "description": "Choose the architectural boundaries, coding standards, and security constraints for your team.\n The AI will proactively enforce these rules during code generation and refactoring.\n Saved as global instructions (e.g., rules/architecture.md).",
     "wrapperType": "rule"
 }

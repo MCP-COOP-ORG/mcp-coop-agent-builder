@@ -12,7 +12,7 @@ export const BUILDER_DICTIONARY = {
         contents: 'Contents',
         projectIdentity: 'Project Identity',
         projectName: 'Project Name',
-        businessDomains: 'Business Domains',
+        businessDomains: 'Domain-Specific Rules',
         welcomeTitle: 'MCP COOP Agentic Workspace Builder',
         welcomeTitleLink: 'MCP COOP',
         welcomeTitleText: ' Agentic Workspace Builder',
@@ -29,7 +29,7 @@ export const BUILDER_DICTIONARY = {
     placeholders: {
         projectIdentity: 'Describe your project goal, key features, and core identity...',
         projectName: 'e.g. My Awesome App',
-        businessDomains: 'Select domains',
+        businessDomains: 'Select domain rules...',
     },
     presets: {
         label: 'Load Preset (Optional)',

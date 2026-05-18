@@ -11,7 +11,8 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
         label: 'Agents',
         icon: '@tui.bot',
         title: 'Agents Configuration',
-        description: 'Select skills, technologies, and tooling for your AI agents.',
+        description:
+            'Select the programming languages, frameworks, and tools your project uses.\n The AI will strictly adhere to the official syntax, best practices, and patterns of these selected technologies.\n Generated as isolated markdown skills (e.g., skills/angular.md).',
         wrapperType: 'skill',
         categories: [
             {
@@ -206,7 +207,8 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
         label: 'Hooks',
         icon: '@tui.webhook',
         title: 'Lifecycle Hooks',
-        description: 'Configure shell commands that execute at specific points in the AI agent lifecycle.',
+        description:
+            'Define automated shell scripts that trigger during specific AI session events, like before starting a task or after executing commands.\n This enables seamless CI/CD integration and cache management.\n Stored as configuration hooks (e.g., settings.json, hooks.json).',
         wrapperType: 'hook',
         categories: [
             {
@@ -344,7 +346,8 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
         label: 'Rules',
         icon: '@tui.shield-check',
         title: 'Project Rules',
-        description: 'Configure standard engineering rules and constraints.',
+        description:
+            'Choose the architectural boundaries, coding standards, and security constraints for your team.\n The AI will proactively enforce these rules during code generation and refactoring.\n Saved as global instructions (e.g., rules/architecture.md).',
         wrapperType: 'rule',
         categories: [
             {
@@ -502,7 +505,8 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
         label: 'Workflows',
         icon: '@tui.git-merge',
         title: 'Workflows',
-        description: 'Select standard operational workflows for your team.',
+        description:
+            'Select predefined operational sequences for complex tasks, like git branching, deployment, or testing routines.\n These act as step-by-step algorithms that the AI will follow autonomously.\n Compiled into workflow definitions (e.g., rules/workflows.md).',
         wrapperType: 'workflow',
         categories: [
             {
@@ -566,11 +570,11 @@ export const GENERATED_PLATFORMS_CONFIG: Record<string, PlatformConfig> = {
         id: 'antigravity',
         label: 'Antigravity',
         content:
-            '# {{ name }} Agent System Rules & Context\n\nYou are an expert AI assistant working on the **{{ name }}** project.\n\n## Project Context\n{{ description }}\n\n## Business Domains\nThis project operates in the following domains: {{ domains }}\n\n## Core Documentation Rules\nDo NOT guess architectural decisions or tech stack configurations. Instead, read the highly specific documentation in the `.agents/` folder depending on your current task:\n- **Skills**: Check `.agents/skills/` for specific engineering standards and architecture.\n- **Rules**: Check `.agents/rules/` for conventions, guidelines, and tooling.\n- **Workflows**: Check `.agents/workflows/` for step-by-step operational processes.\n\n## Documentation Update Policy (IMPORTANT)\nWhen the user tells you to "commit", "save progress", or "update docs" at the end of a session/task:\n1. You MUST update the central context file if one exists.\n2. If fundamental architectural rules or roadmap steps changed, update the corresponding skill or rule files to keep the global context perfectly synced.',
+            '# {{ name }} Agent System Rules & Context\n\nYou are an expert AI assistant working on the **{{ name }}** project.\n\n## Project Context\n{{ description }}\n\n## Domain-Specific Rules\n{{ domains }}\n\n## Core Directives\n{{ core_directives }}',
         templates: {
             skill: '---\nname: {{ name }}\ndescription: {{ description }}\n---\n\n# {{ name }}\n\n{{ content }}',
-            rule: '---\ntrigger: {{ trigger }}\ndescription: {{ description }}\n---\n\n{{ content }}',
-            workflow: '---\ndescription: {{ description }}\n---\n\n{{ content }}',
+            rule: '---\nname: {{ name }}\ndescription: {{ description }}\n---\n\n{{ content }}',
+            workflow: '---\nname: {{ name }}\ndescription: {{ description }}\n---\n\n{{ content }}',
         },
         defaults: {
             trigger: 'always',
@@ -583,11 +587,11 @@ export const GENERATED_PLATFORMS_CONFIG: Record<string, PlatformConfig> = {
         id: 'claude',
         label: 'Claude',
         content:
-            '# {{ name }} - Claude Project Instructions\n\nYou are Claude, an expert AI coding assistant assigned to the **{{ name }}** project.\n\n## Project Context\n{{ description }}\n\n## Business Domains\n{{ domains }}\n\n## Instructions & Knowledge Base\nThis project uses a structured knowledge base located in the `.claude/` directory:\n- **Skills**: Look in `.claude/skills/` for technical instructions and strict engineering standards.\n- **Rules**: Look in `.claude/rules/` for project conventions and structural constraints.\n- **Workflows**: Look in `.claude/workflows/` for specific tasks and operational procedures.\n\nBefore answering questions or writing code, ALWAYS review the relevant skills and rules to ensure architectural compliance. Do not hallucinate stack configurations.',
+            '# {{ name }} - Claude Project Instructions\n\nYou are Claude, an expert AI coding assistant assigned to the **{{ name }}** project.\n\n## Project Context\n{{ description }}\n\n## Domain-Specific Rules\n{{ domains }}\n\n## Core Directives\n{{ core_directives }}',
         templates: {
             skill: '---\nname: {{ name }}\ndescription: {{ description }}\n---\n\n# {{ name }}\n\n{{ content }}',
-            rule: '---\ntrigger: {{ trigger }}\ndescription: {{ description }}\n---\n\n{{ content }}',
-            workflow: '---\ndescription: {{ description }}\n---\n\n{{ content }}',
+            rule: '# {{ name }}\n\n{{ content }}',
+            workflow: '# {{ name }}\n\n{{ content }}',
         },
         defaults: {
             trigger: 'always',
@@ -600,9 +604,9 @@ export const GENERATED_PLATFORMS_CONFIG: Record<string, PlatformConfig> = {
         id: 'cursor',
         label: 'Cursor',
         content:
-            "You are an expert AI coding assistant for Cursor, working on the **{{ name }}** project.\n\n## Project Context\n{{ description }}\n**Business Domains**: {{ domains }}\n\n## Cursor Rules System\nThis project utilizes Cursor's `.mdc` rules system.\nAll architectural rules, skills, and workflows are located in the `.cursor/rules/` directory.\n\n- When generating or analyzing code, automatically apply the relevant rules based on their `globs` and descriptions.\n- Strictly adhere to the project's specific conventions as defined in the `.mdc` files.\n- Do not hallucinate architectural patterns. If a rule exists for a specific framework or domain, follow it exactly.",
+            '# {{ name }} - Cursor AI Instructions\n\nYou are an expert AI coding assistant for Cursor, working on the **{{ name }}** project.\n\n## Project Context\n{{ description }}\n\n## Domain-Specific Rules\n{{ domains }}\n\n## Core Directives\n{{ core_directives }}',
         templates: {
-            skill: '---\nname: {{ name }}\ndescription: {{ description }}\nglobs: {{ globs }}\n---\n\n# {{ name }}\n\n{{ content }}',
+            skill: '---\nname: {{ name }}\ndescription: {{ description }}\n---\n\n# {{ name }}\n\n{{ content }}',
             rule: '---\ndescription: {{ description }}\nglobs: {{ globs }}\n---\n\n{{ content }}',
             workflow: '---\ndescription: {{ description }}\nglobs: *\n---\n\n{{ content }}',
         },

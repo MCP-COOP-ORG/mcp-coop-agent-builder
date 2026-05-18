@@ -51,7 +51,8 @@ export const BUILDER_STEPS: BuilderStep[] = [
         label: 'Project',
         icon: '@tui.folder-code',
         title: 'Project Description',
-        description: 'Define the core project parameters and identity.',
+        description:
+            'Define the core business logic, primary goals, and domain constraints of your project.\n This provides the AI with deep contextual understanding to avoid generic assumptions.\n Injected into the root configuration file (e.g., CLAUDE.md, GEMINI.md, ...).',
     },
     ...(Object.values(GENERATED_PAGES_CONFIG).sort(
         (a: PageConfig, b: PageConfig) => (a.order ?? 999) - (b.order ?? 999),
@@ -61,6 +62,7 @@ export const BUILDER_STEPS: BuilderStep[] = [
         label: 'Review',
         icon: '@tui.file-check',
         title: 'Review & Export',
-        description: 'Review your configuration and generate the final context archive.',
+        description:
+            'Review the generated Markdown and JSON files for your agent configuration. You can make manual tweaks to the code before downloading the final bundle.\n Exports as a standalone bundle (e.g., ai-context.zip).',
     },
 ];

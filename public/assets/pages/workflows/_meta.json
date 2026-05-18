@@ -2,6 +2,6 @@
     "label": "Workflows",
     "icon": "@tui.git-merge",
     "title": "Workflows",
-    "description": "Select standard operational workflows for your team.",
+    "description": "Select predefined operational sequences for complex tasks, like git branching, deployment, or testing routines.\n These act as step-by-step algorithms that the AI will follow autonomously.\n Compiled into workflow definitions (e.g., rules/workflows.md).",
     "wrapperType": "workflow"
 }

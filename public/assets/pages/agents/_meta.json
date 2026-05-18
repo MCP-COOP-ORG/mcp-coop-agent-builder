@@ -2,6 +2,6 @@
     "label": "Agents",
     "icon": "@tui.bot",
     "title": "Agents Configuration",
-    "description": "Select skills, technologies, and tooling for your AI agents.",
+    "description": "Select the programming languages, frameworks, and tools your project uses.\n The AI will strictly adhere to the official syntax, best practices, and patterns of these selected technologies.\n Generated as isolated markdown skills (e.g., skills/angular.md).",
     "wrapperType": "skill"
 }

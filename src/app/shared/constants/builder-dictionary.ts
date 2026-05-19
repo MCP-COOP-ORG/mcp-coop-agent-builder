@@ -22,8 +22,8 @@ export const BUILDER_DICTIONARY = {
         welcomeHighlights: [
             'MCP COOP Agent Builder is a visual configurator',
             'AI-Driven Development',
-            'your engineering',
-            'specifically',
+            'your engineering workflow',
+            'specifically to your codebase',
         ],
     },
     placeholders: {

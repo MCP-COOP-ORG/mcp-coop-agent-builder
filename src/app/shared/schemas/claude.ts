@@ -17,7 +17,9 @@ export const CLAUDE: ArchivePattern[] = [
         // Custom rules and instructions are organized within the .claude/rules/ directory
         type: 'dynamic-category',
         path: '.claude/rules/[category].md',
-        categories: [...(GENERATED_PAGE_CATEGORIES['rules'] ?? []), ...(GENERATED_PAGE_CATEGORIES['workflows'] ?? [])],
+        categories: Array.from(
+            new Set([...(GENERATED_PAGE_CATEGORIES['rules'] ?? []), ...(GENERATED_PAGE_CATEGORIES['workflows'] ?? [])]),
+        ),
     },
     {
         type: 'dynamic-hook',

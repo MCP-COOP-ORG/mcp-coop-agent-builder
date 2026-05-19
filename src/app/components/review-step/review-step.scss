@@ -81,9 +81,9 @@
         }
 
         &--active {
-            background: var(--tui-background-accent-1-pressed);
+            background: transparent;
             color: var(--tui-text-action);
-            font-weight: 500;
+            font-weight: bold;
         }
     }
 

@@ -473,7 +473,7 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
                 ],
             },
             {
-                id: 'basic',
+                id: 'basic-rules',
                 title: 'Basic Rules',
                 icon: '@tui.shield',
                 type: 'checkbox',
@@ -484,17 +484,17 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
                     {
                         id: 'code-readability',
                         label: 'Code Readability',
-                        filePath: 'assets/pages/rules/basic/code-readability.json',
+                        filePath: 'assets/pages/rules/basic-rules/code-readability.json',
                     },
                     {
                         id: 'error-handling',
                         label: 'Error Handling',
-                        filePath: 'assets/pages/rules/basic/error-handling.json',
+                        filePath: 'assets/pages/rules/basic-rules/error-handling.json',
                     },
                     {
                         id: 'naming-conventions',
                         label: 'Naming Conventions',
-                        filePath: 'assets/pages/rules/basic/naming-conventions.json',
+                        filePath: 'assets/pages/rules/basic-rules/naming-conventions.json',
                     },
                 ],
             },
@@ -531,7 +531,7 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
                 ],
             },
             {
-                id: 'basic',
+                id: 'basic-workflows',
                 title: 'Basic Workflows',
                 icon: '@tui.zap',
                 type: 'checkbox',
@@ -542,22 +542,22 @@ export const GENERATED_PAGES_CONFIG: Record<string, PageConfig> = {
                     {
                         id: 'brainstorm',
                         label: 'Brainstorm',
-                        filePath: 'assets/pages/workflows/basic/brainstorm.json',
+                        filePath: 'assets/pages/workflows/basic-workflows/brainstorm.json',
                     },
                     {
                         id: 'init-agent',
                         label: 'Init Agent',
-                        filePath: 'assets/pages/workflows/basic/init-agent.json',
+                        filePath: 'assets/pages/workflows/basic-workflows/init-agent.json',
                     },
                     {
                         id: 'orchestrator',
                         label: 'Orchestrator',
-                        filePath: 'assets/pages/workflows/basic/orchestrator.json',
+                        filePath: 'assets/pages/workflows/basic-workflows/orchestrator.json',
                     },
                     {
                         id: 'planning',
                         label: 'Planning',
-                        filePath: 'assets/pages/workflows/basic/planning.json',
+                        filePath: 'assets/pages/workflows/basic-workflows/planning.json',
                     },
                 ],
             },
@@ -623,8 +623,8 @@ export const GENERATED_PLATFORMS_CONFIG: Record<string, PlatformConfig> = {
 export const GENERATED_PAGE_CATEGORIES: Record<string, string[]> = {
     agents: ['conventions', 'frontend', 'backend', 'database', 'mobile', 'tooling'],
     hooks: ['session-start', 'before-tool', 'after-tool', 'notification', 'pre-compress', 'stop'],
-    rules: ['conventions', 'code-quality', 'security', 'tooling', 'basic'],
-    workflows: ['development', 'basic'],
+    rules: ['conventions', 'code-quality', 'security', 'tooling', 'basic-rules'],
+    workflows: ['development', 'basic-workflows'],
 };
 
 export const GENERATED_AI_ENVIRONMENTS: { id: string; label: string }[] = [
@@ -672,9 +672,9 @@ export const ASSET_FILE_PATHS: Record<string, string> = {
     'direnv-load': 'assets/pages/hooks/session-start/direnv-load.json',
     'git-context': 'assets/pages/hooks/session-start/git-context.json',
     'git-status-check': 'assets/pages/hooks/stop/git-status-check.json',
-    'code-readability': 'assets/pages/rules/basic/code-readability.json',
-    'error-handling': 'assets/pages/rules/basic/error-handling.json',
-    'naming-conventions': 'assets/pages/rules/basic/naming-conventions.json',
+    'code-readability': 'assets/pages/rules/basic-rules/code-readability.json',
+    'error-handling': 'assets/pages/rules/basic-rules/error-handling.json',
+    'naming-conventions': 'assets/pages/rules/basic-rules/naming-conventions.json',
     'strict-typing': 'assets/pages/rules/code-quality/strict-typing.json',
     'zero-literals': 'assets/pages/rules/code-quality/zero-literals.json',
     'clean-code': 'assets/pages/rules/conventions/clean-code.json',
@@ -688,10 +688,10 @@ export const ASSET_FILE_PATHS: Record<string, string> = {
     husky: 'assets/pages/rules/tooling/husky.json',
     prettier: 'assets/pages/rules/tooling/prettier.json',
     vitest: 'assets/pages/rules/tooling/vitest.json',
-    brainstorm: 'assets/pages/workflows/basic/brainstorm.json',
-    'init-agent': 'assets/pages/workflows/basic/init-agent.json',
-    orchestrator: 'assets/pages/workflows/basic/orchestrator.json',
-    planning: 'assets/pages/workflows/basic/planning.json',
+    brainstorm: 'assets/pages/workflows/basic-workflows/brainstorm.json',
+    'init-agent': 'assets/pages/workflows/basic-workflows/init-agent.json',
+    orchestrator: 'assets/pages/workflows/basic-workflows/orchestrator.json',
+    planning: 'assets/pages/workflows/basic-workflows/planning.json',
     gitflow: 'assets/pages/workflows/development/gitflow.json',
     'trunk-based': 'assets/pages/workflows/development/trunk-based.json',
 };

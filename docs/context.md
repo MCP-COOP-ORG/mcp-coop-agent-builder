@@ -6,6 +6,15 @@ The MCP COOP Agent Builder is a standalone web application built with Angular 21
 
 ## Development History
 
+### Commit (Pending): fix: resolve duplicate basic categories and review step active node styling
+
+**Status:** Completed
+**Key Features Implemented:**
+
+- **UI Active Node Regression**: Fixed the active node styling in `review-step.scss`. Removed the background color and updated the text color to the primary brand accent (`var(--tui-text-action)`) with bold typography to maintain visual consistency in the IDE layout.
+- **Generator Context Overwrite Fix**: Addressed a critical bug in `ArchiveGenerator` where categories with identical IDs across different builder pages (e.g., `basic` in Rules and `basic` in Workflows) were overwriting each other during the flat context merge (`...dynamicContext`). Renamed the underlying assets to `basic-rules` and `basic-workflows` and regenerated `generated-pages-config.ts` to guarantee unique state mapping.
+- **Antigravity Schema Isolation**: Fixed a misconfiguration in `antigravity.ts` where the `agents` category array was inadvertently merged into the `rules` generation path. Strict separation is now enforced, preventing skills from leaking into the `.agents/rules/` directory.
+
 ### Commit (Pending): fix: update html title and meta description for SEO and rebranding
 
 **Status:** Completed

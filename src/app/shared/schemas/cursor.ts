@@ -15,7 +15,9 @@ export const CURSOR: ArchivePattern[] = [
     {
         type: 'dynamic-category',
         path: '.cursor/rules/[category].mdc',
-        categories: [...(GENERATED_PAGE_CATEGORIES['rules'] ?? []), ...(GENERATED_PAGE_CATEGORIES['workflows'] ?? [])],
+        categories: Array.from(
+            new Set([...(GENERATED_PAGE_CATEGORIES['rules'] ?? []), ...(GENERATED_PAGE_CATEGORIES['workflows'] ?? [])]),
+        ),
     },
     {
         type: 'dynamic-hook',

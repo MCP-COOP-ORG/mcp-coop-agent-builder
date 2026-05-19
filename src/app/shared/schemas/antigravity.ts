@@ -15,7 +15,7 @@ export const ANTIGRAVITY: ArchivePattern[] = [
     {
         type: 'dynamic-category',
         path: '.agents/rules/[category].md',
-        categories: [...(GENERATED_PAGE_CATEGORIES['agents'] ?? []), ...(GENERATED_PAGE_CATEGORIES['rules'] ?? [])],
+        categories: GENERATED_PAGE_CATEGORIES['rules'],
     },
     {
         type: 'dynamic-item',
